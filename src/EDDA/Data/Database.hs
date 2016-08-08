@@ -8,10 +8,12 @@ import EDDA.Data.Document (toDocument, fromDocument, valStr)
 import Control.Monad (join)
 import Control.Monad.Trans
 import Control.Monad.Trans.Reader
+import Control.Exception (evaluate)
 
 import Database.MongoDB
 import Database.MongoDB.Query
 import Data.Int (Int32(..))
+import System.IO.Unsafe (unsafePerformIO)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as TE
 import qualified Data.ByteString.Char8 as C
@@ -30,23 +32,25 @@ systemDoc edsmId systemName = ["edsmId" := val edsmId, "systemName" := valStr sy
 stationDoc systemName stationName = ["systemName" := valStr systemName, "stationName" := valStr stationName]
 stationEddbIdDoc eddbId = ["eddbId" := val eddbId]
 
-getSystemEDDBIdsAction = rest =<< find (select [] "systems") { project = ["eddbId" =: Int32 1, "systemName" =:  Int32 1, "_id" =: Int32 0] }
+type EddbIdMap = HM.HashMap Int32 Str
+
+getSystemEDDBIdsAction = find (select [] "systems") { project = ["eddbId" =: Int32 1, "systemName" =:  Int32 1, "_id" =: Int32 0] } >>= f HM.empty
+    where f :: EddbIdMap -> Cursor -> Action IO EddbIdMap
+          f !acc c = do maybeDoc <- next c
+                        let maybeNext = do !doc <- maybeDoc
+                                           !eddbId <- Database.MongoDB.lookup "eddbId" doc :: Maybe Int
+                                           !systemName <- Database.MongoDB.lookup "systemName" doc :: Maybe T.Text
+                                           return (fromIntegral eddbId, toStr systemName)
+                        case maybeNext of
+                            Just (!k,!v) -> liftIO (evaluate v) >> f (HM.insert k v acc) c
+                            Nothing -> return acc
 
 getSystemCoordAction systemName = findOne (select ["systemName" =: valStr systemName] "systems") { project = ["edsmId" =: Int32 1, "systemName" =:  Int32 1, "x" =: Int32 1, "y" =: Int32 1, "z" =: Int32 1, "_id" =: Int32 0] }
 getSystemCoordsCursor = find (select [] "systems") { project = ["edsmId" =: Int32 1, "systemName" =:  Int32 1, "x" =: Int32 1, "y" =: Int32 1, "z" =: Int32 1, "_id" =: Int32 0] }
 
-toEddbIdPair :: Document -> (Int32,Str)
-toEddbIdPair doc = case getEddbPair of 
-                        Just !v -> v
-                        Nothing -> (0,"")
-                   where 
-                   getEddbPair = do !eddbId <- Database.MongoDB.lookup "eddbId" doc :: Maybe Int
-                                    !systemName <- Database.MongoDB.lookup "systemName" doc :: Maybe T.Text
-                                    return $! (fromIntegral eddbId, toStr systemName)
-
-getSystemEDDBIdsMap :: ConfigT (HM.HashMap Int32 Str)
+getSystemEDDBIdsMap :: ConfigT EddbIdMap
 getSystemEDDBIdsMap = do !systems <- query getSystemEDDBIdsAction
-                         return $! HM.fromList (map toEddbIdPair systems)
+                         return systems
 
 getSystemCoord :: Str -> ConfigT (Maybe SystemCoord)
 getSystemCoord systemName = do systemCoord <- query (getSystemCoordAction systemName)
