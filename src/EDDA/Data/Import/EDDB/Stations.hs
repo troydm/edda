@@ -184,7 +184,8 @@ downloadAndImportStations = do
                         maybeModuleMap <- downloadModules
                         let moduleMap = fromJust maybeModuleMap
                         liftIO $ putStrLn "Loading EDDB systems id map"
-                        !idmap <- getSystemEDDBIdsMap
+                        !maybeidmap <- getSystemEDDBIdsMap
+                        let idmap = fromJust maybeidmap
                         liftIO $ putStrLn ("EDDB systems id map loaded: " ++ (show (HM.size idmap)))
                         return ()
                         {-

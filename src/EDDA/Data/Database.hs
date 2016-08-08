@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE FlexibleContexts #-}
 module EDDA.Data.Database where
 
 import EDDA.Types
@@ -32,23 +33,33 @@ systemDoc edsmId systemName = ["edsmId" := val edsmId, "systemName" := valStr sy
 stationDoc systemName stationName = ["systemName" := valStr systemName, "stationName" := valStr stationName]
 stationEddbIdDoc eddbId = ["eddbId" := val eddbId]
 
+nextFoldl :: (Document -> Maybe a) -> (b -> a -> b) -> b -> Cursor -> Action IO (Maybe b)
+nextFoldl f g i c = rec i 
+              where rec !acc = do !maybeA <- next c
+                                  case maybeA of
+                                    Just !a -> case f a of
+                                                Just !ma -> let !macc = g acc ma in rec macc
+                                                Nothing -> return Nothing
+                                    Nothing -> return $ Just acc
+
+
+type SystemPair = (Int32,Str)
 type EddbIdMap = HM.HashMap Int32 Str
 
-getSystemEDDBIdsAction = find (select [] "systems") { project = ["eddbId" =: Int32 1, "systemName" =:  Int32 1, "_id" =: Int32 0] } >>= f HM.empty
-    where f :: EddbIdMap -> Cursor -> Action IO EddbIdMap
-          f !acc c = do maybeDoc <- next c
-                        let maybeNext = do !doc <- maybeDoc
-                                           !eddbId <- Database.MongoDB.lookup "eddbId" doc :: Maybe Int
-                                           !systemName <- Database.MongoDB.lookup "systemName" doc :: Maybe T.Text
-                                           return (fromIntegral eddbId, toStr systemName)
-                        case maybeNext of
-                            Just (!k,!v) -> liftIO (evaluate v) >> f (HM.insert k v acc) c
-                            Nothing -> return acc
-
+getSystemEDDBIdsAction = find (select [] "systems") { project = ["eddbId" =: Int32 1, "systemName" =:  Int32 1, "_id" =: Int32 0] } >>= nextFoldl docToPair mergeToHashMap HM.empty
+    where docToPair :: Document -> Maybe SystemPair
+          docToPair doc = do !eddbId <- Database.MongoDB.lookup "eddbId" doc :: Maybe Int
+                             !systemName <- Database.MongoDB.lookup "systemName" doc :: Maybe T.Text
+                             return (fromIntegral eddbId, toStr systemName)
+          mergeToHashMap :: EddbIdMap -> SystemPair -> EddbIdMap
+          mergeToHashMap !acc (!k,!v) = HM.insert k v acc
+    
+    
+    
 getSystemCoordAction systemName = findOne (select ["systemName" =: valStr systemName] "systems") { project = ["edsmId" =: Int32 1, "systemName" =:  Int32 1, "x" =: Int32 1, "y" =: Int32 1, "z" =: Int32 1, "_id" =: Int32 0] }
 getSystemCoordsCursor = find (select [] "systems") { project = ["edsmId" =: Int32 1, "systemName" =:  Int32 1, "x" =: Int32 1, "y" =: Int32 1, "z" =: Int32 1, "_id" =: Int32 0] }
 
-getSystemEDDBIdsMap :: ConfigT EddbIdMap
+getSystemEDDBIdsMap :: ConfigT (Maybe EddbIdMap)
 getSystemEDDBIdsMap = do !systems <- query getSystemEDDBIdsAction
                          return systems
 
