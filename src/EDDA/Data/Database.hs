@@ -34,14 +34,8 @@ stationDoc systemName stationName = ["systemName" := valStr systemName, "station
 stationEddbIdDoc eddbId = ["eddbId" := val eddbId]
 
 nextFoldl :: (Document -> Maybe a) -> (b -> a -> b) -> b -> Cursor -> Action IO (Maybe b)
-nextFoldl f g i c = rec i 
-              where rec !acc = do !maybeA <- next c
-                                  case maybeA of
-                                    Just !a -> case f a of
-                                                Just !ma -> let !macc = g acc ma in rec macc
-                                                Nothing -> return Nothing
-                                    Nothing -> return $ Just acc
-
+nextFoldl f g i c = rec i
+              where rec !acc = next c >>= \r -> maybe (return (Just acc)) (\d -> maybe (return Nothing) (\a -> let !macc = g acc a in rec macc) (f d)) r
 
 type SystemPair = (Int32,Str)
 type EddbIdMap = HM.HashMap Int32 Str
@@ -50,7 +44,7 @@ getSystemEDDBIdsAction = find (select [] "systems") { project = ["eddbId" =: Int
     where docToPair :: Document -> Maybe SystemPair
           docToPair doc = do !eddbId <- Database.MongoDB.lookup "eddbId" doc :: Maybe Int
                              !systemName <- Database.MongoDB.lookup "systemName" doc :: Maybe T.Text
-                             return (fromIntegral eddbId, toStr systemName)
+                             return $! (fromIntegral eddbId, toStr systemName)
           mergeToHashMap :: EddbIdMap -> SystemPair -> EddbIdMap
           mergeToHashMap !acc (!k,!v) = HM.insert k v acc
     
