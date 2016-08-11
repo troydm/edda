@@ -1,16 +1,17 @@
 # EDDA
 
-Elite Dangerous Data Aggregator is a EDDN data collector that saves commodity/outfitting/shipyard data into MongoDB database
+Elite Dangerous Data Aggregator is a [EDDN](https://github.com/jamesremuscat/EDDN) data collector that saves commodity/outfitting/shipyard data into MongoDB database
+
+## Build:
 
 Build Dependencies:
 
 - ZeroMQ v4.x
 
-= Build:
 
     stack build
 
-= Configure
+## Configure
 
 Create new database called edda in MongoDB with indexes:
 
@@ -36,10 +37,12 @@ Configure:
 
     vi edda.conf
 
-Import initial systems/stations backup from EDDB:
+Import initial systems/stations backup from [EDDB](https://eddb.io):
 
     stack exec edda -- import -s eddb -t systems
     stack exec edda -- import -s eddb -t stations
+
+## Usage
 
 Start edda data collector:
     
