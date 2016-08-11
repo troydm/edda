@@ -8,12 +8,15 @@ import EDDA.Schema.Util (getStr, getInt, getIntArray, getDouble, getChr, getGuid
 import EDDA.Data.Import.EDDB.Util
 import EDDA.Data.Document (toDocument,valStr)
 
+import Data.IORef
 import Control.Monad (join)
 import Control.Monad.Trans
+import Control.Monad.Trans.Reader
 import Network.HTTP.Types
 import Network.HTTP.Types.Header (hAcceptEncoding)
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS
+import System.IO.Temp (withSystemTempFile)
 
 import qualified Data.Vector as V
 import qualified Data.Text as T
@@ -131,10 +134,10 @@ mapModuleArray moduleMap from to obj = join $ (\sa -> (\ms -> ((toText to) B.:= 
                                              outfittingsToDoc :: [Int] -> Maybe [B.Value]
                                              outfittingsToDoc arr = (map EDDA.Data.Document.toDocument) <$> (moduleList arr)
 
-toDocument :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 Str) -> Value -> Maybe (Str,Str,B.Document)
+toDocument :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 T.Text) -> Value -> Maybe (Str,Str,B.Document)
 toDocument modulemap idmap obj = do !stationName <- getStr obj "name"
                                     !systemId <- getInt obj "system_id"
-                                    !systemName <- HM.lookup (fromIntegral systemId) idmap
+                                    !systemName <- HM.lookup (fromIntegral systemId) idmap >>= return . toStr
                                     !doc <- mapToDocument [ mapInt "id" "eddbId",
                                                            mapConst "systemName" (B.val (toText systemName)),
                                                            mapConst "stationName" (B.val (toText stationName)),
@@ -163,46 +166,48 @@ toDocument modulemap idmap obj = do !stationName <- getStr obj "name"
                                                            mapStrNullable "max_landing_pad_size" "maxLandingPadSize" ] obj 
                                     return (systemName,stationName,doc)
 
-toDocumentList :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 Str) -> V.Vector Value -> ConfigT (V.Vector (Maybe (Str,Str,B.Document)))
+toDocumentList :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 T.Text) -> V.Vector Value -> ConfigT (V.Vector (Maybe (Str,Str,B.Document)))
 toDocumentList modulemap idmap stations = flip V.mapM stations (\v -> case EDDA.Data.Import.EDDB.Stations.toDocument modulemap idmap v of
-                                                                        Just (systemName,stationName,doc) -> return $ Just (systemName,stationName,doc)
+                                                                        Just (!systemName,!stationName,!doc) -> return $ Just (systemName,stationName,doc)
                                                                         Nothing -> do liftIO $ C.putStrLn "Couldn't parse system: "
                                                                                       liftIO $ putStrLn (show v)
                                                                                       return Nothing)
 
-saveToDatabase :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 Str) -> V.Vector Value -> ConfigT ()
+saveToDatabase :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 T.Text) -> V.Vector Value -> ConfigT ()
 saveToDatabase modulemap idmap v = do 
                                       stations <- toDocumentList modulemap idmap v >>= return . onlyJustVec
-                                      liftIO $ putStrLn ("Stations downloaded: " ++ (show (V.length stations)))
                                       liftIO $ putStrLn "Importing into database..."
                                       saveStations $ V.toList stations
-                                      liftIO $ putStrLn "Stations imported"
+                                      liftIO $ putStrLn ("Stations imported: " ++ (show (V.length stations)))
+
+convertAndSaveToDB :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 T.Text) -> Config -> C.ByteString -> IO ()
+convertAndSaveToDB modulemap idmap c d = 
+                         do total <- newIORef 0 
+                            streamParseIO 1000 d (saveToDB total)
+                            totalCount <- readIORef total
+                            putStrLn ("Total stations imported: " ++ (show totalCount))
+           where substr d s e = C.concat ["[",(C.take (e-s-1) $ C.drop s d),"]"]
+                 convert s = case (decodeStrict' s :: Maybe Value) of
+                                Just (Array stations) -> return $ Just stations
+                                Just _ -> return Nothing
+                                Nothing -> return Nothing
+                 saveToDB total d s e = do maybeStations <- (convert (substr d s e))
+                                           case maybeStations of
+                                                Just stations -> runReaderT (saveToDatabase modulemap idmap stations) c >> let totalCount = V.length stations in totalCount `seq` modifyIORef' total (+ totalCount)
+                                                Nothing -> putStrLn "Couldn't decode a batch" >> C.putStrLn (substr d s e)
 
 downloadAndImportStations :: ConfigT ()
 downloadAndImportStations = do
                         liftIO $ putStrLn "Loading EDDB modules list"
-                        maybeModuleMap <- downloadModules
-                        let moduleMap = fromJust maybeModuleMap
+                        !maybeModuleMap <- downloadModules
+                        let !moduleMap = fromJust maybeModuleMap
                         liftIO $ putStrLn "Loading EDDB systems id map"
                         !maybeidmap <- getSystemEDDBIdsMap
-                        let idmap = fromJust maybeidmap
+                        let !idmap = fromJust maybeidmap
                         liftIO $ putStrLn ("EDDB systems id map loaded: " ++ (show (HM.size idmap)))
-                        liftIO $ putStrLn (show (foldl' (\c s -> c + (C.length s)) 0 (HM.elems idmap)))
-                        return ()
-                        {-
                         liftIO $ C.putStrLn "Downloading EDDB Stations data..."
-                        result <- liftIO $ do
-                              manager <- newManager tlsManagerSettings
-                              initialRequest <- parseRequest url
-                              let request = initialRequest { requestHeaders=[(hAcceptEncoding,"gzip, deflate, sdch")] }
-                              response <- httpLbs request manager 
-                              let systems = decode' (responseBody response) :: Maybe Value
-                              return $ case systems of
-                                Just (Array systems) -> systems
-                                Just _ -> V.empty
-                                Nothing -> V.empty
-                        saveToDatabase moduleMap idmap result
-                        -}
+                        r <- ask
+                        liftIO $ withSystemTempFile "stations.json" (\f h -> download url "EDDB Stations data downloaded" f h >> C.readFile f >>= convertAndSaveToDB moduleMap idmap r)
 
 insertListing cm e acc = 
                       if HM.member sId acc then HM.insert sId (doc:l) acc
@@ -239,4 +244,4 @@ downloadAndImportListings = do maybeCommoditiesMap <- downloadCommodities
                                     Nothing -> liftIO $ putStrLn "Couldn't import commodities"
 
 downloadAndImport :: ConfigT ()
-downloadAndImport = downloadAndImportStations -- >> downloadAndImportListings
+downloadAndImport = downloadAndImportStations >> downloadAndImportListings

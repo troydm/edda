@@ -5,12 +5,18 @@ import EDDA.Types
 import EDDA.Schema.Util (getStr, getStrArray, getStrNullable, getInt, getIntNullable, getDouble, getDoubleNullable)
 
 import qualified Data.Text as T
+import qualified Data.ByteString as BC
 import qualified Data.ByteString.Char8 as C
 import qualified Data.ByteString.Lazy.Char8 as LC
 import Data.Int (Int64(..))
 import Data.Aeson
 import Data.Aeson.Types
 import qualified Data.Bson as B
+import System.IO (hClose)
+import Network.HTTP.Types
+import Network.HTTP.Types.Header (hAcceptEncoding)
+import Network.HTTP.Client
+import Network.HTTP.Client.TLS
 
 mapStr :: Str -> Str -> Value -> Maybe B.Field
 mapStr from to obj = do s <- getStr obj from
@@ -76,4 +82,14 @@ streamParseIO bs d f = if C.head d == '[' then until 1 1 0
                                                      else error "Couldn't stream JSON document"
                                      else if ds+1 == bs then  f d as (a+na+1) >> until (a+na) (a+na) 0
                                           else until (a+na) as (ds+1)
+
+writeToTemp f h msg res = read h >> hClose h >> C.putStrLn msg
+                      where br = responseBody res
+                            read h = brRead br >>= \s -> if BC.null s then return () else BC.hPut h s >> read h
+                                      
+download url msg f h = 
+                   do manager <- newManager tlsManagerSettings
+                      initialRequest <- parseRequest url
+                      let request = initialRequest { requestHeaders=[(hAcceptEncoding,"gzip, deflate, sdch")] }
+                      withResponse request manager (writeToTemp f h msg)
 

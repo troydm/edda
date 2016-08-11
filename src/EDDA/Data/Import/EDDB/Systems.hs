@@ -11,12 +11,7 @@ import qualified Data.Vector as V
 import Control.Monad.Trans
 import Control.Monad.Trans.Reader
 import Control.Concurrent
-import Network.HTTP.Types
-import Network.HTTP.Types.Header (hAcceptEncoding)
-import Network.HTTP.Client
-import Network.HTTP.Client.TLS
 
-import System.IO (hClose)
 import System.IO.Temp (withSystemTempFile)
 
 import qualified Data.Text as T
@@ -65,15 +60,6 @@ saveToDatabase systems = do liftIO $ putStrLn "Importing into database..."
                             liftIO $ putStrLn ("Systems imported: " ++ (show (length systems)))
 
 
-writeToTemp f h res = read h >> hClose h >> putStrLn "EDDB Systems data downloaded"
-                      where br = responseBody res
-                            read h = brRead br >>= \s -> if BC.null s then return () else BC.hPut h s >> read h
-                                      
-download f h = do manager <- newManager tlsManagerSettings
-                  initialRequest <- parseRequest url
-                  let request = initialRequest { requestHeaders=[(hAcceptEncoding,"gzip, deflate, sdch")] }
-                  withResponse request manager (writeToTemp f h)
-
 convertAndSaveToDB :: Config -> C.ByteString -> IO ()
 convertAndSaveToDB c d = do total <- newIORef 0 
                             streamParseIO 10000 d (saveToDB total)
@@ -94,5 +80,5 @@ downloadAndImport =
             do
              liftIO $ C.putStrLn "Downloading EDDB Systems data..."
              r <- ask
-             liftIO $ withSystemTempFile "systems.json" (\f h -> download f h >> C.readFile f >>= convertAndSaveToDB r)
+             liftIO $ withSystemTempFile "systems.json" (\f h -> download url "EDDB Systems data downloaded" f h >> C.readFile f >>= convertAndSaveToDB r)
 
