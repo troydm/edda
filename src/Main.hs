@@ -61,9 +61,8 @@ import EDDA.Data.Import.EDDB.Stations (downloadAndImport)
 trap :: IO a -> IO a
 trap = traplogging "System.Daemon" ERROR "detachDaemon"
 
-ppMaybeList :: Show a => Maybe [a] -> IO ()
-ppMaybeList (Just (a:t)) = putStrLn (show a) >> ppMaybeList (Just t)
-ppMaybeList (Just []) = return ()
+ppMaybeList :: Maybe [Str] -> IO ()
+ppMaybeList (Just l) = mapM_ C.putStrLn l
 ppMaybeList (Nothing) = return ()
 
 detachDaemon :: IO () -> IO ()
