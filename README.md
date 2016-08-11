@@ -1,10 +1,18 @@
 # EDDA
 
+Elite Dangerous Data Aggregator is a EDDN data collector that saves commodity/outfitting/shipyard data into MongoDB database
+
 Build Dependencies:
 
 - ZeroMQ v4.x
 
-Create database indexes:
+= Build:
+
+    stack build
+
+= Configure
+
+Create new database called edda in MongoDB with indexes:
 
     db.systems.createIndex({edsmId: 1})
     db.systems.createIndex({systemName: 1})
@@ -23,3 +31,20 @@ Import initial static data from EDDN:
 
     curl -O https://raw.githubusercontent.com/jamesremuscat/EDDN/master/doc/shipyard.csv
     mongoimport -d edda --headerline --type=csv -c shipyard --upsert shipyard.csv
+
+Configure:
+
+    vi edda.conf
+
+Import initial systems/stations backup from EDDB:
+
+    stack exec edda -- import -s eddb -t systems
+    stack exec edda -- import -s eddb -t stations
+
+Start edda data collector:
+    
+    stack exec edda -- start
+
+See also:
+
+    stack exec edda -- --help
