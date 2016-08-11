@@ -8,6 +8,7 @@ Build Dependencies:
 
 - ZeroMQ v4.x
 
+Build using [stack](http://haskellstack.org/):
 
     stack build
 
