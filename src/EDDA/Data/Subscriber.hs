@@ -29,21 +29,21 @@ saveMessage _ (CommodityInfo {
                         commodityInfoStationName = stationName, 
                         commodityInfoTimestamp = timestamp, 
                         commodityInfoCommodities = commodities }) = do 
-                                liftIO $ infoM "EDDA.Subscriber" ("saving commodities info " ++ CS.unpack stationName)
+                                liftIO $ infoM "EDDA.Subscriber" ("saving commodities info " ++ CS.unpack systemName ++ " / " ++ CS.unpack stationName)
                                 saveCommodities systemName stationName (Commodities commodities timestamp)
 saveMessage _ (OutfittingInfo { 
                        outfittingInfoSystemName = systemName, 
                        outfittingInfoStationName = stationName, 
                        outfittingInfoTimestamp = timestamp, 
                        outfittingInfoModules = modules }) = do
-                                liftIO $ infoM "EDDA.Subscriber" ("saving outfitting info " ++ CS.unpack stationName)
+                                liftIO $ infoM "EDDA.Subscriber" ("saving outfitting info " ++ CS.unpack systemName ++ " / " ++ CS.unpack stationName)
                                 saveOutfittings systemName stationName (Outfittings modules timestamp)
 saveMessage _ (ShipyardInfo { 
                        shipyardInfoSystemName = systemName, 
                        shipyardInfoStationName = stationName, 
                        shipyardInfoTimestamp = timestamp, 
                        shipyardInfoShips = ships }) = do 
-                            liftIO $ infoM "EDDA.Subscriber" ("saving shipyard info " ++ CS.unpack stationName)
+                            liftIO $ infoM "EDDA.Subscriber" ("saving shipyard info " ++ CS.unpack systemName ++ " / " ++ CS.unpack stationName)
                             saveShips systemName stationName (Ships ships timestamp)
 
 processMessage :: Str -> ConfigT ()

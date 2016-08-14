@@ -57,6 +57,7 @@ import EDDA.Types
 import EDDA.Config
 import EDDA.Data.Query
 import EDDA.Data.Subscriber
+import EDDA.Data.Rest
 import EDDA.Data.Import.EDDB.Systems (downloadAndImport)
 import EDDA.Data.Import.EDDB.Stations (downloadAndImport)
 
@@ -84,11 +85,11 @@ child2 act = do trap $ do setCurrentDirectory "/"
                           closeFd nullFd
                 act
 
-setRootLogger :: Config -> IO ()
-setRootLogger conf = do handler <- fileHandler (logPath conf) DEBUG >>= 
+setRootLogger :: Config -> (Config -> String) -> IO ()
+setRootLogger conf f = do handler <- fileHandler (f conf) DEBUG >>= 
                             \lh -> return $ setFormatter lh (simpleLogFormatter "$prio:$loggername:$time - $msg")
-                        updateGlobalLogger rootLoggerName (addHandler handler)
-                        updateGlobalLogger rootLoggerName (setLevel INFO)
+                          updateGlobalLogger rootLoggerName (addHandler handler)
+                          updateGlobalLogger rootLoggerName (setLevel INFO)
 
 termHandler :: MVar () -> Handler
 termHandler mv = CatchOnce $ do
@@ -110,11 +111,15 @@ startSubscriber conf =
 
 data Command = StartCommand { conf :: String, foreground :: Bool } 
              | StopCommand { conf :: String } 
+             | StartRestCommand { conf :: String, foreground :: Bool } 
              | ImportCommand { conf :: String, source :: String, target :: String }
              | SystemsWithinLy { conf :: String, system :: String, distance :: Double } deriving (Data,Typeable,Show,Eq)
 
 startCommand = StartCommand { conf = "edda.conf" &= name "config" &= name "c" &= opt ("edda.conf" :: String) &= help "config path", 
                               foreground = def &= name "foreground" &= name "f" &= help "run in foreground"} &= name "start" &= help "start edda daemon"
+
+startRestCommand = StartRestCommand { conf = "edda.conf" &= name "config" &= name "c" &= opt ("edda.conf" :: String) &= help "config path", 
+                                      foreground = def &= name "foreground" &= name "f" &= help "run in foreground"} &= name "startRest" &= help "start edda REST Api service daemon"
 
 stopCommand = StopCommand { conf = "edda.conf" &= name "config" &= name "c" &= opt ("edda.conf" :: String) &= help "config path" } &= name "stop" &= help "stop edda daemon"
 
@@ -125,7 +130,7 @@ importCommand = ImportCommand { source = def &= name "source" &= help "source sy
 systemsWithinLy = SystemsWithinLy { conf = "edda.conf" &= name "config" &= name "c" &= opt ("edda.conf" :: String) &= help "config path",  
                                     system = def &= name "system" &= name "s", distance = def &= name "distance" &= name "d" } &= name "systemsWithinLy" &= help "systems within ly"
 
-mode = modes [startCommand,stopCommand,importCommand,systemsWithinLy] &= help "edda - help" &= program "edda" &= summary "edda v0.1\nElite Dangerous Data Aggregator"
+mode = modes [startCommand,stopCommand,startRestCommand,importCommand,Main.systemsWithinLy] &= help "edda - help" &= program "edda" &= summary "edda v0.1\nElite Dangerous Data Aggregator"
 
 main :: IO ()
 main = do
@@ -141,8 +146,11 @@ main = do
                                                                                       else putStrLn "Invalid target, currently supported targets are: [systems,stations]"
                                                                                   else putStrLn "Invalid source, currently supported sources are: [eddb]"
             StartCommand { conf = configPath, foreground = foreground } -> do conf <- readConfig configPath
-                                                                              if foreground then setRootLogger conf >> Main.startSubscriber conf
-                                                                              else detachDaemon (setRootLogger conf >> Main.startSubscriber conf)
+                                                                              if foreground then setRootLogger conf logPath >> Main.startSubscriber conf
+                                                                              else detachDaemon (setRootLogger conf logPath >> Main.startSubscriber conf)
+            StartRestCommand { conf = configPath, foreground = foreground } -> do conf <- readConfig configPath
+                                                                                  if foreground then setRootLogger conf restLogPath >> EDDA.Data.Rest.startService conf
+                                                                                  else detachDaemon (setRootLogger conf restLogPath >> EDDA.Data.Rest.startService conf)
             StopCommand { conf = configPath} -> do conf <- readConfig configPath
                                                    callCommand "pkill edda" >> return ()
             SystemsWithinLy { conf = configPath, system = system, distance = distance } -> 

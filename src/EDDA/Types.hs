@@ -15,7 +15,13 @@ import Data.Maybe (isJust,fromJust)
 type Str = C.ByteString
 type Timestamp = UTCTime
 
-data Config = Config { zeroMqHost :: String,  mongoHost :: String, logPath :: String, mongoDb :: T.Text  } deriving Show
+data Config = Config { zeroMqHost :: String,  
+                       mongoHost :: String, 
+                       logPath :: String, 
+                       mongoDb :: T.Text,
+                       restLogPath :: String,
+                       restPort :: Int,
+                       restPath :: String } deriving Show
 
 data Header = Header { headerUploaderId :: Str, headerSoftwareName :: Str, headerSoftwareVersion :: Str, headerGatewayTimestamp :: Maybe Timestamp } deriving Show
 

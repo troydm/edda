@@ -19,8 +19,13 @@ readConfig filename = do val <- readfile (emptyCP { optionxform = id }) filename
                                            let mongoHost = readConfigProperty cp "mongoHost"
                                            let mongoDb = readConfigProperty cp "mongoDB"
                                            let logPath = readConfigProperty cp "logPath"
+                                           let restPort = read (readConfigProperty cp "restPort") :: Int
+                                           let restPath = readConfigProperty cp "restPath"
+                                           let restLogPath = readConfigProperty cp "restLogPath"
                                            absLogPath <- canonicalizePath logPath
-                                           return Config { zeroMqHost = zeroMqHost, logPath = absLogPath, mongoHost = mongoHost, mongoDb = T.pack mongoDb }
+                                           return Config { zeroMqHost = zeroMqHost, logPath = absLogPath, restLogPath = restLogPath,
+                                                           mongoHost = mongoHost, mongoDb = T.pack mongoDb, 
+                                                           restPort = restPort, restPath = restPath }
                             Left _ -> error ("Couldn't read config file: " ++ filename)
 
 
