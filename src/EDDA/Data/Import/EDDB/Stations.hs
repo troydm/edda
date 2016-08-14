@@ -59,7 +59,7 @@ downloadCommodities =
                            initialRequest <- parseRequest commodities_url
                            let request = initialRequest { requestHeaders=[(hAcceptEncoding,"gzip, deflate, sdch")] }
                            response <- httpLbs request manager 
-                           let maybeCommodities = decode' (responseBody response) :: Maybe Value
+                           let !maybeCommodities = decode' (responseBody response) :: Maybe Value
                            case maybeCommodities of
                                 Just commodities -> return $ toMap commodities
                                 Nothing -> return Nothing

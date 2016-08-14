@@ -11,11 +11,12 @@ copyright:           2016 Dmitry "troydm" Geurkov
 category:            Game
 build-type:          Simple
 cabal-version:       >=1.10
+data-files:          edda.conf,
+		     test/EDDA/Schema/commodity1.json
 
-executable edda
+library
   hs-source-dirs:      src
-  main-is:             Main.hs
-  other-modules:       EDDA.Data.Database,
+  exposed-modules:     EDDA.Data.Database,
                        EDDA.Data.Document,
                        EDDA.Data.Import.EDDB.Stations,
                        EDDA.Data.Import.EDDB.Systems,
@@ -28,7 +29,8 @@ executable edda
                        EDDA.Schema.Parser,
                        EDDA.Schema.ShipyardV1,
                        EDDA.Schema.Util,
-                       EDDA.Types
+                       EDDA.Types,
+                       EDDA.Config
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5,
                        bytestring,
@@ -51,9 +53,48 @@ executable edda
                        http-types,
                        http-client,
                        http-client-tls,
-                       ConfigFile,
-                       cmdargs,
                        directory,
+                       ConfigFile,
                        hslogger,
                        process,
                        temporary
+
+executable edda
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  default-language:    Haskell2010
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base,
+                       edda,
+                       bytestring,
+                       text,
+                       mtl,
+                       transformers,
+                       unix,
+                       directory,
+                       hslogger,
+                       process,
+                       cmdargs
+
+test-suite edda-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  default-language:    Haskell2010
+  default-language:    Haskell2010
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base,
+                       edda,
+                       HUnit,
+                       bytestring,
+                       transformers,
+                       unordered-containers,
+                       aeson,
+                       test-framework,
+                       test-framework-hunit
+
+
+source-repository head
+  type: git
+  location: https://github.com/troydm/edda
+

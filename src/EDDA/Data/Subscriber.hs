@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE BangPatterns #-}
 module EDDA.Data.Subscriber where
 
 import Control.Concurrent
@@ -46,8 +47,8 @@ saveMessage _ (ShipyardInfo {
                             saveShips systemName stationName (Ships ships timestamp)
 
 processMessage :: Str -> ConfigT ()
-processMessage v = let decompressed = (CL.toStrict . decompress . CL.fromStrict) v in
-                   let result = parseOnly json' decompressed in
+processMessage v = let !decompressed = (CL.toStrict . decompress . CL.fromStrict) v in
+                   let !result = parseOnly json' decompressed in
                    case result of
                         Right obj -> do header <- parseHeader obj
                                         msg <- parseMessage obj
