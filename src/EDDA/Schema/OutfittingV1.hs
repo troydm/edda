@@ -4,8 +4,10 @@ module EDDA.Schema.OutfittingV1 where
 import EDDA.Types
 import EDDA.Schema.Util
 
+import System.Log.Logger
 import Control.Monad.Trans
 import Control.Monad.Trans.Reader
+import Data.Maybe (isNothing)
 import Data.Aeson
 import Data.Aeson.Types
 import qualified Data.Vector as V
@@ -17,7 +19,9 @@ import qualified Data.ByteString.Char8 as C
 
 
 getModule :: Value -> ConfigT (Maybe OutfittingModuleInfo)
-getModule v = return $ do 
+getModule v = 
+          do
+              let ret = do 
                        category <- getStr v "category"
                        name <- getStr v "name"
                        cls <- getChr v "class"
@@ -43,6 +47,7 @@ getModule v = return $ do
                                                              outfittingModuleInternalClass = cls, 
                                                              outfittingModuleInternalRating = rating }
                        else Nothing
+              if isNothing ret then liftIO (errorM "EDDA.Schema.OutfittingV1" ("Couldn't parse module: " ++ (show v))) >> return Nothing else return ret 
 
 
 getModules :: Value -> ConfigT (Maybe [OutfittingModuleInfo])
@@ -62,7 +67,7 @@ parseOutfitting v = do
                                Just $ OutfittingInfo { outfittingInfoSystemName = systemName, 
                                                        outfittingInfoStationName = stationName, 
                                                        outfittingInfoTimestamp = timestamp,
-                                                       outfittingInfoModules = HM.fromList (map (\v -> (outfittingModuleFullName v,v)) modules) } 
+                                                       outfittingInfoModules = HM.fromList (map (\v -> (outfittingModuleFullName v,v)) modules) }
 
 
 

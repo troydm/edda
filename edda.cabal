@@ -14,6 +14,7 @@ cabal-version:       >=1.10
 data-files:          edda.conf,
                      test/EDDA/Schema/commodity1.json,
                      test/EDDA/Schema/outfitting1.json,
+                     test/EDDA/Schema/outfitting2.json,
                      test/EDDA/Schema/shipyard1.json
 
 library
@@ -43,6 +44,7 @@ library
                        unix,
                        unordered-containers,
                        vector,
+                       split,
                        zlib,
                        zeromq4-haskell,
                        aeson,
@@ -86,6 +88,7 @@ test-suite edda-test
   default-language:    Haskell2010
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   other-modules:       EDDA.Test.Util,
+                       EDDA.Schema.ParserTest,
                        EDDA.Schema.CommodityV2Test,
                        EDDA.Schema.OutfittingV1Test
   build-depends:       base,
@@ -95,6 +98,7 @@ test-suite edda-test
                        transformers,
                        unordered-containers,
                        aeson,
+                       hslogger,
                        test-framework,
                        test-framework-hunit
 

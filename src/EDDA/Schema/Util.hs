@@ -5,7 +5,7 @@ import Control.Monad.Trans
 import Control.Monad.Trans.Reader
 import Control.Monad (join)
 
-import Data.Maybe (catMaybes)
+import Data.Maybe (catMaybes,listToMaybe)
 import Data.Aeson
 import Data.Aeson.Types
 import EDDA.Types
@@ -15,6 +15,8 @@ import qualified Data.Text as T
 import qualified Data.Text.Encoding as TE
 import qualified Data.HashMap.Strict as HM
 import Data.Time.ISO8601 (parseISO8601) 
+import Data.List (intercalate)
+import Data.List.Split (splitOn,splitOneOf)
 
 showValue :: Value -> ConfigT ()
 showValue = lift . C.putStrLn . C.pack . show
@@ -22,11 +24,21 @@ showValue = lift . C.putStrLn . C.pack . show
 getTimestamp :: Value -> Str -> Maybe Timestamp
 getTimestamp (Object v) s = case HM.lookup (toText s) v of
                                     Just (String t) -> let dt = T.unpack t in
-                                                       case parseISO8601 dt of
-                                                            Just dt -> Just dt
-                                                            Nothing -> parseISO8601 (dt ++ "Z")
+                                                       orMaybe [parseISO8601 dt, parseISO8601 (dt ++ "Z"), parseISO8601 (fixTimestamp dt)]
                                     Nothing -> Nothing
+                            where fixTimestamp dt = let s = splitOn "T" dt
+                                                        d = head s
+                                                        t = head (tail s) 
+                                                        ts = splitOneOf "+-" t
+                                                        tm = head ts
+                                                        tz = head (tail ts) 
+                                                        tms = splitOn ":" tm
+                                                        tms' = map (\t -> if length t == 1 then '0':t else t) tms 
+                                                        tz' = if elem '+' t then '+':tz else '-':tz in
+                                                    d ++ "T" ++ (intercalate ":" tms') ++ tz'
 getTimestamp _ _ = Nothing
+
+orMaybe = listToMaybe . catMaybes
 
 valToStr :: Value -> Maybe Str
 valToStr (String s) = Just $ TE.encodeUtf8 s
