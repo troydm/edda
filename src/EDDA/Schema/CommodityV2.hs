@@ -6,6 +6,8 @@ import EDDA.Data.Static (shipIdToName, commodityIdToName)
 import EDDA.Schema.Util
 
 import Control.Monad.Trans
+import System.Log.Logger (errorM)
+import Data.Maybe (isNothing)
 import Data.Aeson
 import Data.Aeson.Types
 import qualified Data.Vector as V
@@ -21,6 +23,7 @@ getCommodityId v = case getInt v "id" of
 
 getCommodity :: Value -> ConfigT (Maybe CommodityMarketInfo)
 getCommodity v = do
+                 ret <- do
                    let supplyLevel = getLevel v "supplyLevel"
                    let demandLevel = getLevel v "demandLevel"
                    maybeName <- getCommodityId v
@@ -36,6 +39,7 @@ getCommodity v = do
                                                             commodityMarketInfoSellPrice = sellPrice,
                                                             commodityMarketInfoDemand = demand,
                                                             commodityMarketInfoDemandLevel = demandLevel }
+                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV2" ("Couldn't parse commodity: " ++ (show v))) >> return Nothing else return ret 
 
 
 getCommodities :: Value -> ConfigT (Maybe [CommodityMarketInfo])

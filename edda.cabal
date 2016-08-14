@@ -96,6 +96,7 @@ test-suite edda-test
                        HUnit,
                        bytestring,
                        transformers,
+                       time,
                        unordered-containers,
                        aeson,
                        hslogger,
