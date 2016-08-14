@@ -43,7 +43,9 @@ import System.Posix.IO
 import System.Directory
 import System.Log.Logger
 import System.Exit
+import System.Log.Handler (setFormatter)
 import System.Log.Handler.Simple (fileHandler)
+import System.Log.Formatter (simpleLogFormatter)
 import System.Process (callCommand)
 
 
@@ -83,7 +85,8 @@ child2 act = do trap $ do setCurrentDirectory "/"
                 act
 
 setRootLogger :: Config -> IO ()
-setRootLogger conf = do handler <- fileHandler (logPath conf) DEBUG
+setRootLogger conf = do handler <- fileHandler (logPath conf) DEBUG >>= 
+                            \lh -> return $ setFormatter lh (simpleLogFormatter "$prio:$loggername:$time - $msg")
                         updateGlobalLogger rootLoggerName (addHandler handler)
                         updateGlobalLogger rootLoggerName (setLevel INFO)
 
