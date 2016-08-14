@@ -6,7 +6,7 @@ Elite Dangerous Data Aggregator is a [EDDN](https://github.com/jamesremuscat/EDD
 
 Build Dependencies:
 
-- ZeroMQ v4.x
+- [ZeroMQ](http://zeromq.org/) v4.x
 
 Build using [stack](http://haskellstack.org/):
 
@@ -48,6 +48,10 @@ Import initial systems/stations backup from [EDDB](https://eddb.io):
 Start edda data collector:
     
     stack exec edda -- start
+
+Stop edda data collector:
+    
+    stack exec edda -- stop
 
 See also:
 
