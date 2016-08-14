@@ -1,0 +1,31 @@
+{
+  "header":{
+    "softwareVersion":"0.3.3",
+    "gatewayTimestamp":"2016-08-11T21:17:48.830115",
+    "softwareName":"ED-IBE (API)",
+    "uploaderID":""
+  },
+  "$schemaRef":"http://schemas.elite-markets.net/eddn/shipyard/1",
+  "message":{
+    "timestamp":"2016-08-11T23:17:47+02:00",
+    "systemName":"Veroo",
+    "stationName":"Hunziker Terminal",
+    "ships":[
+      "Sidewinder",
+      "Hauler",
+      "Type-9 Heavy",
+      "Cobra MkIII",
+      "Type-6 Transporter",
+      "Viper MkIII",
+      "Adder",
+      "Python",
+      "Viper MkIV",
+      "Eagle",
+      "Keelback",
+      "Imperial Eagle",
+      "Imperial Clipper",
+      "Imperial Courier",
+      "Imperial Cutter"
+    ]
+  }
+}

@@ -26,7 +26,7 @@ parseHeader :: Value -> ConfigT (Maybe Header)
 parseHeader (Object v) = do
             case HM.lookup "header" v of
                     Just h -> return $ do
-                                         uploaderId <- getStr h "uploaderID"
+                                         uploaderId <- maybe (Just "") Just (getStr h "uploaderID")
                                          softwareName <- getStr h "softwareName"
                                          softwareVersion <- getStr h "softwareVersion"
                                          return Header { headerUploaderId = uploaderId,

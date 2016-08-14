@@ -1,0 +1,3696 @@
+{
+  "header":{
+    "softwareVersion":"0.3.3",
+    "gatewayTimestamp":"2016-08-11T21:16:11.695102",
+    "softwareName":"ED-IBE (API)",
+    "uploaderID":""
+  },
+  "$schemaRef":"http://schemas.elite-markets.net/eddn/outfitting/1",
+  "message":{
+    "timestamp":"2016-08-11T23:16:08+02:00",
+    "systemName":"Veroo",
+    "modules":[
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Gimballed",
+        "name":"Burst Laser",
+        "class":"4"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"C",
+        "mount":"Fixed",
+        "name":"Burst Laser",
+        "class":"4"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"G",
+        "mount":"Gimballed",
+        "name":"Burst Laser",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Fixed",
+        "name":"Burst Laser",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Fixed",
+        "name":"Burst Laser",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"F",
+        "mount":"Fixed",
+        "name":"Burst Laser",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Gimballed",
+        "name":"Multi-Cannon",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Fixed",
+        "name":"Multi-Cannon",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"F",
+        "mount":"Turreted",
+        "name":"Multi-Cannon",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"G",
+        "mount":"Gimballed",
+        "name":"Multi-Cannon",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"F",
+        "mount":"Gimballed",
+        "name":"Multi-Cannon",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Fixed",
+        "name":"Multi-Cannon",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"F",
+        "mount":"Fixed",
+        "name":"Multi-Cannon",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Gimballed",
+        "name":"Pulse Laser",
+        "class":"4"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"F",
+        "mount":"Turreted",
+        "name":"Pulse Laser",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"F",
+        "mount":"Turreted",
+        "name":"Pulse Laser",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"G",
+        "mount":"Turreted",
+        "name":"Pulse Laser",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"F",
+        "mount":"Gimballed",
+        "name":"Pulse Laser",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"G",
+        "mount":"Gimballed",
+        "name":"Pulse Laser",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Fixed",
+        "name":"Pulse Laser",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"B",
+        "mount":"Fixed",
+        "name":"Cannon",
+        "class":"4"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"B",
+        "mount":"Gimballed",
+        "name":"Cannon",
+        "class":"4"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Turreted",
+        "name":"Cannon",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"C",
+        "mount":"Gimballed",
+        "name":"Cannon",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"F",
+        "mount":"Turreted",
+        "name":"Cannon",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Turreted",
+        "name":"Cannon",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"C",
+        "mount":"Fixed",
+        "name":"Cannon",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"C",
+        "mount":"Gimballed",
+        "name":"Fragment Cannon",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Turreted",
+        "name":"Fragment Cannon",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"C",
+        "mount":"Fixed",
+        "name":"Fragment Cannon",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Turreted",
+        "name":"Fragment Cannon",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Gimballed",
+        "name":"Fragment Cannon",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Gimballed",
+        "name":"Fragment Cannon",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"B",
+        "mount":"Fixed",
+        "name":"Rail Gun",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Fixed",
+        "name":"Rail Gun",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"B",
+        "mount":"Gimballed",
+        "name":"Beam Laser",
+        "class":"4"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"C",
+        "mount":"Gimballed",
+        "name":"Beam Laser",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"C",
+        "mount":"Fixed",
+        "name":"Beam Laser",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Gimballed",
+        "name":"Beam Laser",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Turreted",
+        "name":"Beam Laser",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"B",
+        "name":"Missile Rack",
+        "mount":"Fixed",
+        "class":"2",
+        "guidance":"Seeker"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"B",
+        "name":"Missile Rack",
+        "mount":"Fixed",
+        "class":"1",
+        "guidance":"Seeker"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"I",
+        "name":"Torpedo Pylon",
+        "mount":"Fixed",
+        "class":"2",
+        "guidance":"Seeker"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"I",
+        "name":"Torpedo Pylon",
+        "mount":"Fixed",
+        "class":"1",
+        "guidance":"Seeker"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"B",
+        "name":"Missile Rack",
+        "mount":"Fixed",
+        "class":"2",
+        "guidance":"Dumbfire"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"B",
+        "name":"Missile Rack",
+        "mount":"Fixed",
+        "class":"1",
+        "guidance":"Dumbfire"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"I",
+        "mount":"Fixed",
+        "name":"Mine Launcher",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"I",
+        "mount":"Fixed",
+        "name":"Shock Mine Launcher",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"I",
+        "mount":"Fixed",
+        "name":"Mine Launcher",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"A",
+        "mount":"Fixed",
+        "name":"Plasma Accelerator",
+        "class":"4"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"C",
+        "mount":"Fixed",
+        "name":"Plasma Accelerator",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Gimballed",
+        "name":"Cannon",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Gimballed",
+        "name":"Cannon",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Fixed",
+        "name":"Cannon",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Fixed",
+        "name":"Cannon",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"C",
+        "mount":"Fixed",
+        "name":"Multi-Cannon",
+        "class":"4"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Gimballed",
+        "name":"Multi-Cannon",
+        "class":"4"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"B",
+        "mount":"Fixed",
+        "name":"Plasma Accelerator",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Fixed",
+        "name":"Fragment Cannon",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"A",
+        "mount":"Fixed",
+        "name":"Fragment Cannon",
+        "class":"2"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Gimballed",
+        "name":"Beam Laser",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"F",
+        "mount":"Turreted",
+        "name":"Beam Laser",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Fixed",
+        "name":"Beam Laser",
+        "class":"1"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Gimballed",
+        "name":"Pulse Laser",
+        "class":"3"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"E",
+        "mount":"Fixed",
+        "name":"Pulse Laser",
+        "class":"2"
+      },
+      {
+        "category":"utility",
+        "rating":"F",
+        "name":"Electronic Countermeasure",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"I",
+        "name":"Point Defence",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"I",
+        "name":"Chaff Launcher",
+        "class":"0"
+      },
+      {
+        "category":"hardpoint",
+        "rating":"D",
+        "mount":"Fixed",
+        "name":"Mining Laser",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Standard Docking Computer",
+        "class":"1"
+      },
+      {
+        "category":"utility",
+        "rating":"E",
+        "name":"Frame Shift Wake Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"C",
+        "name":"Kill Warrant Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"E",
+        "name":"Kill Warrant Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"A",
+        "name":"Cargo Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"B",
+        "name":"Cargo Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"C",
+        "name":"Cargo Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"D",
+        "name":"Kill Warrant Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"B",
+        "name":"Kill Warrant Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"E",
+        "name":"Cargo Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"D",
+        "name":"Cargo Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"B",
+        "name":"Frame Shift Wake Scanner",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"D",
+        "name":"Frame Shift Wake Scanner",
+        "class":"0"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Sidewinder",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Sidewinder",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Sidewinder",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Sidewinder",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Sidewinder",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Hauler",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Hauler",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Hauler",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Hauler",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Hauler",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-9 Heavy",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-9 Heavy",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-9 Heavy",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-9 Heavy",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-9 Heavy",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIII",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIII",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIII",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIII",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIII",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-6 Transporter",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-6 Transporter",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-6 Transporter",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-6 Transporter",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Type-6 Transporter",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIII",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIII",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIII",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIII",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIII",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIV",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIV",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIV",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIV",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Cobra MkIV",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Adder",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Adder",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Adder",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Adder",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Adder",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Python",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Python",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Python",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Python",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Python",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Basic Discovery Scanner",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Cargo Rack",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Refinery",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Fuel Scoop",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Shield Generator",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Sensors",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Sensors",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Sensors",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Sensors",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Sensors",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Sensors",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Sensors",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Sensors",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Sensors",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Sensors",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Sensors",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Sensors",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Sensors",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Sensors",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Sensors",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Plant",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Plant",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Plant",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Plant",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Plant",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Plant",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Plant",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Plant",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Plant",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"G",
+        "name":"Planetary Vehicle Hangar",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"G",
+        "name":"Planetary Vehicle Hangar",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"H",
+        "name":"Planetary Vehicle Hangar",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"G",
+        "name":"Planetary Vehicle Hangar",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"H",
+        "name":"Planetary Vehicle Hangar",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"H",
+        "name":"Planetary Vehicle Hangar",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Distributor",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Distributor",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Distributor",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Distributor",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Distributor",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Distributor",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Distributor",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Distributor",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Distributor",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Distributor",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Distributor",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Distributor",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Distributor",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Prospector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Prospector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Prospector Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Prospector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Prospector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Prospector Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Prospector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Prospector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Prospector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Prospector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Frame Shift Drive",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Frame Shift Drive",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Frame Shift Drive",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Frame Shift Drive",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Frame Shift Drive",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Frame Shift Drive",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Frame Shift Drive",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Frame Shift Drive",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Frame Shift Drive",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Frame Shift Drive",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Cargo Rack",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Cargo Rack",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Cargo Rack",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Cargo Rack",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Cargo Rack",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Cargo Rack",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Cargo Rack",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Distributor",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Distributor",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Distributor",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Distributor",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Distributor",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Distributor",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Distributor",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Distributor",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Distributor",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Distributor",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Distributor",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Distributor",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Distributor",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Advanced Discovery Scanner",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Intermediate Discovery Scanner",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Detailed Surface Scanner",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Hull Reinforcement Package",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Hull Reinforcement Package",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Hull Reinforcement Package",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Prospector Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Prospector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Prospector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Prospector Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Prospector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Prospector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Prospector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Fuel Tank",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Fuel Tank",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Fuel Tank",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Fuel Tank",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Fuel Tank",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Fuel Tank",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Fuel Tank",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Fuel Tank",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Scoop",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Scoop",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Scoop",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Scoop",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Scoop",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Scoop",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Scoop",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Scoop",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Scoop",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Scoop",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Fuel Scoop",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Scoop",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Fuel Scoop",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Shield Cell Bank",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Shield Cell Bank",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Shield Cell Bank",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Cell Bank",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Cell Bank",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Shield Cell Bank",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Shield Cell Bank",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Shield Cell Bank",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Shield Cell Bank",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Shield Cell Bank",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Shield Cell Bank",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Shield Cell Bank",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Shield Cell Bank",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Shield Cell Bank",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Shield Generator",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Shield Generator",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Generator",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Generator",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Bi-Weave Shield Generator",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Shield Generator",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Bi-Weave Shield Generator",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Bi-Weave Shield Generator",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Shield Generator",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Shield Generator",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Shield Generator",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Shield Generator",
+        "class":"3"
+      },
+      {
+        "category":"utility",
+        "rating":"B",
+        "name":"Shield Booster",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"C",
+        "name":"Shield Booster",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"D",
+        "name":"Shield Booster",
+        "class":"0"
+      },
+      {
+        "category":"utility",
+        "rating":"E",
+        "name":"Shield Booster",
+        "class":"0"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Plant",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Plant",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Plant",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Plant",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Plant",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Plant",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Plant",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Plant",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Plant",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Plant",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Plant",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Plant",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Plant",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Collector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Collector Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Collector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Collector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Collector Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Collector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Collector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Collector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Collector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Thrusters",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Thrusters",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Thrusters",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Thrusters",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Thrusters",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Thrusters",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Thrusters",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Thrusters",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Refinery",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Refinery",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Refinery",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Refinery",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Refinery",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Refinery",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Refinery",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Refinery",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Refinery",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Frame Shift Drive",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Frame Shift Drive",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Frame Shift Drive",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Frame Shift Drive",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Frame Shift Drive",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Frame Shift Drive",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Frame Shift Drive",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Frame Shift Drive",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Frame Shift Drive",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Frame Shift Drive",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Frame Shift Drive",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Frame Shift Drive",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Frame Shift Drive",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Life Support",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Life Support",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Life Support",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Life Support",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Life Support",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Life Support",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Life Support",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Life Support",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Life Support",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Life Support",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Life Support",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Life Support",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Sensors",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Sensors",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Sensors",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Sensors",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Sensors",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Sensors",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Sensors",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Sensors",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Refinery",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Refinery",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Refinery",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Refinery",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Refinery",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Refinery",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Refinery",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Refinery",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Shield Cell Bank",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Shield Cell Bank",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Cell Bank",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Cell Bank",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Cell Bank",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Shield Cell Bank",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Shield Cell Bank",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Shield Cell Bank",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Shield Cell Bank",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Shield Cell Bank",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Collector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Collector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Collector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Collector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Collector Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Collector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Scoop",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Scoop",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Scoop",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Scoop",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Scoop",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Scoop",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Fuel Scoop",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Fuel Scoop",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Frame Shift Drive",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Frame Shift Drive",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Frame Shift Drive",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Frame Shift Drive",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Frame Shift Drive",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Plant",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Plant",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Plant",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Plant",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Power Plant",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Plant",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Power Plant",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Sensors",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Sensors",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Sensors",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Sensors",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Sensors",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Sensors",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Hull Reinforcement Package",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Hull Reinforcement Package",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Hull Reinforcement Package",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Hull Reinforcement Package",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Scoop",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Scoop",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Scoop",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Scoop",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Scoop",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Life Support",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Life Support",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Life Support",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Life Support",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Thrusters",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Thrusters",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Thrusters",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Thrusters",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Shield Generator",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Generator",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Distributor",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIV",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIV",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIV",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIV",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Viper MkIV",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Eagle",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Eagle",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Eagle",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Eagle",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Eagle",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Keelback",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Keelback",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Keelback",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Keelback",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Keelback",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Plant",
+        "class":"2"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Distributor",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Hull Reinforcement Package",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Hull Reinforcement Package",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Cell Bank",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Thrusters",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Thrusters",
+        "class":"3"
+      },
+      {
+        "category":"utility",
+        "rating":"A",
+        "name":"Shield Booster",
+        "class":"0"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Transfer Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Distributor",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Distributor",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Plant",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Plant",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Sensors",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Scoop",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Refinery",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Shield Cell Bank",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Shield Cell Bank",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Shield Cell Bank",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Shield Cell Bank",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"2"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Auto Field-Maintenance Unit",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Scoop",
+        "class":"8"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Scoop",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Frame Shift Drive",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Frame Shift Drive",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Frame Shift Drive",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Frame Shift Drive",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Power Plant",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"E",
+        "name":"Hull Reinforcement Package",
+        "class":"3"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Collector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Collector Limpet Controller",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Fuel Scoop",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Scoop",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Fuel Scoop",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Scoop",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Fuel Scoop",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"D",
+        "name":"Fuel Scoop",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Life Support",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Life Support",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Life Support",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Life Support",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Life Support",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Thrusters",
+        "class":"5"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Thrusters",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"C",
+        "name":"Thrusters",
+        "class":"4"
+      },
+      {
+        "category":"standard",
+        "rating":"E",
+        "name":"Thrusters",
+        "class":"6"
+      },
+      {
+        "category":"standard",
+        "rating":"D",
+        "name":"Thrusters",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Shield Generator",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Bi-Weave Shield Generator",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Shield Generator",
+        "class":"6"
+      },
+      {
+        "category":"internal",
+        "rating":"C",
+        "name":"Bi-Weave Shield Generator",
+        "class":"5"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Prospector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Prospector Limpet Controller",
+        "class":"7"
+      },
+      {
+        "category":"standard",
+        "rating":"A",
+        "name":"Power Distributor",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Distributor",
+        "class":"8"
+      },
+      {
+        "category":"standard",
+        "rating":"B",
+        "name":"Power Distributor",
+        "class":"7"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Collector Limpet Controller",
+        "class":"1"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"B",
+        "name":"Frame Shift Drive Interdictor",
+        "class":"4"
+      },
+      {
+        "category":"internal",
+        "rating":"A",
+        "name":"Hatch Breaker Limpet Controller",
+        "class":"3"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Clipper",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Clipper",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Clipper",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Clipper",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Clipper",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Courier",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Courier",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Courier",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Courier",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Courier",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Cutter",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Cutter",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Cutter",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Cutter",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Cutter",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Eagle",
+        "name":"Lightweight Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Eagle",
+        "name":"Reinforced Alloy",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Eagle",
+        "name":"Military Grade Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Eagle",
+        "name":"Mirrored Surface Composite",
+        "class":"1"
+      },
+      {
+        "category":"standard",
+        "rating":"I",
+        "ship":"Imperial Eagle",
+        "name":"Reactive Surface Composite",
+        "class":"1"
+      }
+    ],
+    "stationName":"Hunziker Terminal"
+  }
+}
