@@ -157,7 +157,7 @@ main = do
             StopCommand { conf = configPath} -> do conf <- readConfig configPath
                                                    callCommand "pkill edda" >> return ()
             StopRestCommand { conf = configPath} -> do conf <- readConfig configPath
-                                                       callCommand "pkill -f \"edda startRest\"" >> return ()
+                                                       callCommand "pkill -f -x \"edda startRest\"" >> return ()
             SystemsWithinLy { conf = configPath, system = system, distance = distance } -> 
                                 do conf <- readConfig configPath
                                    runReaderT (getSystemsWithinLyFrom (C.pack system) distance >>= liftIO . ppMaybeList ) conf
