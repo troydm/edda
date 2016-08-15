@@ -64,8 +64,8 @@ import EDDA.Data.Import.EDDB.Stations (downloadAndImport)
 trap :: IO a -> IO a
 trap = traplogging "System.Daemon" ERROR "detachDaemon"
 
-ppMaybeList :: Maybe [Str] -> IO ()
-ppMaybeList (Just l) = mapM_ C.putStrLn l
+ppMaybeList :: Maybe [T.Text] -> IO ()
+ppMaybeList (Just l) = mapM_ (C.putStrLn . toStr) l
 ppMaybeList (Nothing) = return ()
 
 detachDaemon :: IO () -> IO ()
@@ -112,6 +112,7 @@ startSubscriber conf =
 data Command = StartCommand { conf :: String, foreground :: Bool } 
              | StopCommand { conf :: String } 
              | StartRestCommand { conf :: String, foreground :: Bool } 
+             | StopRestCommand { conf :: String } 
              | ImportCommand { conf :: String, source :: String, target :: String }
              | SystemsWithinLy { conf :: String, system :: String, distance :: Double } deriving (Data,Typeable,Show,Eq)
 
@@ -119,9 +120,11 @@ startCommand = StartCommand { conf = "edda.conf" &= name "config" &= name "c" &=
                               foreground = def &= name "foreground" &= name "f" &= help "run in foreground"} &= name "start" &= help "start edda daemon"
 
 startRestCommand = StartRestCommand { conf = "edda.conf" &= name "config" &= name "c" &= opt ("edda.conf" :: String) &= help "config path", 
-                                      foreground = def &= name "foreground" &= name "f" &= help "run in foreground"} &= name "startRest" &= help "start edda REST Api service daemon"
+                                      foreground = def &= name "foreground" &= name "f" &= help "run in foreground"} &= name "startRest" &= help "start edda REST API service daemon"
 
 stopCommand = StopCommand { conf = "edda.conf" &= name "config" &= name "c" &= opt ("edda.conf" :: String) &= help "config path" } &= name "stop" &= help "stop edda daemon"
+
+stopRestCommand = StopCommand { conf = "edda.conf" &= name "config" &= name "c" &= opt ("edda.conf" :: String) &= help "config path" } &= name "stopRest" &= help "stop REST API service edda daemon"
 
 importCommand = ImportCommand { source = def &= name "source" &= help "source system such as eddb", 
                                 target = def &= name "target" &= help "target to import",
@@ -130,7 +133,7 @@ importCommand = ImportCommand { source = def &= name "source" &= help "source sy
 systemsWithinLy = SystemsWithinLy { conf = "edda.conf" &= name "config" &= name "c" &= opt ("edda.conf" :: String) &= help "config path",  
                                     system = def &= name "system" &= name "s", distance = def &= name "distance" &= name "d" } &= name "systemsWithinLy" &= help "systems within ly"
 
-mode = modes [startCommand,stopCommand,startRestCommand,importCommand,Main.systemsWithinLy] &= help "edda - help" &= program "edda" &= summary "edda v0.1\nElite Dangerous Data Aggregator"
+mode = modes [startCommand,stopCommand,startRestCommand,stopRestCommand,importCommand,Main.systemsWithinLy] &= help "edda - help" &= program "edda" &= summary "edda v0.1\nElite Dangerous Data Aggregator"
 
 main :: IO ()
 main = do
@@ -153,6 +156,8 @@ main = do
                                                                                   else detachDaemon (setRootLogger conf restLogPath >> EDDA.Data.Rest.startService conf)
             StopCommand { conf = configPath} -> do conf <- readConfig configPath
                                                    callCommand "pkill edda" >> return ()
+            StopRestCommand { conf = configPath} -> do conf <- readConfig configPath
+                                                       callCommand "pkill -f \"edda startRest\"" >> return ()
             SystemsWithinLy { conf = configPath, system = system, distance = distance } -> 
                                 do conf <- readConfig configPath
                                    runReaderT (getSystemsWithinLyFrom (C.pack system) distance >>= liftIO . ppMaybeList ) conf

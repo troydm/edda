@@ -50,6 +50,7 @@ library
                        zlib,
                        zeromq4-haskell,
                        scotty,
+                       wai-extra,
                        aeson,
                        aeson-pretty,
                        cassava,
@@ -94,7 +95,8 @@ test-suite edda-test
   other-modules:       EDDA.Test.Util,
                        EDDA.Schema.ParserTest,
                        EDDA.Schema.CommodityV2Test,
-                       EDDA.Schema.OutfittingV1Test
+                       EDDA.Schema.OutfittingV1Test,
+                       EDDA.Schema.ShipyardV1Test
   build-depends:       base,
                        edda,
                        HUnit,

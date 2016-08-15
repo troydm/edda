@@ -114,7 +114,13 @@ data Outfitting = Outfitting {
         outfittingRating :: C.ByteString
         }
 
-data SystemCoord = SystemCoord { systemCoordEdsmId :: Int32, systemCoordSystemName :: Str, systemCoordX :: Double, systemCoordY :: Double, systemCoordZ :: Double } deriving Show
+data SystemCoord = SystemCoord { 
+    systemCoordEdsmId :: Int32, 
+    systemCoordSystemName :: T.Text, 
+    systemCoordX :: Double, 
+    systemCoordY :: Double, 
+    systemCoordZ :: Double 
+    } deriving Show
 
 type ConfigT = ReaderT Config IO
 

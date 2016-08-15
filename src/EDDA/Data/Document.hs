@@ -185,6 +185,6 @@ instance FromDocument SystemCoord where
                                 (Float x) <- lookup "x" doc
                                 (Float y) <- lookup "y" doc
                                 (Float z) <- lookup "z" doc
-                                return $ SystemCoord edsmId (toStr systemName) x y z
+                                return $ SystemCoord edsmId systemName x y z
     fromDocument _ = Nothing
 
