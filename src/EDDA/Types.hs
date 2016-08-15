@@ -9,7 +9,7 @@ import qualified Data.Vector as V
 
 import Control.Monad.Trans.Reader
 import Data.Time
-import Data.Int (Int32(..))
+import Data.Int (Int32(..),Int64(..))
 import Data.Maybe (isJust,fromJust)
 
 type Str = C.ByteString
@@ -20,6 +20,7 @@ data Config = Config { zeroMqHost :: String,
                        logPath :: String, 
                        mongoDb :: T.Text,
                        restLogPath :: String,
+                       restCacheTimeout :: Int64,
                        restPort :: Int,
                        restPath :: String } deriving Show
 

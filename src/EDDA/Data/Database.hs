@@ -11,6 +11,7 @@ import Control.Monad.Trans
 import Control.Monad.Trans.Reader
 import Control.Exception (evaluate)
 
+import Data.Maybe (maybe)
 import Database.MongoDB
 import Database.MongoDB.Query
 import Data.Int (Int32(..))
@@ -20,6 +21,7 @@ import qualified Data.Text.Encoding as TE
 import qualified Data.ByteString.Char8 as C
 import qualified Data.HashSet as HS
 import qualified Data.HashMap.Strict as HM
+import qualified Data.Vector as V
 
 query action = do
                 conf <- ask
@@ -75,6 +77,10 @@ getSystemCoordsLoop c f acc =
 
 getSystemCoords :: (SystemCoord -> Bool) -> ConfigT (Maybe [SystemCoord])
 getSystemCoords f = query (getSystemCoordsCursor >>= \c -> getSystemCoordsLoop c f [])
+
+getAllSystemCoords :: ConfigT (V.Vector SystemCoord)
+getAllSystemCoords = do coords <- query (getSystemCoordsCursor >>= rest)
+                        return $ maybe V.empty V.fromList (allJust ((map (\d -> fromDocument (Doc d)) coords) :: [Maybe SystemCoord]))
 
 saveSystems :: [(Int32,Str,Document)] -> ConfigT ()
 saveSystems systems = 

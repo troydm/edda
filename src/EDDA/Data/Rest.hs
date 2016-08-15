@@ -12,7 +12,9 @@ import System.Log.Logger
 import Data.Aeson.Encode.Pretty (encodePretty)
 
 import EDDA.Types
-import EDDA.Data.Query (getSystemsWithinLyFrom)
+import EDDA.Data.Database (getAllSystemCoords)
+import EDDA.Data.Cache
+import EDDA.Data.Query (getSystemsWithinLyFrom')
 
 jsonHeader = setHeader "content-type" "text/json"
 
@@ -20,10 +22,11 @@ jsonOut val = jsonHeader >> raw (encodePretty val)
 
 servicePath path s = capture $ path ++ s
 
-systemsWithinLy c path = get (servicePath path "/systemsWithinLy/:systemName/:distance") $ do
+systemsWithinLy cache c path = get (servicePath path "/systemsWithinLy/:systemName/:distance") $ do
+                            allSystemCoords <- liftIO (cachedIO cache (runReaderT getAllSystemCoords c))
                             systemName <- param "systemName"
                             distance <- param "distance" :: ActionM Double
-                            maybeSystems <- liftIO (runReaderT (getSystemsWithinLyFrom systemName distance) c)
+                            maybeSystems <- liftIO (runReaderT (getSystemsWithinLyFrom' systemName distance allSystemCoords) c)
                             let systems = maybe ([] :: [Str]) id maybeSystems
                             jsonOut (map toText systems)
                             
@@ -33,9 +36,10 @@ startService c = do
                    let port = (restPort c)
                    let path = (restPath c)
                    let tpath = TL.pack path
+                   allSystemsCache <- newCache (restCacheTimeout c)
                    infoM "EDDA.Rest" ("Rest service started on port: " ++ (show port))
                    scotty port $ do
-                                  systemsWithinLy c path
+                                  systemsWithinLy allSystemsCache c path
                                   get (servicePath path "") $ do
                                                         html $ mconcat ["<html><title>EDDA REST API</title><body><h2>EDDA REST API</h2><br/><br/>",
                                                                         "<a href=\"",tpath,"/systemsWithinLy/:systemName/:distance\">",tpath,"/systemsWithinLy/:systemName/:distance</a><br/><br/>",

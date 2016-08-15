@@ -27,6 +27,7 @@ library
                        EDDA.Data.Query,
                        EDDA.Data.Static,
                        EDDA.Data.Subscriber,
+                       EDDA.Data.Cache,
                        EDDA.Data.Rest,
                        EDDA.Schema.CommodityV2,
                        EDDA.Schema.OutfittingV1,

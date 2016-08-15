@@ -1,5 +1,6 @@
 module EDDA.Config (readConfig) where
 
+import Data.Int (Int64(..))
 import Data.ConfigFile
 import EDDA.Types
 import qualified Data.Text as T
@@ -22,9 +23,12 @@ readConfig filename = do val <- readfile (emptyCP { optionxform = id }) filename
                                            let restPort = read (readConfigProperty cp "restPort") :: Int
                                            let restPath = readConfigProperty cp "restPath"
                                            let restLogPath = readConfigProperty cp "restLogPath"
+                                           let restCacheTimeout = read (readConfigProperty cp "restCacheTimeout") :: Int64
                                            absLogPath <- canonicalizePath logPath
-                                           return Config { zeroMqHost = zeroMqHost, logPath = absLogPath, restLogPath = restLogPath,
+                                           absRestLogPath <- canonicalizePath restLogPath
+                                           return Config { zeroMqHost = zeroMqHost, logPath = absLogPath, 
                                                            mongoHost = mongoHost, mongoDb = T.pack mongoDb, 
+                                                           restCacheTimeout = restCacheTimeout, restLogPath = absRestLogPath,
                                                            restPort = restPort, restPath = restPath }
                             Left _ -> error ("Couldn't read config file: " ++ filename)
 
