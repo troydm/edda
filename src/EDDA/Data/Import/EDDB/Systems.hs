@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE BangPatterns #-}
 module EDDA.Data.Import.EDDB.Systems where
 
 import EDDA.Types
@@ -26,9 +27,9 @@ import qualified Data.Bson as B
 url = "https://eddb.io/archive/v4/systems.json"
 
 toDocument :: Value -> Maybe (Int32,Str,B.Document)
-toDocument obj = do edsmId <- fromIntegral <$> getInt obj "edsm_id"
-                    name <- getStr obj "name"
-                    doc <- mapToDocument [ mapInt "id" "eddbId",
+toDocument obj = do !edsmId <- fromIntegral <$> getInt obj "edsm_id"
+                    !name <- getStr obj "name"
+                    !doc <- mapToDocument [mapInt "id" "eddbId",
                                            mapConst "edsmId" (B.val edsmId),
                                            mapConst "systemName" (B.val (toText name)),
                                            mapStrNullable "security" "security",
@@ -55,16 +56,16 @@ toDocumentList systems = flip V.mapM systems (\v -> case toDocument v of
                                                                       return Nothing)
  
 
-saveToDatabase systems = do liftIO $ putStrLn "Importing into database..."
+saveToDatabase systems = do liftIO $ C.putStrLn "Importing into database..."
                             saveSystems systems
-                            liftIO $ putStrLn ("Systems imported: " ++ (show (length systems)))
+                            liftIO $ C.putStrLn ("Systems imported: " `C.append` (C.pack (show (length systems))))
 
 
 convertAndSaveToDB :: Config -> C.ByteString -> IO ()
 convertAndSaveToDB c d = do total <- newIORef 0 
                             streamParseIO 10000 d (saveToDB total)
                             totalCount <- readIORef total
-                            putStrLn ("Total systems imported: " ++ (show totalCount))
+                            C.putStrLn ("Total systems imported: " `C.append` (C.pack (show totalCount)))
            where substr d s e = C.concat ["[",(C.take (e-s-1) $ C.drop s d),"]"]
                  convert s = case (decodeStrict' s :: Maybe Value) of
                                 Just (Array systems) -> runReaderT (toDocumentList systems) c >>= return . Just. onlyJustVec

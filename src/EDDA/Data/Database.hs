@@ -92,10 +92,10 @@ saveStations stations =
     query $ updateAll "stations" stationsMapped >> return ()
     where stationsMapped = map (\(s,n,d) -> ((stationDoc s n), ["$set" := Doc d], [Upsert])) stations
 
-saveStationsCommodities :: HM.HashMap Int32 [Document] -> ConfigT ()
+saveStationsCommodities :: HM.HashMap Int32 (V.Vector Document) -> ConfigT ()
 saveStationsCommodities stations = 
     query $ updateAll "stations" stationsMapped >> return ()
-    where stationsMapped = map (\(sId,d) -> ((stationEddbIdDoc sId), ["$set" := Doc ["commodities" =: (Array (map Doc d))]], [])) (HM.toList stations)
+    where stationsMapped = map (\(sId,d) -> ((stationEddbIdDoc sId), ["$set" := Doc ["commodities" =: (Array (V.toList (V.map Doc d)))]], [])) (HM.toList stations)
 
 saveStationInfo :: Str -> Str -> Document -> ConfigT ()
 saveStationInfo systemName stationName info = 

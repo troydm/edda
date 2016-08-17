@@ -154,11 +154,11 @@ toStr :: T.Text -> Str
 toStr = TE.encodeUtf8
 
 allJust :: [Maybe a] -> Maybe [a]
-allJust l = if all isJust l then Just $ map fromJust l
+allJust l = if all isJust l then Just $! map fromJust l
             else Nothing
 
 onlyJust :: [Maybe a] -> [a]
-onlyJust l = map fromJust (filter isJust l)
+onlyJust l = map fromJust $! (filter isJust l)
 
 onlyJustVec :: V.Vector (Maybe a) -> V.Vector a
 onlyJustVec v = V.map fromJust (V.filter isJust v)
