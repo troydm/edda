@@ -248,11 +248,15 @@ downloadAndImportListings = do maybeCommoditiesMap <- downloadCommodities
                                     Just cm -> do listings <- downloadListings >>= return . fromJust . parseListings
                                                   let !stationIds = listingStationIds listings
                                                   let partitions = chunksOf 10 (VU.toList stationIds)
+                                                  total <- liftIO $ newIORef 0
                                                   (flip mapM_) partitions (\p -> do 
                                                                                    let commodities = convertListings cm listings p
                                                                                    liftIO $ C.putStrLn "Importing station commodities"
                                                                                    saveStationsCommodities commodities
-                                                                                   liftIO $ C.putStrLn ("Station commodities imported: " `C.append` (C.pack (show (HM.size commodities)))))
+                                                                                   liftIO $ C.putStrLn ("Station commodities imported: " `C.append` (C.pack (show (HM.size commodities))))
+                                                                                   liftIO $ let !totalCount = HM.size commodities in modifyIORef' total (+ totalCount))
+                                                  totalCount <- liftIO $ readIORef total
+                                                  liftIO $ C.putStrLn ("Total station commodities imported: " `C.append` (C.pack (show totalCount)))
                                     Nothing -> liftIO $ C.putStrLn "Couldn't import commodities"
 
 downloadAndImport :: ConfigT ()

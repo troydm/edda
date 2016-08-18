@@ -73,7 +73,7 @@ convertAndSaveToDB c d = do total <- newIORef 0
                                 Nothing -> return Nothing
                  saveToDB total d s e = do maybeSystems <- (convert (substr d s e))
                                            case maybeSystems of
-                                                Just systems -> runReaderT (saveToDatabase (V.toList systems)) c >> let totalCount = length systems in totalCount `seq` modifyIORef' total (+ totalCount)
+                                                Just systems -> runReaderT (saveToDatabase (V.toList systems)) c >> let !totalCount = length systems in modifyIORef' total (+ totalCount)
                                                 Nothing -> putStrLn "Couldn't decode a batch" >> C.putStrLn (substr d s e)
 
 downloadAndImport :: ConfigT ()
