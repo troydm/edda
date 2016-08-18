@@ -11,6 +11,8 @@ import System.Exit
 import System.IO
 import System.Environment
 import System.ZMQ4.Monadic
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as TE
 import qualified Data.ByteString.Char8 as CS
 import qualified Data.ByteString.Lazy.Char8 as CL
 import Codec.Compression.Zlib (decompress)
@@ -29,24 +31,24 @@ saveMessage _ (CommodityInfo {
                         commodityInfoStationName = stationName, 
                         commodityInfoTimestamp = timestamp, 
                         commodityInfoCommodities = commodities }) = do 
-                                liftIO $ infoM "EDDA.Subscriber" ("saving commodities info " ++ CS.unpack systemName ++ " / " ++ CS.unpack stationName)
+                                liftIO $ infoM "EDDA.Subscriber" ("saving commodities info " ++ T.unpack systemName ++ " / " ++ T.unpack stationName)
                                 saveCommodities systemName stationName (Commodities commodities timestamp)
 saveMessage _ (OutfittingInfo { 
                        outfittingInfoSystemName = systemName, 
                        outfittingInfoStationName = stationName, 
                        outfittingInfoTimestamp = timestamp, 
                        outfittingInfoModules = modules }) = do
-                                liftIO $ infoM "EDDA.Subscriber" ("saving outfitting info " ++ CS.unpack systemName ++ " / " ++ CS.unpack stationName)
+                                liftIO $ infoM "EDDA.Subscriber" ("saving outfitting info " ++ T.unpack systemName ++ " / " ++ T.unpack stationName)
                                 saveOutfittings systemName stationName (Outfittings modules timestamp)
 saveMessage _ (ShipyardInfo { 
                        shipyardInfoSystemName = systemName, 
                        shipyardInfoStationName = stationName, 
                        shipyardInfoTimestamp = timestamp, 
                        shipyardInfoShips = ships }) = do 
-                            liftIO $ infoM "EDDA.Subscriber" ("saving shipyard info " ++ CS.unpack systemName ++ " / " ++ CS.unpack stationName)
+                            liftIO $ infoM "EDDA.Subscriber" ("saving shipyard info " ++ T.unpack systemName ++ " / " ++ T.unpack stationName)
                             saveShips systemName stationName (Ships ships timestamp)
 
-processMessage :: Str -> ConfigT ()
+processMessage :: CS.ByteString -> ConfigT ()
 processMessage v = let !decompressed = (CL.toStrict . decompress . CL.fromStrict) v in
                    let !result = parseOnly json' decompressed in
                    case result of
@@ -55,8 +57,8 @@ processMessage v = let !decompressed = (CL.toStrict . decompress . CL.fromStrict
                                         case header of 
                                             Just h -> case msg of
                                                             Just m -> saveMessage h m
-                                                            Nothing -> saveError "Couldn't parse message" decompressed
-                                            Nothing -> saveError "Couldn't parse message" decompressed
+                                                            Nothing -> saveError "Couldn't parse message" (TE.decodeUtf8 decompressed)
+                                            Nothing -> saveError "Couldn't parse message" (TE.decodeUtf8 decompressed)
                         Left error -> liftIO $ errorM "EDDA.Subscriber" error
 
 continueRunning mv = do

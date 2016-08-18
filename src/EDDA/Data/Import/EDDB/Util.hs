@@ -3,7 +3,7 @@
 module EDDA.Data.Import.EDDB.Util where
 
 import EDDA.Types
-import EDDA.Schema.Util (getText, getTextArray, getTextNullable, getIntText, getIntNullableText, getDoubleText, getDoubleNullableText)
+import EDDA.Schema.Util (getStr, getStrArray, getStrNullable, getInt, getIntNullable, getDouble, getDoubleNullable)
 
 import qualified Data.Text as T
 import qualified Data.ByteString as BC
@@ -19,45 +19,45 @@ import Network.HTTP.Types.Header (hAcceptEncoding)
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS
 
-mapStr :: T.Text -> T.Text -> Value -> Maybe B.Field
-mapStr from to obj = do s <- getText obj from
+mapStr :: Str -> Str -> Value -> Maybe B.Field
+mapStr from to obj = do s <- getStr obj from
                         return (to B.:= (B.val s))
 
-mapStrNullable :: T.Text -> T.Text -> Value -> Maybe B.Field
-mapStrNullable from to obj = do s <- getTextNullable obj from
+mapStrNullable :: Str -> Str -> Value -> Maybe B.Field
+mapStrNullable from to obj = do s <- getStrNullable obj from
                                 return (to B.:= (if T.length s > 0 then (B.val s) else B.Null))
 
-mapInt :: T.Text -> T.Text -> Value -> Maybe B.Field
-mapInt from to obj = do !x <- getIntText obj from
+mapInt :: Str -> Str -> Value -> Maybe B.Field
+mapInt from to obj = do !x <- getInt obj from
                         return (to B.:= (B.Int64 (fromIntegral x)))
 
-mapIntNullable :: T.Text -> T.Text -> Value -> Maybe B.Field
-mapIntNullable from to obj = do !x <- getIntNullableText obj from
+mapIntNullable :: Str -> Str -> Value -> Maybe B.Field
+mapIntNullable from to obj = do !x <- getIntNullable obj from
                                 return (to B.:= (B.Int64 (fromIntegral x)))
 
-mapBool :: T.Text -> T.Text -> Value -> Maybe B.Field
-mapBool from to obj = do !x <- getIntText obj from
+mapBool :: Str -> Str -> Value -> Maybe B.Field
+mapBool from to obj = do !x <- getInt obj from
                          return (to B.:= (B.val (if x == 1 then True else False)))
 
-mapBoolNullable :: T.Text -> T.Text -> Value -> Maybe B.Field
-mapBoolNullable from to obj = do x <- getIntNullableText obj from
+mapBoolNullable :: Str -> Str -> Value -> Maybe B.Field
+mapBoolNullable from to obj = do x <- getIntNullable obj from
                                  return (to B.:= (B.val (if x == 1 then True else False)))
 
-mapDouble :: T.Text -> T.Text -> Value -> Maybe B.Field
-mapDouble from to obj = do x <- getDoubleText obj from
+mapDouble :: Str -> Str -> Value -> Maybe B.Field
+mapDouble from to obj = do x <- getDouble obj from
                            return (to B.:= (B.val x))
 
-mapDoubleNullable :: T.Text -> T.Text -> Value -> Maybe B.Field
-mapDoubleNullable from to obj = do x <- getDoubleNullableText obj from
+mapDoubleNullable :: Str -> Str -> Value -> Maybe B.Field
+mapDoubleNullable from to obj = do x <- getDoubleNullable obj from
                                    return (to B.:= (B.val x))
 
-mapConst :: T.Text -> B.Value -> Value -> Maybe B.Field
+mapConst :: Str -> B.Value -> Value -> Maybe B.Field
 mapConst to val _ = return (to B.:= val)
 
-mapStrArray :: T.Text -> T.Text -> Value -> Maybe B.Field
-mapStrArray from to obj = do case getTextArray obj from of
+mapStrArray :: Str -> Str -> Value -> Maybe B.Field
+mapStrArray from to obj = do case getStrArray obj from of
                                 Just sa -> return (to B.:= (B.valList sa))
-                                Nothing -> return (to B.:= (B.valList ([] :: [T.Text])))
+                                Nothing -> return (to B.:= (B.valList ([] :: [Str])))
 
 mapToDocument :: [Value -> Maybe B.Field] -> Value -> Maybe B.Document
 mapToDocument mappers v = allJust $! map (\f -> f $! v) mappers

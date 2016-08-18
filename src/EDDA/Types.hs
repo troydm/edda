@@ -12,7 +12,7 @@ import Data.Time
 import Data.Int (Int32(..),Int64(..))
 import Data.Maybe (isJust,fromJust)
 
-type Str = C.ByteString
+type Str = T.Text
 type Timestamp = UTCTime
 
 data Config = Config { zeroMqHost :: String,  
@@ -143,15 +143,15 @@ outfittingModuleRating (OutfittingModuleStandard { outfittingModuleStandardRatin
 outfittingModuleRating (OutfittingModuleInternal { outfittingModuleInternalClass = rating } ) = rating 
 
 outfittingModuleClassRating :: OutfittingModuleInfo -> Str
-outfittingModuleClassRating m = C.pack ((outfittingModuleClass m) : [(outfittingModuleRating m)])
+outfittingModuleClassRating m = T.pack ((outfittingModuleClass m) : [(outfittingModuleRating m)])
 
-outfittingModuleFullName m = C.concat [outfittingModuleClassRating m,C.singleton ' ',outfittingModuleName m]
+outfittingModuleFullName m = T.concat [outfittingModuleClassRating m,T.singleton ' ',outfittingModuleName m]
 
 toText :: Str -> T.Text
-toText = TE.decodeUtf8
+toText = id
 
 toStr :: T.Text -> Str
-toStr = TE.encodeUtf8
+toStr = id
 
 allJust :: [Maybe a] -> Maybe [a]
 allJust l = if all isJust l then Just $! map fromJust l

@@ -51,6 +51,7 @@ import System.Process (callCommand)
 
 import Data.Char (toLower)
 import qualified Data.Text as T
+import qualified Data.Text.Encoding as TE
 import qualified Data.ByteString.Char8 as C
 
 import EDDA.Types
@@ -65,7 +66,7 @@ trap :: IO a -> IO a
 trap = traplogging "System.Daemon" ERROR "detachDaemon"
 
 ppMaybeList :: Maybe [T.Text] -> IO ()
-ppMaybeList (Just l) = mapM_ (C.putStrLn . toStr) l
+ppMaybeList (Just l) = mapM_ (C.putStrLn . TE.encodeUtf8) l
 ppMaybeList (Nothing) = return ()
 
 detachDaemon :: IO () -> IO ()
@@ -160,4 +161,4 @@ main = do
                                                        callCommand "pkill -f -x \"edda startRest\"" >> return ()
             SystemsWithinLy { conf = configPath, system = system, distance = distance } -> 
                                 do conf <- readConfig configPath
-                                   runReaderT (getSystemsWithinLyFrom (C.pack system) distance >>= liftIO . ppMaybeList ) conf
+                                   runReaderT (getSystemsWithinLyFrom (T.pack system) distance >>= liftIO . ppMaybeList ) conf

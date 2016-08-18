@@ -14,8 +14,9 @@ import qualified Data.ByteString.Char8 as C
 import qualified Data.HashSet as HS
 import qualified Data.HashMap.Strict as HM
 
-valStr s = val $ TE.decodeUtf8 s
-valChr c = valStr $ C.singleton c
+valStr :: Str -> Value
+valStr s = val s
+valChr c = valStr $ T.singleton c
 
 valLevel High = valStr "High"
 valLevel Med = valStr "Med"
@@ -54,7 +55,7 @@ class FromDocument a where
 instance ToDocument Ships where
     toDocument (Ships {ships = ships, shipsTimestamp = timestamp}) = 
         Doc ["ships" := shipsList, "shipsTimestamp" := val timestamp]
-        where shipsList = Array $ map (\s -> val (TE.decodeUtf8 s)) (HS.toList ships)
+        where shipsList = Array $ map valStr (HS.toList ships)
 
 instance FromDocument Ships where
     fromDocument (Doc doc) = do (Array ships) <- lookup "ships" doc

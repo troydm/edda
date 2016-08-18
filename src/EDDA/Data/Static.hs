@@ -18,7 +18,7 @@ parseShip :: Document -> Maybe Ship
 parseShip doc = do
                   shipId <- doc !? "id"
                   name <- doc !? "name"
-                  return Ship { shipId = shipId, shipName = TE.encodeUtf8 name }
+                  return Ship { shipId = shipId, shipName = name }
 
 getShip :: Int -> ConfigT (Maybe Ship)
 getShip shipId = do 
@@ -38,7 +38,7 @@ parseCommodity doc = do commodityId <- doc !? "id"
                         category <- doc !? "category"
                         name <- doc !? "name"
                         avg <- doc !? "average"
-                        return Commodity { commodityId = commodityId, commodityCategory = TE.encodeUtf8 category, commodityName = TE.encodeUtf8 name, commodityAverage = avg }
+                        return Commodity { commodityId = commodityId, commodityCategory = category, commodityName = name, commodityAverage = avg }
 
 getCommodity :: Int -> ConfigT (Maybe Commodity)
 getCommodity commodityId = 
