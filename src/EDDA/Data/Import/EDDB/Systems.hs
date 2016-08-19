@@ -3,7 +3,7 @@
 module EDDA.Data.Import.EDDB.Systems where
 
 import EDDA.Types
-import EDDA.Data.Database (saveSystems)
+import EDDA.Data.Database (query, saveSystems)
 import EDDA.Schema.Util (getStr, getInt, getDouble)
 import EDDA.Data.Import.EDDB.Util
 
@@ -63,7 +63,8 @@ saveToDatabase systems = do liftIO $ C.putStrLn "Importing into database..."
 
 convertAndSaveToDB :: Config -> C.ByteString -> IO ()
 convertAndSaveToDB c d = do total <- newIORef 0 
-                            streamParseIO 10000 d (saveToDB total)
+                            runReaderT (query (do context <- ask
+                                                  (liftIO (streamParseIO 10000 d (saveToDB context total))))) c
                             totalCount <- readIORef total
                             C.putStrLn ("Total systems imported: " `C.append` (C.pack (show totalCount)))
            where substr d s e = C.concat ["[",(C.take (e-s-1) $ C.drop s d),"]"]
@@ -71,9 +72,11 @@ convertAndSaveToDB c d = do total <- newIORef 0
                                 Just (Array systems) -> runReaderT (toDocumentList systems) c >>= return . Just. onlyJustVec
                                 Just _ -> return Nothing
                                 Nothing -> return Nothing
-                 saveToDB total d s e = do maybeSystems <- (convert (substr d s e))
+                 saveToDB context total d s e = 
+                                        do maybeSystems <- (convert (substr d s e))
                                            case maybeSystems of
-                                                Just systems -> runReaderT (saveToDatabase (V.toList systems)) c >> let !totalCount = length systems in modifyIORef' total (+ totalCount)
+                                                Just systems -> do runReaderT (saveToDatabase (V.toList systems)) context
+                                                                   let !totalCount = length systems in modifyIORef' total (+ totalCount)
                                                 Nothing -> putStrLn "Couldn't decode a batch" >> C.putStrLn (substr d s e)
 
 downloadAndImport :: ConfigT ()

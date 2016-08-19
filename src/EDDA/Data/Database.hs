@@ -82,9 +82,9 @@ getAllSystemCoords :: ConfigT (V.Vector SystemCoord)
 getAllSystemCoords = do coords <- query (getSystemCoordsCursor >>= rest)
                         return $ maybe V.empty V.fromList (allJust ((map (\d -> fromDocument (Doc d)) coords) :: [Maybe SystemCoord]))
 
-saveSystems :: [(Int32,Str,Document)] -> ConfigT ()
+saveSystems :: [(Int32,Str,Document)] -> Action IO ()
 saveSystems systems = 
-    query $ updateAll "systems" systemsMapped >> return ()
+    updateAll "systems" systemsMapped >> return ()
     where systemsMapped = map (\(i,n,d) -> ((systemDoc i n), ["$set" := Doc d], [Upsert])) systems
 
 saveStations :: [(Str,Str,Document)] -> ConfigT ()

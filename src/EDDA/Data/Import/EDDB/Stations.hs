@@ -193,7 +193,8 @@ convertAndSaveToDB modulemap idmap c d =
                                 Nothing -> return Nothing
                  saveToDB total d s e = do maybeStations <- (convert (substr d s e))
                                            case maybeStations of
-                                                Just stations -> runReaderT (saveToDatabase modulemap idmap stations) c >> let totalCount = V.length stations in totalCount `seq` modifyIORef' total (+ totalCount)
+                                                Just stations -> do runReaderT (saveToDatabase modulemap idmap stations) c 
+                                                                    let !totalCount = V.length stations in modifyIORef' total (+ totalCount)
                                                 Nothing -> putStrLn "Couldn't decode a batch" >> C.putStrLn (substr d s e)
 
 downloadAndImportStations :: ConfigT ()
