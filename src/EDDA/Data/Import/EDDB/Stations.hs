@@ -3,7 +3,7 @@
 module EDDA.Data.Import.EDDB.Stations where
 
 import EDDA.Types
-import EDDA.Data.Database (getSystemEDDBIdsMap, saveStations, saveStationsCommodities)
+import EDDA.Data.Database (query, getSystemEDDBIdsMap, saveStations, saveStationsCommodities)
 import EDDA.Schema.Util (getStr, getInt, getIntArray, getDouble, getChr, getGuidance, getMount)
 import EDDA.Data.Import.EDDB.Util
 import EDDA.Data.Document (toDocument,valStr)
@@ -173,17 +173,15 @@ toDocumentList modulemap idmap stations = flip V.mapM stations (\v -> case EDDA.
                                                                                       liftIO $ putStrLn (show v)
                                                                                       return Nothing)
 
-saveToDatabase :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 T.Text) -> V.Vector Value -> ConfigT ()
-saveToDatabase modulemap idmap v = do 
-                                      stations <- toDocumentList modulemap idmap v >>= return . onlyJustVec
-                                      liftIO $ C.putStrLn "Importing into database..."
-                                      saveStations $ V.toList stations
-                                      liftIO $ C.putStrLn ("Stations imported: " `C.append` (C.pack (show (V.length stations))))
+saveToDatabase stations = do liftIO $ C.putStrLn "Importing into database..."
+                             saveStations $ V.toList stations
+                             liftIO $ C.putStrLn ("Stations imported: " `C.append` (C.pack (show (V.length stations))))
 
 convertAndSaveToDB :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 T.Text) -> Config -> C.ByteString -> IO ()
 convertAndSaveToDB modulemap idmap c d = 
                          do total <- newIORef 0 
-                            streamParseIO 1000 d (saveToDB total)
+                            runReaderT (query (do context <- ask 
+                                                  liftIO (streamParseIO 1000 d (saveToDB context total)))) c
                             totalCount <- readIORef total
                             putStrLn ("Total stations imported: " ++ (show totalCount))
            where substr d s e = C.concat ["[",(C.take (e-s-1) $ C.drop s d),"]"]
@@ -191,10 +189,12 @@ convertAndSaveToDB modulemap idmap c d =
                                 Just (Array stations) -> return $ Just stations
                                 Just _ -> return Nothing
                                 Nothing -> return Nothing
-                 saveToDB total d s e = do maybeStations <- (convert (substr d s e))
+                 saveToDB context total d s e = 
+                                        do maybeStations <- (convert (substr d s e))
                                            case maybeStations of
-                                                Just stations -> do runReaderT (saveToDatabase modulemap idmap stations) c 
-                                                                    let !totalCount = V.length stations in modifyIORef' total (+ totalCount)
+                                                Just v -> do stations <- runReaderT (toDocumentList modulemap idmap v >>= return . onlyJustVec) c
+                                                             runReaderT (saveToDatabase stations) context
+                                                             let !totalCount = V.length stations in modifyIORef' total (+ totalCount)
                                                 Nothing -> putStrLn "Couldn't decode a batch" >> C.putStrLn (substr d s e)
 
 downloadAndImportStations :: ConfigT ()
@@ -218,6 +218,21 @@ parseListings s = case CSV.decode CSV.HasHeader s of
 listingsByStationId :: V.Vector (VU.Vector Int32) -> Int32 -> V.Vector (VU.Vector Int32)
 listingsByStationId v stationId = V.filter (\e -> (e VU.! 1) == stationId) v
 
+nameLabel :: Str
+!nameLabel = "name"
+
+buyPriceLabel :: Str
+!buyPriceLabel = "buyPrice"
+
+sellPriceLabel :: Str
+!sellPriceLabel = "sellPrice"
+
+supplyLabel :: Str
+!supplyLabel = "supply"
+
+demandLabel :: Str
+!demandLabel = "demand"
+
 stationIdToDocument :: CommoditiesMap -> V.Vector (VU.Vector Int32) -> Int32 -> (Int32,V.Vector B.Document)
 stationIdToDocument cm v stationId = 
                       (stationId, (V.map f (listingsByStationId v stationId)))
@@ -230,11 +245,11 @@ stationIdToDocument cm v stationId =
                                       !cSellPrice = e VU.! 5
                                       !cSupply = e VU.! 3
                                       !cName = cm HM.! cId
-                                      !doc = ["name" B.=: B.val cName,
-                                              "buyPrice" B.=: B.val cBuyPrice,
-                                              "sellPrice" B.=: B.val cSellPrice,
-                                              "demand" B.=: B.val cDemand,
-                                              "supply" B.=: B.val cSupply ]
+                                      !doc = [nameLabel B.=: B.val cName,
+                                              buyPriceLabel B.=: B.val cBuyPrice,
+                                              sellPriceLabel B.=: B.val cSellPrice,
+                                              demandLabel B.=: B.val cDemand,
+                                              supplyLabel B.=: B.val cSupply ]
 
 
 convertListings :: CommoditiesMap -> V.Vector (VU.Vector Int32) -> [Int32] -> HM.HashMap Int32 (V.Vector B.Document)
@@ -247,15 +262,16 @@ downloadAndImportListings :: ConfigT ()
 downloadAndImportListings = do maybeCommoditiesMap <- downloadCommodities 
                                case maybeCommoditiesMap of
                                     Just cm -> do listings <- downloadListings >>= return . fromJust . parseListings
-                                                  let !stationIds = listingStationIds listings
-                                                  let partitions = chunksOf 10 (VU.toList stationIds)
+                                                  let partitions = chunksOf 10 (VU.toList $ listingStationIds listings)
                                                   total <- liftIO $ newIORef 0
-                                                  (flip mapM_) partitions (\p -> do 
+                                                  query (do context <- ask
+                                                            liftIO $ (flip mapM_) partitions 
+                                                                         (\p -> do 
                                                                                    let commodities = convertListings cm listings p
                                                                                    liftIO $ C.putStrLn "Importing station commodities"
-                                                                                   saveStationsCommodities commodities
+                                                                                   runReaderT (saveStationsCommodities commodities) context
                                                                                    liftIO $ C.putStrLn ("Station commodities imported: " `C.append` (C.pack (show (HM.size commodities))))
-                                                                                   liftIO $ let !totalCount = HM.size commodities in modifyIORef' total (+ totalCount))
+                                                                                   liftIO $ let !totalCount = HM.size commodities in modifyIORef' total (+ totalCount)))
                                                   totalCount <- liftIO $ readIORef total
                                                   liftIO $ C.putStrLn ("Total station commodities imported: " `C.append` (C.pack (show totalCount)))
                                     Nothing -> liftIO $ C.putStrLn "Couldn't import commodities"

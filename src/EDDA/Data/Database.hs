@@ -87,14 +87,14 @@ saveSystems systems =
     updateAll "systems" systemsMapped >> return ()
     where systemsMapped = map (\(i,n,d) -> ((systemDoc i n), ["$set" := Doc d], [Upsert])) systems
 
-saveStations :: [(Str,Str,Document)] -> ConfigT ()
+saveStations :: [(Str,Str,Document)] -> Action IO ()
 saveStations stations = 
-    query $ updateAll "stations" stationsMapped >> return ()
+    updateAll "stations" stationsMapped >> return ()
     where stationsMapped = map (\(s,n,d) -> ((stationDoc s n), ["$set" := Doc d], [Upsert])) stations
 
-saveStationsCommodities :: HM.HashMap Int32 (V.Vector Document) -> ConfigT ()
+saveStationsCommodities :: HM.HashMap Int32 (V.Vector Document) -> Action IO ()
 saveStationsCommodities stations = 
-    query $ updateAll "stations" stationsMapped >> return ()
+    updateAll "stations" stationsMapped >> return ()
     where stationsMapped = map (\(sId,d) -> ((stationEddbIdDoc sId), ["$set" := Doc ["commodities" =: (Array (V.toList (V.map Doc d)))]], [])) (HM.toList stations)
 
 saveStationInfo :: Str -> Str -> Document -> ConfigT ()
