@@ -7,12 +7,16 @@ import EDDA.Types
 
 import Control.Monad (join)
 import Data.Maybe (maybeToList)
+import Data.Int
 import Data.Bson
+import Data.Scientific (fromFloatDigits)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as TE
 import qualified Data.ByteString.Char8 as C
 import qualified Data.HashSet as HS
 import qualified Data.HashMap.Strict as HM
+import qualified Data.Aeson.Types as A
+import qualified Data.Vector as V
 
 valStr :: Str -> Value
 valStr s = val s
@@ -188,4 +192,18 @@ instance FromDocument SystemCoord where
                                 (Float z) <- lookup "z" doc
                                 return $ SystemCoord edsmId systemName x y z
     fromDocument _ = Nothing
+
+
+toAeson :: Value -> A.Value
+toAeson (Array a) = A.Array $ V.fromList (map toAeson a)
+toAeson (Doc doc) = A.Object $ HM.fromList (map (\(l := v) -> (l, toAeson v)) doc)
+toAeson (String s) = A.String s
+toAeson (Bool b) = A.Bool b
+toAeson (Float d) = A.Number $ fromFloatDigits d
+toAeson (Int32 i) = A.Number $ fromRational (fromIntegral i)
+toAeson (Int64 i) = A.Number $ fromRational (fromIntegral i)
+toAeson (UTC d) = A.String $ T.pack (show d)
+toAeson (Uuid uuid) = A.String $ T.pack (show uuid)
+toAeson (ObjId objId) = A.String $ T.pack (show objId)
+toAeson Null = A.Null
 

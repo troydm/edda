@@ -57,6 +57,7 @@ library
                        mongoDB,
                        bson,
                        attoparsec,
+                       scientific,
                        time,
                        iso8601-time,
                        http-types,
