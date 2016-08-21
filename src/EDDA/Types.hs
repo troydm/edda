@@ -111,12 +111,12 @@ data Outfitting = Outfitting {
         outfittingGuidance :: Str, 
         outfittingShip :: Str, 
         outfittingClass :: Int, 
-        outfittingRating :: C.ByteString
+        outfittingRating :: Str
         }
 
 data SystemCoord = SystemCoord { 
     systemCoordEdsmId :: Int32, 
-    systemCoordSystemName :: T.Text, 
+    systemCoordSystemName :: Str, 
     systemCoordX :: Double, 
     systemCoordY :: Double, 
     systemCoordZ :: Double 
