@@ -15,7 +15,8 @@ data-files:          edda.conf,
                      test/EDDA/Schema/commodity1.json,
                      test/EDDA/Schema/outfitting1.json,
                      test/EDDA/Schema/outfitting2.json,
-                     test/EDDA/Schema/shipyard1.json
+                     test/EDDA/Schema/shipyard1.json,
+                     test/EDDA/Schema/shipyard2.json
 
 library
   hs-source-dirs:      src
@@ -33,6 +34,7 @@ library
                        EDDA.Schema.OutfittingV1,
                        EDDA.Schema.Parser,
                        EDDA.Schema.ShipyardV1,
+                       EDDA.Schema.ShipyardV2,
                        EDDA.Schema.Util,
                        EDDA.Types,
                        EDDA.Config
@@ -97,7 +99,8 @@ test-suite edda-test
                        EDDA.Schema.ParserTest,
                        EDDA.Schema.CommodityV2Test,
                        EDDA.Schema.OutfittingV1Test,
-                       EDDA.Schema.ShipyardV1Test
+                       EDDA.Schema.ShipyardV1Test,
+                       EDDA.Schema.ShipyardV2Test
   build-depends:       base,
                        edda,
                        HUnit,

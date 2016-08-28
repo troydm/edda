@@ -18,6 +18,7 @@ import qualified Data.HashMap.Strict as HM
 import Data.Time.ISO8601 (parseISO8601) 
 
 import qualified EDDA.Schema.ShipyardV1 as ShipyardV1
+import qualified EDDA.Schema.ShipyardV2 as ShipyardV2
 import qualified EDDA.Schema.OutfittingV1 as OutfittingV1
 import qualified EDDA.Schema.CommodityV2 as CommodityV2
 
@@ -40,6 +41,7 @@ parseMessage :: Value -> ConfigT (Maybe MessageInfo)
 parseMessage v = case message v of
                     Just m ->  case schemaRef v of
                                     Just ref -> if ref == "http://schemas.elite-markets.net/eddn/shipyard/1" then ShipyardV1.parseShipyard m
+                                                else if ref == "http://schemas.elite-markets.net/eddn/shipyard/2" then ShipyardV2.parseShipyard m
                                                 else if ref == "http://schemas.elite-markets.net/eddn/commodity/2" then CommodityV2.parseCommodity m
                                                 else if ref == "http://schemas.elite-markets.net/eddn/outfitting/1" then OutfittingV1.parseOutfitting m
                                                 else return Nothing
