@@ -14,6 +14,7 @@ import Control.Monad.Trans.Reader
 import Control.Concurrent
 
 import System.IO.Temp (withSystemTempFile)
+import System.IO.MMap (mmapFileByteString)
 
 import qualified Data.Text as T
 import qualified Data.ByteString as BC
@@ -84,5 +85,5 @@ downloadAndImport =
             do
              liftIO $ C.putStrLn "Downloading EDDB Systems data..."
              r <- ask
-             liftIO $ withSystemTempFile "systems.json" (\f h -> download url "EDDB Systems data downloaded" f h >> C.readFile f >>= convertAndSaveToDB r)
+             liftIO $ withSystemTempFile "systems.json" (\f h -> download url "EDDB Systems data downloaded" f h >> mmapFileByteString f Nothing >>= convertAndSaveToDB r)
 

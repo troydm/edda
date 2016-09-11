@@ -18,6 +18,7 @@ import Network.HTTP.Types.Header (hAcceptEncoding)
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS
 import System.IO.Temp (withSystemTempFile)
+import System.IO.MMap (mmapFileByteString)
 
 import qualified Data.HashSet as HS
 import qualified Data.Vector as V
@@ -208,7 +209,7 @@ downloadAndImportStations = do
                         liftIO $ putStrLn ("EDDB systems id map loaded: " ++ (show (HM.size idmap)))
                         liftIO $ C.putStrLn "Downloading EDDB Stations data..."
                         r <- ask
-                        liftIO $ withSystemTempFile "stations.json" (\f h -> download url "EDDB Stations data downloaded" f h >> C.readFile f >>= convertAndSaveToDB moduleMap idmap r)
+                        liftIO $ withSystemTempFile "stations.json" (\f h -> download url "EDDB Stations data downloaded" f h >> mmapFileByteString f Nothing >>= convertAndSaveToDB moduleMap idmap r)
 
 parseListings :: LC.ByteString -> Maybe (V.Vector (VU.Vector Int32))
 parseListings s = case CSV.decode CSV.HasHeader s of

@@ -71,7 +71,8 @@ library
                        ConfigFile,
                        hslogger,
                        process,
-                       temporary
+                       temporary,
+                       mmap
 
 executable edda
   hs-source-dirs:      app
