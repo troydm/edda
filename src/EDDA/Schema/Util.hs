@@ -113,10 +113,10 @@ getBracket v s = case getInt v s of
                            else if i == 1 then Just Low
                            else if i == 2 then Just Med
                            else if i == 3 then Just High
-                           else case getStr v s of
+                           else Nothing
+                 Nothing -> case getStrNullable v s of
                                     Just s -> if s == "" then Just Temporary else Nothing
                                     Nothing -> Nothing
-                 Nothing -> Nothing
 
 getMount :: Value -> Str -> Maybe Mount
 getMount v s = case getStr v s of

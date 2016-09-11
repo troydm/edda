@@ -31,5 +31,20 @@ test1 = TestCase $ do conf <- readConf
                       assertEqual "station name" "Humason Orbital" (commodityInfoStationName commodityInfo)
                       assertEqual "commodities" 84 (HM.size (commodityInfoCommodities commodityInfo))
                       
+test2 :: Test
+test2 = TestCase $ do conf <- readConf
+                      val <- readJsonTestFile "test/EDDA/Schema/commodity3.json"
+                      maybeHeader <- runReaderT (parseHeader val) conf
+                      assertBool "header couldn't be parsed" (isJust maybeHeader)
+                      let header = fromJust maybeHeader
+                      assertEqual "uploader id" "AnDiesel" (headerUploaderId header)
+                      assertEqual "software name" "E:D Market Connector [Windows]" (headerSoftwareName header)
+                      assertEqual "software version" "2.1.7.1" (headerSoftwareVersion header)
+                      maybeCommodity <- runReaderT (parseMessage val) conf
+                      assertBool "message couldn't be parsed" (isJust maybeCommodity)
+                      let commodityInfo = fromJust maybeCommodity
+                      assertEqual "system name" "Harma" (commodityInfoSystemName commodityInfo)
+                      assertEqual "station name" "Gabriel Enterprise" (commodityInfoStationName commodityInfo)
+                      assertEqual "commodities" 104 (HM.size (commodityInfoCommodities commodityInfo))
 
-commodityV3Tests = [TestLabel "commodity2 test" test1]
+commodityV3Tests = [TestLabel "commodity2 test" test1,TestLabel "commodity3 test" test2]

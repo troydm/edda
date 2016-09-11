@@ -14,6 +14,7 @@ cabal-version:       >=1.10
 data-files:          edda.conf,
                      test/EDDA/Schema/commodity1.json,
                      test/EDDA/Schema/commodity2.json,
+                     test/EDDA/Schema/commodity3.json,
                      test/EDDA/Schema/outfitting1.json,
                      test/EDDA/Schema/outfitting2.json,
                      test/EDDA/Schema/shipyard1.json,
