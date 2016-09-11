@@ -104,7 +104,18 @@ getLevel v s = case getStr v s of
                  Just s -> if s == "Low" then Just Low
                            else if s == "Med" then Just Med
                            else if s == "High" then Just High
-                           else Nothing
+                           else Just None
+                 Nothing -> Nothing
+
+getBracket :: Value -> Str -> Maybe Level
+getBracket v s = case getInt v s of
+                 Just i -> if i == 0 then Just None
+                           else if i == 1 then Just Low
+                           else if i == 2 then Just Med
+                           else if i == 3 then Just High
+                           else case getStr v s of
+                                    Just s -> if s == "" then Just Temporary else Nothing
+                                    Nothing -> Nothing
                  Nothing -> Nothing
 
 getMount :: Value -> Str -> Maybe Mount

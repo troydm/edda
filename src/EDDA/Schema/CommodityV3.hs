@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module EDDA.Schema.CommodityV2 where
+module EDDA.Schema.CommodityV3 where
 
 import EDDA.Types
 import EDDA.Data.Static (shipIdToName, commodityIdToName)
@@ -16,32 +16,30 @@ import qualified Data.Text.Encoding as TE
 import qualified Data.HashMap.Strict as HM
 import qualified Data.HashSet as HS
 
-getCommodityId :: Value -> ConfigT (Maybe Str)
-getCommodityId v = case getInt v "id" of
-                        Just commodityId -> commodityIdToName commodityId
-                        Nothing -> return $ getStr v "name"
-
 getCommodity :: Value -> ConfigT (Maybe CommodityMarketInfo)
 getCommodity v = do
                  ret <- do
-                   let supplyLevel = getLevel v "supplyLevel"
-                   let demandLevel = getLevel v "demandLevel"
-                   maybeName <- getCommodityId v
-                   return $ do name <- maybeName
+                   let statusFlags = getStrArray v "statusFlags"
+                   return $ do name <- getStr v "name"
+                               meanPrice <- getInt v "meanPrice"
                                buyPrice <- getInt v "buyPrice"
-                               supply <- getInt v "supply"
+                               stock <- getInt v "stock"
+                               let stockBracket = Low
+                               stockBracket <- getBracket v "stockBracket"
                                sellPrice <- getInt v "sellPrice"
                                demand <- getInt v "demand"
+                               let demandBracket = Low
+                               demandBracket <- getBracket v "demandBracket"
                                return CommodityMarketInfo { commodityMarketInfoName = name, 
-                                                            commodityMarketInfoMeanPrice = 0,
+                                                            commodityMarketInfoMeanPrice = meanPrice,
                                                             commodityMarketInfoBuyPrice = buyPrice,
-                                                            commodityMarketInfoSupply = supply,
-                                                            commodityMarketInfoSupplyLevel = maybe None id supplyLevel,
+                                                            commodityMarketInfoSupply = stock,
+                                                            commodityMarketInfoSupplyLevel = stockBracket,
                                                             commodityMarketInfoSellPrice = sellPrice,
                                                             commodityMarketInfoDemand = demand,
-                                                            commodityMarketInfoDemandLevel = maybe None id demandLevel,
-                                                            commodityMarketInfoStatusFlags = Nothing }
-                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV2" ("Couldn't parse commodity: " ++ (show v))) >> return Nothing else return ret 
+                                                            commodityMarketInfoDemandLevel = demandBracket,
+                                                            commodityMarketInfoStatusFlags = statusFlags }
+                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV3" ("Couldn't parse commodity: " ++ (show v))) >> return Nothing else return ret 
 
 
 getCommodities :: Value -> ConfigT (Maybe [CommodityMarketInfo])

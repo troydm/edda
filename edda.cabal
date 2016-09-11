@@ -13,6 +13,7 @@ build-type:          Simple
 cabal-version:       >=1.10
 data-files:          edda.conf,
                      test/EDDA/Schema/commodity1.json,
+                     test/EDDA/Schema/commodity2.json,
                      test/EDDA/Schema/outfitting1.json,
                      test/EDDA/Schema/outfitting2.json,
                      test/EDDA/Schema/shipyard1.json,
@@ -31,6 +32,7 @@ library
                        EDDA.Data.Cache,
                        EDDA.Data.Rest,
                        EDDA.Schema.CommodityV2,
+                       EDDA.Schema.CommodityV3,
                        EDDA.Schema.OutfittingV1,
                        EDDA.Schema.Parser,
                        EDDA.Schema.ShipyardV1,
@@ -98,6 +100,7 @@ test-suite edda-test
   other-modules:       EDDA.Test.Util,
                        EDDA.Schema.ParserTest,
                        EDDA.Schema.CommodityV2Test,
+                       EDDA.Schema.CommodityV3Test,
                        EDDA.Schema.OutfittingV1Test,
                        EDDA.Schema.ShipyardV1Test,
                        EDDA.Schema.ShipyardV2Test

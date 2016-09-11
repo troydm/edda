@@ -28,18 +28,20 @@ data Header = Header { headerUploaderId :: Str, headerSoftwareName :: Str, heade
 
 type Class = Char
 type Rating = Char
-data Level = Low | Med | High deriving Show
+data Level = None | Low | Med | High | Temporary deriving Show
 data Mount = Fixed | Gimballed | Turreted deriving Show
 data Guidance = Dumbfire | Seeker deriving Show
 
 data CommodityMarketInfo = CommodityMarketInfo {
             commodityMarketInfoName :: Str,
+            commodityMarketInfoMeanPrice :: Int,
             commodityMarketInfoBuyPrice :: Int,
             commodityMarketInfoSupply :: Int,
-            commodityMarketInfoSupplyLevel :: Maybe Level,
+            commodityMarketInfoSupplyLevel :: Level,
             commodityMarketInfoSellPrice :: Int,
             commodityMarketInfoDemand :: Int,
-            commodityMarketInfoDemandLevel :: Maybe Level
+            commodityMarketInfoDemandLevel :: Level,
+            commodityMarketInfoStatusFlags :: Maybe [Str]
     } deriving Show
 
 

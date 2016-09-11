@@ -21,6 +21,7 @@ import qualified EDDA.Schema.ShipyardV1 as ShipyardV1
 import qualified EDDA.Schema.ShipyardV2 as ShipyardV2
 import qualified EDDA.Schema.OutfittingV1 as OutfittingV1
 import qualified EDDA.Schema.CommodityV2 as CommodityV2
+import qualified EDDA.Schema.CommodityV3 as CommodityV3
 
 
 parseHeader :: Value -> ConfigT (Maybe Header)
@@ -43,6 +44,7 @@ parseMessage v = case message v of
                                     Just ref -> if ref == "http://schemas.elite-markets.net/eddn/shipyard/1" then ShipyardV1.parseShipyard m
                                                 else if ref == "http://schemas.elite-markets.net/eddn/shipyard/2" then ShipyardV2.parseShipyard m
                                                 else if ref == "http://schemas.elite-markets.net/eddn/commodity/2" then CommodityV2.parseCommodity m
+                                                else if ref == "http://schemas.elite-markets.net/eddn/commodity/3" then CommodityV3.parseCommodity m
                                                 else if ref == "http://schemas.elite-markets.net/eddn/outfitting/1" then OutfittingV1.parseOutfitting m
                                                 else return Nothing
                                     Nothing -> return Nothing

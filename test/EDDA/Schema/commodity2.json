@@ -1,0 +1,877 @@
+{
+    "$schemaRef": "http://schemas.elite-markets.net/eddn/commodity/3",
+    "header": {
+        "gatewayTimestamp": "2016-08-28T04:14:59.242005Z",
+        "softwareName": "E:D Market Connector [Windows]",
+        "softwareVersion": "2.1.7.1",
+        "uploaderID": "Kmazz"
+    },
+    "message": {
+        "commodities": [
+            {
+                "buyPrice": 78,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 110,
+                "name": "Hydrogen Fuel",
+                "sellPrice": 75,
+                "stock": 167344,
+                "stockBracket": 3
+            },
+            {
+                "buyPrice": 105,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 241,
+                "name": "Pesticides",
+                "sellPrice": 95,
+                "stock": 5793,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 0,
+                "demand": 919,
+                "demandBracket": 2,
+                "meanPrice": 6675,
+                "name": "Synthetic Reagents",
+                "sellPrice": 7051,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 255,
+                "demandBracket": 1,
+                "meanPrice": 120,
+                "name": "Water",
+                "sellPrice": 124,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 1399,
+                "demandBracket": 1,
+                "meanPrice": 285,
+                "name": "Clothing",
+                "sellPrice": 315,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 6115,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 6769,
+                "name": "Consumer Technology",
+                "sellPrice": 6043,
+                "statusFlags": [
+                    "powerplay"
+                ],
+                "stock": 32349,
+                "stockBracket": 3
+            },
+            {
+                "buyPrice": 0,
+                "demand": 467,
+                "demandBracket": 1,
+                "meanPrice": 487,
+                "name": "Domestic Appliances",
+                "sellPrice": 527,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 148,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 343,
+                "name": "Evacuation Shelter",
+                "sellPrice": 138,
+                "stock": 1384,
+                "stockBracket": 3
+            },
+            {
+                "buyPrice": 0,
+                "demand": 369,
+                "demandBracket": 1,
+                "meanPrice": 1292,
+                "name": "Animalmeat",
+                "sellPrice": 1286,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 109,
+                "demandBracket": 1,
+                "meanPrice": 1279,
+                "name": "Coffee",
+                "sellPrice": 1286,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 1051,
+                "demandBracket": 1,
+                "meanPrice": 406,
+                "name": "Fish",
+                "sellPrice": 403,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 106,
+                "demandBracket": 1,
+                "meanPrice": 105,
+                "name": "Food Cartridges",
+                "sellPrice": 141,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 397,
+                "demandBracket": 1,
+                "meanPrice": 312,
+                "name": "Fruit And Vegetables",
+                "sellPrice": 315,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 2394,
+                "demandBracket": 1,
+                "meanPrice": 210,
+                "name": "Grain",
+                "sellPrice": 207,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 127,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 271,
+                "name": "Synthetic Meat",
+                "sellPrice": 115,
+                "stock": 19824,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 0,
+                "demand": 343,
+                "demandBracket": 1,
+                "meanPrice": 1467,
+                "name": "Tea",
+                "sellPrice": 1459,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 46193,
+                "demandBracket": 2,
+                "meanPrice": 3132,
+                "name": "C M M Composite",
+                "sellPrice": 3596,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 29233,
+                "demandBracket": 3,
+                "meanPrice": 232,
+                "name": "Ceramic Composites",
+                "sellPrice": 363,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 22598,
+                "demandBracket": 2,
+                "meanPrice": 7837,
+                "name": "Insulating Membrane",
+                "sellPrice": 8415,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 8778,
+                "demandBracket": 3,
+                "meanPrice": 88148,
+                "name": "Meta Alloys",
+                "sellPrice": 95794,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 58458,
+                "demandBracket": 2,
+                "meanPrice": 6609,
+                "name": "Superconductors",
+                "sellPrice": 7415,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 1359,
+                "demandBracket": 1,
+                "meanPrice": 406,
+                "name": "H N Shock Mount",
+                "sellPrice": 499,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 29316,
+                "demandBracket": 3,
+                "meanPrice": 729,
+                "name": "Heatsink Interlink",
+                "sellPrice": 945,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 65,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 236,
+                "name": "Heliostatic Furnaces",
+                "sellPrice": 58,
+                "stock": 61627,
+                "stockBracket": 3
+            },
+            {
+                "buyPrice": 0,
+                "demand": 141435,
+                "demandBracket": 2,
+                "meanPrice": 199,
+                "name": "Magnetic Emitter Coil",
+                "sellPrice": 331,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 104511,
+                "demandBracket": 2,
+                "meanPrice": 246,
+                "name": "Power Converter",
+                "sellPrice": 372,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 339,
+                "demandBracket": 1,
+                "meanPrice": 458,
+                "name": "Power Generators",
+                "sellPrice": 527,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 14524,
+                "demandBracket": 3,
+                "meanPrice": 1684,
+                "name": "Power Grid Assembly",
+                "sellPrice": 2001,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 601,
+                "demandBracket": 1,
+                "meanPrice": 258,
+                "name": "Water Purifiers",
+                "sellPrice": 300,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 1832,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 1259,
+                "name": "Advanced Medicines",
+                "sellPrice": 1784,
+                "stock": 2973,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 751,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 1038,
+                "name": "Agricultural Medicines",
+                "sellPrice": 731,
+                "stock": 26549,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 179,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 279,
+                "name": "Basic Medicines",
+                "sellPrice": 167,
+                "stock": 7858,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 5856,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 6816,
+                "name": "Performance Enhancers",
+                "sellPrice": 5787,
+                "stock": 46800,
+                "stockBracket": 3
+            },
+            {
+                "buyPrice": 6502,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 6779,
+                "name": "Progenitor Cells",
+                "sellPrice": 6425,
+                "statusFlags": [
+                    "powerplay"
+                ],
+                "stock": 1514,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 0,
+                "demand": 52287,
+                "demandBracket": 2,
+                "meanPrice": 8288,
+                "name": "Beryllium",
+                "sellPrice": 8933,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 139028,
+                "demandBracket": 3,
+                "meanPrice": 2284,
+                "name": "Bismuth",
+                "sellPrice": 2835,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 672718,
+                "demandBracket": 2,
+                "meanPrice": 647,
+                "name": "Cobalt",
+                "sellPrice": 970,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 148844,
+                "demandBracket": 2,
+                "meanPrice": 5135,
+                "name": "Gallium",
+                "sellPrice": 5832,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 188549,
+                "demandBracket": 2,
+                "meanPrice": 9401,
+                "name": "Gold",
+                "sellPrice": 10105,
+                "statusFlags": [
+                    "powerplay"
+                ],
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 62895,
+                "demandBracket": 2,
+                "meanPrice": 5727,
+                "name": "Indium",
+                "sellPrice": 6502,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 100559,
+                "demandBracket": 3,
+                "meanPrice": 8766,
+                "name": "Lanthanum",
+                "sellPrice": 9510,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 373875,
+                "demandBracket": 2,
+                "meanPrice": 1596,
+                "name": "Lithium",
+                "sellPrice": 1998,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 124259,
+                "demandBracket": 3,
+                "meanPrice": 7591,
+                "name": "Osmium",
+                "sellPrice": 9733,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 146810,
+                "demandBracket": 2,
+                "meanPrice": 13298,
+                "name": "Palladium",
+                "sellPrice": 13886,
+                "statusFlags": [
+                    "powerplay"
+                ],
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 11088,
+                "demandBracket": 2,
+                "meanPrice": 19279,
+                "name": "Platinum",
+                "sellPrice": 23008,
+                "statusFlags": [
+                    "powerplay"
+                ],
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 65594,
+                "demandBracket": 3,
+                "meanPrice": 7156,
+                "name": "Praseodymium",
+                "sellPrice": 7039,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 72523,
+                "demandBracket": 3,
+                "meanPrice": 6330,
+                "name": "Samarium",
+                "sellPrice": 6220,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 152668,
+                "demandBracket": 2,
+                "meanPrice": 4775,
+                "name": "Silver",
+                "sellPrice": 5459,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 364907,
+                "demandBracket": 2,
+                "meanPrice": 3962,
+                "name": "Tantalum",
+                "sellPrice": 4563,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 97196,
+                "demandBracket": 2,
+                "meanPrice": 3618,
+                "name": "Thallium",
+                "sellPrice": 4309,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 81852,
+                "demandBracket": 3,
+                "meanPrice": 11513,
+                "name": "Thorium",
+                "sellPrice": 12230,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 247545,
+                "demandBracket": 2,
+                "meanPrice": 2705,
+                "name": "Uranium",
+                "sellPrice": 3180,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 65594,
+                "demandBracket": 3,
+                "meanPrice": 7062,
+                "name": "Bromellite",
+                "sellPrice": 6993,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 234606,
+                "demandBracket": 3,
+                "meanPrice": 2266,
+                "name": "Cryolite",
+                "sellPrice": 2674,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 311469,
+                "demandBracket": 2,
+                "meanPrice": 1819,
+                "name": "Gallite",
+                "sellPrice": 2351,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 80375,
+                "demandBracket": 2,
+                "meanPrice": 5646,
+                "name": "Lithium Hydroxide",
+                "sellPrice": 5499,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 5544,
+                "demandBracket": 2,
+                "meanPrice": 57445,
+                "name": "Low Temperature Diamond",
+                "sellPrice": 68980,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 173222,
+                "demandBracket": 2,
+                "meanPrice": 2282,
+                "name": "Methanol Monohydrate Crystals",
+                "sellPrice": 2695,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 2310,
+                "demandBracket": 3,
+                "meanPrice": 40508,
+                "name": "Painite",
+                "sellPrice": 74193,
+                "statusFlags": [
+                    "powerplay"
+                ],
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 546483,
+                "demandBracket": 2,
+                "meanPrice": 1565,
+                "name": "Pyrophyllite",
+                "sellPrice": 1891,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 1401244,
+                "demandBracket": 2,
+                "meanPrice": 299,
+                "name": "Rutile",
+                "sellPrice": 522,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 1586,
+                "demandBracket": 1,
+                "meanPrice": 186,
+                "name": "Beer",
+                "sellPrice": 175,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 106,
+                "demandBracket": 1,
+                "meanPrice": 587,
+                "name": "Liquor",
+                "sellPrice": 624,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 342,
+                "demandBracket": 1,
+                "meanPrice": 5035,
+                "name": "Tobacco",
+                "sellPrice": 4705,
+                "statusFlags": [
+                    "powerplay"
+                ],
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 941,
+                "demandBracket": 1,
+                "meanPrice": 260,
+                "name": "Wine",
+                "sellPrice": 252,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 2361,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 2947,
+                "name": "Advanced Catalysers",
+                "sellPrice": 2331,
+                "stock": 6934,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 369,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 324,
+                "name": "Animal Monitors",
+                "sellPrice": 344,
+                "stock": 16409,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 144,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 314,
+                "name": "Aquaponic Systems",
+                "sellPrice": 133,
+                "stock": 53908,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 3356,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 3734,
+                "name": "Auto Fabricators",
+                "sellPrice": 3315,
+                "stock": 47446,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 696,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 998,
+                "name": "Bio Reducing Lichen",
+                "sellPrice": 677,
+                "stock": 4295,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 0,
+                "demand": 108433,
+                "demandBracket": 2,
+                "meanPrice": 513,
+                "name": "Computer Components",
+                "sellPrice": 746,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 0,
+                "demand": 8765,
+                "demandBracket": 2,
+                "meanPrice": 4337,
+                "name": "Diagnostic Sensor",
+                "sellPrice": 4867,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 144,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 340,
+                "name": "Hazardous Environment Suits",
+                "sellPrice": 133,
+                "stock": 13600,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 4454,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 2848,
+                "name": "Medical Diagnostic Equipment",
+                "sellPrice": 4398,
+                "stock": 2131,
+                "stockBracket": 3
+            },
+            {
+                "buyPrice": 2730,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 3274,
+                "name": "Micro Controllers",
+                "sellPrice": 2696,
+                "stock": 2987,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 5245,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 5958,
+                "name": "Resonating Separators",
+                "sellPrice": 5183,
+                "stock": 227555,
+                "stockBracket": 3
+            },
+            {
+                "buyPrice": 1608,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 1856,
+                "name": "Robotics",
+                "sellPrice": 1568,
+                "stock": 26602,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 1320,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 1791,
+                "name": "Structural Regulators",
+                "sellPrice": 1286,
+                "stock": 1517,
+                "stockBracket": 3
+            },
+            {
+                "buyPrice": 4255,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 4887,
+                "name": "Terrain Enrichment Systems",
+                "sellPrice": 4204,
+                "stock": 4634,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 0,
+                "demand": 209861,
+                "demandBracket": 2,
+                "meanPrice": 507,
+                "name": "Conductive Fabrics",
+                "sellPrice": 1417,
+                "stock": 0,
+                "stockBracket": 0
+            },
+            {
+                "buyPrice": 12,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 63,
+                "name": "Biowaste",
+                "sellPrice": 9,
+                "stock": 4955,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 20,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 48,
+                "name": "Scrap",
+                "sellPrice": 17,
+                "stock": 26318,
+                "stockBracket": 3
+            },
+            {
+                "buyPrice": 1425,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 1837,
+                "name": "Non Lethal Weapons",
+                "sellPrice": 1389,
+                "stock": 870,
+                "stockBracket": 2
+            },
+            {
+                "buyPrice": 1660,
+                "demand": 1,
+                "demandBracket": 0,
+                "meanPrice": 2113,
+                "name": "Reactive Armour",
+                "sellPrice": 1619,
+                "stock": 2957,
+                "stockBracket": 2
+            }
+        ],
+        "stationName": "Humason Orbital",
+        "systemName": "Carns",
+        "timestamp": "2016-08-28T04:14:49Z"
+    }
+}

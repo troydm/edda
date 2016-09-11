@@ -22,15 +22,21 @@ valStr :: Str -> Value
 valStr s = val s
 valChr c = valStr $ T.singleton c
 
+valLevel None = valStr "None"
 valLevel High = valStr "High"
 valLevel Med = valStr "Med"
 valLevel Low = valStr "Low"
+valLevel Temporary = valStr "Temporary"
 
+toLevel :: Value -> Maybe Level
+toLevel (String "None") = Just None
 toLevel (String "High") = Just High
 toLevel (String "Med") = Just Med
 toLevel (String "Low") = Just Low
+toLevel (String "") = Just Temporary
 toLevel _ = Nothing
-lookupLevel l doc = join $ toLevel <$> lookup l doc
+lookupLevel :: Label -> Document -> Level
+lookupLevel l doc = maybe None id (maybe (Just None) toLevel (lookup l doc))
 
 valMount Fixed = valStr "Fixed"
 valMount Gimballed = valStr "Gimballed"
@@ -72,19 +78,23 @@ instance ToDocument Commodities where
         Doc ["commodities" := Array (map commodityDoc (HM.elems commodities)), "commoditiesTimestamp" := val timestamp]
         where commodityDoc (CommodityMarketInfo { 
                             commodityMarketInfoName = name,
+                            commodityMarketInfoMeanPrice = meanPrice,
                             commodityMarketInfoBuyPrice = buyPrice,
                             commodityMarketInfoSupply = supply,
                             commodityMarketInfoSupplyLevel = supplyLevel,
                             commodityMarketInfoSellPrice = sellPrice,
                             commodityMarketInfoDemand = demand,
-                            commodityMarketInfoDemandLevel = demandLevel }) = 
+                            commodityMarketInfoDemandLevel = demandLevel,
+                            commodityMarketInfoStatusFlags = statusFlags }) = 
                               Doc $ ["name" := valStr name, 
+                                     "meanPrice" := val meanPrice,
                                      "buyPrice" := val buyPrice,
                                      "supply" := val supply, 
                                      "sellPrice" := val sellPrice,
-                                     "demand" := val demand] ++ 
-                                     maybeToList ((\l -> "supplyLevel" := valLevel l) <$> supplyLevel) ++
-                                     maybeToList ((\l -> "demandLevel" := valLevel l) <$> demandLevel)
+                                     "demand" := val demand, 
+                                     "supplyLevel" := valLevel supplyLevel,
+                                     "demandLevel" := valLevel demandLevel] ++ 
+                                     (maybeToList ((\fs -> "statusFlags" := val fs) <$> statusFlags))
 
 instance FromDocument Commodities where
     fromDocument (Doc doc) = do (Array maybeCommodities) <- lookup "commodities" doc
@@ -93,17 +103,24 @@ instance FromDocument Commodities where
                                 return Commodities { commodities = HM.fromList (map (\v -> (commodityMarketInfoName v,v)) commodities), commoditiesTimestamp = timestamp }
                              where  toCommodity (Doc doc) = 
                                                      do (String name) <- lookup "name" doc
+                                                        let (Int32 meanPrice) = maybe (Int32 0) id (lookup "meanPrice" doc)
                                                         (Int32 buyPrice) <- lookup "buyPrice" doc
                                                         (Int32 supply) <- lookup "supply" doc
                                                         (Int32 sellPrice) <- lookup "sellPrice" doc
                                                         (Int32 demand) <- lookup "demand" doc
+                                                        let statusFlags = case maybe Nothing id (lookup "statusFlags" doc) of
+                                                                                        Just (Array vals) -> Just $ map (\(String s) -> toStr s) vals
+                                                                                        Just _ -> Nothing
+                                                                                        Nothing -> Nothing
                                                         return CommodityMarketInfo { commodityMarketInfoName = toStr name,
+                                                                                     commodityMarketInfoMeanPrice = fromIntegral meanPrice,
                                                                                      commodityMarketInfoBuyPrice = fromIntegral buyPrice,
                                                                                      commodityMarketInfoSupply = fromIntegral supply,
                                                                                      commodityMarketInfoSellPrice = fromIntegral sellPrice,
                                                                                      commodityMarketInfoDemand = fromIntegral demand,
                                                                                      commodityMarketInfoSupplyLevel = lookupLevel "supplyLevel" doc,
-                                                                                     commodityMarketInfoDemandLevel = lookupLevel "demandLevel" doc } 
+                                                                                     commodityMarketInfoDemandLevel = lookupLevel "demandLevel" doc,
+                                                                                     commodityMarketInfoStatusFlags = statusFlags } 
                                     toCommodity _ = Nothing
                                 
     fromDocument _ = Nothing
