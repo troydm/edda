@@ -19,7 +19,7 @@ import EDDA.Types
 import EDDA.Data.Database (getAllSystemCoords)
 import EDDA.Data.Document (toAeson)
 import EDDA.Data.Cache
-import EDDA.Data.Query (getSystemsWithinLyFrom',getSystemsByNames,getSystemsByEddbIds,getSystemsByEdsmIds)
+import EDDA.Data.Query (getSystemsWithinLyFrom',getSystemsByNames,getSystemsByEddbIds,getSystemsByEdsmIds,getStationsBySystemNames,getStationsByEddbIds)
 
 
 names :: Str -> [Str]
@@ -62,13 +62,35 @@ systemsByEdsmId c path = get (servicePath path "/systemsByEdsmId/:edsmIds") $ do
                             systems <- liftIO (runReaderT (getSystemsByEdsmIds edsmIdsList) c)
                             jsonOut (map (toAeson . Doc) systems)
 
+stationsBySystemName c path = get (servicePath path "/stationsBySystemName/:systemNames") $ do
+                            systemNames <- param "systemNames"
+                            let systemNamesList = names systemNames
+                            stations <- liftIO (runReaderT (getStationsBySystemNames systemNamesList) c)
+                            jsonOut (map (toAeson . Doc) stations)
+
+stationsByEddbId c path = get (servicePath path "/stationsByEddbId/:eddbIds") $ do
+                            eddbIds <- param "eddbIds"
+                            let eddbIdsList = ids eddbIds
+                            stations <- liftIO (runReaderT (getStationsByEddbIds eddbIdsList) c)
+                            jsonOut (map (toAeson . Doc) stations)
+
 systemsWithinLy cache c path = get (servicePath path "/systemsWithinLy/:systemName/:distance") $ do
                             allSystemCoords <- liftIO (cachedForkIO cache (runReaderT getAllSystemCoords c))
                             systemName <- param "systemName"
                             distance <- param "distance" :: ActionM Double
                             maybeSystems <- liftIO (runReaderT (getSystemsWithinLyFrom' systemName distance allSystemCoords) c)
-                            let systems = maybe ([] :: [T.Text]) id maybeSystems
-                            jsonOut systems
+                            let systemNamesList = maybe ([] :: [T.Text]) id maybeSystems
+                            systems <- liftIO (runReaderT (getSystemsByNames systemNamesList) c)
+                            jsonOut (map (toAeson . Doc) systems)
+
+stationsWithinLy cache c path = get (servicePath path "/stationsWithinLy/:systemName/:distance") $ do
+                            allSystemCoords <- liftIO (cachedForkIO cache (runReaderT getAllSystemCoords c))
+                            systemName <- param "systemName"
+                            distance <- param "distance" :: ActionM Double
+                            maybeSystems <- liftIO (runReaderT (getSystemsWithinLyFrom' systemName distance allSystemCoords) c)
+                            let systemNamesList = maybe ([] :: [T.Text]) id maybeSystems
+                            stations <- liftIO (runReaderT (getStationsBySystemNames systemNamesList) c)
+                            jsonOut (map (toAeson . Doc) stations)
                             
 
 startService :: Config -> IO ()
@@ -83,12 +105,18 @@ startService c = do
                                   systemsByName c path
                                   systemsByEddbId c path
                                   systemsByEdsmId c path
+                                  stationsBySystemName c path
+                                  stationsByEddbId c path
                                   systemsWithinLy allSystemsCache c path
+                                  stationsWithinLy allSystemsCache c path
                                   get (servicePath path "") $ do
                                                         html $ mconcat ["<html><title>EDDA REST API</title><body><h2>EDDA REST API</h2><br/><br/>",
                                                                         "<a href=\"",tpath,"/systemsByName/:systemNames\">",tpath,"/systemsByName/:systemNames</a><br/><br/>",
                                                                         "<a href=\"",tpath,"/systemsByEddbId/:eddbIds\">",tpath,"/systemsByEddbIds/:eddbIds</a><br/><br/>",
                                                                         "<a href=\"",tpath,"/systemsByEdsmId/:edsmIds\">",tpath,"/systemsByEdsmIds/:edsmIds</a><br/><br/>",
+                                                                        "<a href=\"",tpath,"/stationsBySystemName/:systemNames\">",tpath,"/stationsBySystemName/:systemNames</a><br/><br/>",
+                                                                        "<a href=\"",tpath,"/stationsByEddbId/:eddbIds\">",tpath,"/stationsByEddbId/:eddbIds</a><br/><br/>",
                                                                         "<a href=\"",tpath,"/systemsWithinLy/:systemName/:distance\">",tpath,"/systemsWithinLy/:systemName/:distance</a><br/><br/>",
+                                                                        "<a href=\"",tpath,"/stationsWithinLy/:systemName/:distance\">",tpath,"/stationsWithinLy/:systemName/:distance</a><br/><br/>",
                                                                         "<br/><br/>Powered by <a href=\"http://hackage.haskell.org/package/scotty\">Scotty</a></body></html>"]
 

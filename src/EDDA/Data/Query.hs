@@ -42,3 +42,9 @@ getSystemsByEddbIds eddbIds = query $ getSystemsByEddbIdsCursor eddbIds
 
 getSystemsByEdsmIds :: [Int32] -> ConfigT [Document]
 getSystemsByEdsmIds edsmIds = query $ getSystemsByEdsmIdsCursor edsmIds
+
+getStationsBySystemNames :: [Str] -> ConfigT [Document]
+getStationsBySystemNames systemNames = query $ getStationsBySystemNameCursor systemNames
+
+getStationsByEddbIds :: [Int32] -> ConfigT [Document]
+getStationsByEddbIds eddbIds = query $ getStationsByEddbIdsCursor eddbIds

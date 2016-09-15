@@ -53,7 +53,10 @@ getSystemEDDBIdsAction = find (select [] "systems") { project = ["eddbId" =: Int
 getSystemsByNameCursor systemNames = find (select ["$or" =: Array ((map (\s -> Doc ["systemName" =: valStr s]) systemNames))] "systems") >>= rest
 getSystemsByEddbIdsCursor eddbIds = find (select ["$or" =: Array ((map (\i -> Doc ["eddbId" =: val i]) eddbIds))] "systems") >>= rest
 getSystemsByEdsmIdsCursor edsmIds = find (select ["$or" =: Array ((map (\i -> Doc ["edsmId" =: val i]) edsmIds))] "systems") >>= rest
-    
+
+getStationsBySystemNameCursor systemNames = find (select ["$or" =: Array ((map (\s -> Doc ["systemName" =: valStr s]) systemNames))] "stations") >>= rest
+getStationsByEddbIdsCursor eddbIds = find (select ["$or" =: Array ((map (\i -> Doc ["eddbId" =: val i]) eddbIds))] "stations") >>= rest
+
 getSystemCoordAction systemName = findOne (select ["systemName" =: valStr systemName] "systems") { project = ["edsmId" =: Int32 1, "systemName" =:  Int32 1, "x" =: Int32 1, "y" =: Int32 1, "z" =: Int32 1, "_id" =: Int32 0] }
 getSystemCoordsCursor = find (select [] "systems") { project = ["edsmId" =: Int32 1, "systemName" =:  Int32 1, "x" =: Int32 1, "y" =: Int32 1, "z" =: Int32 1, "_id" =: Int32 0] }
 
