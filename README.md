@@ -53,6 +53,14 @@ Stop edda data collector:
     
     stack exec edda -- stop
 
+Start edda REST API service:
+    
+    stack exec edda -- startRest
+
+Stop edda REST API service:
+    
+    stack exec edda -- stopRest
+
 See also:
 
     stack exec edda -- --help
