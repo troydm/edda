@@ -17,6 +17,8 @@ data-files:          edda.conf,
                      test/EDDA/Schema/commodity3.json,
                      test/EDDA/Schema/outfitting1.json,
                      test/EDDA/Schema/outfitting2.json,
+                     test/EDDA/Schema/outfitting3.json,
+                     test/EDDA/Schema/outfitting4.json,
                      test/EDDA/Schema/shipyard1.json,
                      test/EDDA/Schema/shipyard2.json
 
@@ -35,6 +37,7 @@ library
                        EDDA.Schema.CommodityV2,
                        EDDA.Schema.CommodityV3,
                        EDDA.Schema.OutfittingV1,
+                       EDDA.Schema.OutfittingV2,
                        EDDA.Schema.Parser,
                        EDDA.Schema.ShipyardV1,
                        EDDA.Schema.ShipyardV2,
