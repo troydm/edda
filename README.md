@@ -1,6 +1,6 @@
 # EDDA
 
-Elite Dangerous Data Aggregator is a [EDDN](https://github.com/jamesremuscat/EDDN) data collector that saves commodity/outfitting/shipyard data into MongoDB database
+Elite Dangerous Data Aggregator is a [EDDN](https://github.com/jamesremuscat/EDDN) data collector that saves commodity/outfitting/shipyard data into MongoDB database and REST API service to query that data
 
 ## Build:
 
