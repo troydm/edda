@@ -226,6 +226,21 @@ shipMap = lookupVal
                  ("DiamondBack_","Diamondback Scout"),
                  ("DiamondBackXL_","Diamondback Explorer")]
 
+intRatingMap :: Str -> Maybe Rating
+intRatingMap = lookupVal2
+                [("FighterBay_","_",'D'),
+                 ("PassengerCabin_","_Class1",'E'),
+                 ("PassengerCabin_","_Class2",'D'),
+                 ("PassengerCabin_","_Class3",'C'),
+                 ("PassengerCabin_","_Class4",'B')]
+
+int2Map :: Str -> Maybe Str
+int2Map = lookupVal2
+                [("PassengerCabin_","_Class1","Economy Passenger Cabin"),
+                 ("PassengerCabin_","_Class2","Business Passenger Cabin"),
+                 ("PassengerCabin_","_Class3","First Class Passenger Cabin"),
+                 ("PassengerCabin_","_Class4","Luxury Passenger Cabin")]
+
 intMap :: Str -> Maybe Str
 intMap = lookupVal
                 [("BuggyBay_","Planetary Vehicle Hangar"),
@@ -249,6 +264,7 @@ intMap = lookupVal
                  ("Refinery_","Refinery"),
                  ("LifeSupport_","Life Support"),
                  ("Repairer_","Auto Field-Maintenance Unit"),
+                 ("FighterBay_","Fighter Hangar"),
                  ("Sensors_","Sensors"),
                  ("ShieldCellBank_","Shield Cell Bank"),
                  ("ShieldGenerator_","Shield Generator"),
@@ -288,9 +304,9 @@ parseHardpoint s = return $
 
 parseInternal :: Str -> ConfigT (Maybe OutfittingModuleInfo)
 parseInternal s = return $ do 
-                   name <- intMap s
+                   name <- int2Map s <|> intMap s
                    cls <- cls s <|> htpClass s
-                   rating <- rating s <|> htpRating s
+                   rating <- intRatingMap s <|> rating s <|> htpRating s
                    return OutfittingModuleInternal { outfittingModuleInternalName = name, 
                                                      outfittingModuleInternalClass = cls, 
                                                      outfittingModuleInternalRating = rating }
