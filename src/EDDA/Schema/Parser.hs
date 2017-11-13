@@ -35,20 +35,22 @@ parseHeader (Object v) = do
                                          return Header { headerUploaderId = uploaderId,
                                                          headerSoftwareName = softwareName,
                                                          headerSoftwareVersion = softwareVersion,
-                                                         headerGatewayTimestamp = getTimestamp h "gatewayTimestamp" }  
+                                                         headerGatewayTimestamp = getTimestamp h "gatewayTimestamp" }
                     Nothing -> return Nothing
-parseHeader v = showValue v >> return Nothing 
+parseHeader v = showValue v >> return Nothing
 
 parseMessage :: Value -> ConfigT (Maybe MessageInfo)
 parseMessage v = case message v of
                     Just m ->  case schemaRef v of
-                                    Just ref -> if ref == "http://schemas.elite-markets.net/eddn/shipyard/1" then ShipyardV1.parseShipyard m
-                                                else if ref == "http://schemas.elite-markets.net/eddn/shipyard/2" then ShipyardV2.parseShipyard m
-                                                else if ref == "http://schemas.elite-markets.net/eddn/commodity/2" then CommodityV2.parseCommodity m
-                                                else if ref == "http://schemas.elite-markets.net/eddn/commodity/3" then CommodityV3.parseCommodity m
-                                                else if ref == "http://schemas.elite-markets.net/eddn/outfitting/1" then OutfittingV1.parseOutfitting m
-                                                else if ref == "http://schemas.elite-markets.net/eddn/outfitting/2" then OutfittingV2.parseOutfitting m
-                                                else return Nothing
-                                    Nothing -> return Nothing
+                                 Just ref -> if ref == "https://eddn.edcd.io/schemas/journal/1" then return $ Just IgnoreInfo
+                                             else if ref == "https://eddn.edcd.io/schemas/shipyard/1" then ShipyardV1.parseShipyard m
+                                             else if ref == "https://eddn.edcd.io/schemas/shipyard/2" then ShipyardV2.parseShipyard m
+                                             else if ref == "https://eddn.edcd.io/schemas/commodity/2" then CommodityV2.parseCommodity m
+                                             else if ref == "https://eddn.edcd.io/schemas/commodity/3" then CommodityV3.parseCommodity m
+                                             else if ref == "https://eddn.edcd.io/schemas/outfitting/1" then OutfittingV1.parseOutfitting m
+                                             else if ref == "https://eddn.edcd.io/schemas/outfitting/2" then OutfittingV2.parseOutfitting m
+                                             else if "test" `T.isSuffixOf` ref then return $ Just IgnoreInfo
+                                             else return Nothing
+                                 Nothing -> return Nothing
                     Nothing -> return Nothing
-    
+

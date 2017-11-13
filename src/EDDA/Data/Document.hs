@@ -122,7 +122,7 @@ instance FromDocument Commodities where
                                                                                      commodityMarketInfoDemandLevel = lookupLevel "demandLevel" doc,
                                                                                      commodityMarketInfoStatusFlags = statusFlags } 
                                     toCommodity _ = Nothing
-                                
+
     fromDocument _ = Nothing
 
 instance ToDocument Outfittings where
@@ -198,7 +198,7 @@ instance FromDocument Outfittings where
                                                                                             outfittingModuleInternalRating = T.head rating }
                                  toOutfittingModule _ _ = Nothing
 
-                                
+
     fromDocument _ = Nothing
 
 instance FromDocument SystemCoord where

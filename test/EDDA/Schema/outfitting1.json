@@ -5,7 +5,7 @@
     "softwareName":"ED-IBE (API)",
     "uploaderID":""
   },
-  "$schemaRef":"http://schemas.elite-markets.net/eddn/outfitting/1",
+  "$schemaRef":"https://eddn.edcd.io/schemas/outfitting/1",
   "message":{
     "timestamp":"2016-08-11T23:16:08+02:00",
     "systemName":"Veroo",

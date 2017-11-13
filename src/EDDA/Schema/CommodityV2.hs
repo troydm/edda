@@ -2,7 +2,6 @@
 module EDDA.Schema.CommodityV2 where
 
 import EDDA.Types
-import EDDA.Data.Static (shipIdToName, commodityIdToName)
 import EDDA.Schema.Util
 
 import Control.Monad.Trans
@@ -16,18 +15,12 @@ import qualified Data.Text.Encoding as TE
 import qualified Data.HashMap.Strict as HM
 import qualified Data.HashSet as HS
 
-getCommodityId :: Value -> ConfigT (Maybe Str)
-getCommodityId v = case getInt v "id" of
-                        Just commodityId -> commodityIdToName commodityId
-                        Nothing -> return $ getStr v "name"
-
 getCommodity :: Value -> ConfigT (Maybe CommodityMarketInfo)
 getCommodity v = do
                  ret <- do
                    let supplyLevel = getLevel v "supplyLevel"
                    let demandLevel = getLevel v "demandLevel"
-                   maybeName <- getCommodityId v
-                   return $ do name <- maybeName
+                   return $ do name <- getStr v "name"
                                buyPrice <- getInt v "buyPrice"
                                supply <- getInt v "supply"
                                sellPrice <- getInt v "sellPrice"
@@ -41,7 +34,7 @@ getCommodity v = do
                                                             commodityMarketInfoDemand = demand,
                                                             commodityMarketInfoDemandLevel = maybe None id demandLevel,
                                                             commodityMarketInfoStatusFlags = Nothing }
-                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV2" ("Couldn't parse commodity: " ++ (show v))) >> return Nothing else return ret 
+                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV2" ("Couldn't parse commodity v2: " ++ (show v))) >> return Nothing else return ret
 
 
 getCommodities :: Value -> ConfigT (Maybe [CommodityMarketInfo])

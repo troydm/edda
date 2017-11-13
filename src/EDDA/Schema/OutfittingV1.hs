@@ -47,7 +47,7 @@ getModule v =
                                                              outfittingModuleInternalClass = cls, 
                                                              outfittingModuleInternalRating = rating }
                        else Nothing
-              if isNothing ret then liftIO (errorM "EDDA.Schema.OutfittingV1" ("Couldn't parse module: " ++ (show v))) >> return Nothing else return ret 
+              if isNothing ret then liftIO (errorM "EDDA.Schema.OutfittingV1" ("Couldn't parse module v1: " ++ (show v))) >> return Nothing else return ret 
 
 
 getModules :: Value -> ConfigT (Maybe [OutfittingModuleInfo])

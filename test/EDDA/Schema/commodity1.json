@@ -5,7 +5,7 @@
     "softwareName":"EVA [Android]",
     "uploaderID":"JimKeir"
   },
-  "$schemaRef":"http://schemas.elite-markets.net/eddn/commodity/2",
+  "$schemaRef":"https://eddn.edcd.io/schemas/commodity/2",
   "message":{
     "commodities":[
       {

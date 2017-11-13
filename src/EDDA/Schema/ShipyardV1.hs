@@ -2,7 +2,6 @@
 module EDDA.Schema.ShipyardV1 where
 
 import EDDA.Types
-import EDDA.Data.Static (shipIdToName)
 import EDDA.Schema.Util
 
 import Data.Aeson
@@ -14,9 +13,7 @@ import qualified Data.HashSet as HS
 
 
 getShips :: Value -> ConfigT (Maybe [Str])
-getShips v = case getIntArray v "shipIds" of
-                    Just ids -> allJust <$> sequence (map shipIdToName ids)
-                    Nothing -> return $ getStrArray v "ships"
+getShips v = return $ getStrArray v "ships"
 
 parseShipyard :: Value -> ConfigT (Maybe MessageInfo)
 parseShipyard v = do

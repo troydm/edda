@@ -1,5 +1,5 @@
 {
-    "$schemaRef": "http://schemas.elite-markets.net/eddn/commodity/3",
+    "$schemaRef": "https://eddn.edcd.io/schemas/commodity/3",
     "header": {
         "gatewayTimestamp": "2016-08-28T04:14:59.242005Z",
         "softwareName": "E:D Market Connector [Windows]",

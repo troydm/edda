@@ -26,6 +26,8 @@ import EDDA.Schema.Parser (parseHeader, parseMessage)
 import EDDA.Schema.Util (showValue)
 
 saveMessage :: Header -> MessageInfo -> ConfigT ()
+saveMessage _ IgnoreInfo = return ()
+
 saveMessage _ (CommodityInfo { 
                         commodityInfoSystemName = systemName, 
                         commodityInfoStationName = stationName, 

@@ -60,12 +60,14 @@ htpName :: Str -> Maybe Str
 htpName = lookupVal
                 [("BasicMissileRack_","Missle Rack"),
                  ("DumbfireMissileRack_","Missle Rack"),
+                 ("ATDumbfireMissile_","AX Missle Rack"),
                  ("AdvancedTorpPylon_","Torpedo Pylon"),
                  ("Cannon_","Cannon"),
                  ("Slugshot_","Fragment Cannon"),
                  ("MineLauncher_","Mine Launcher"),
                  ("MiningLaser_","Mining Laser"),
                  ("PlasmaAccelerator_","Plasma Accelerator"),
+                 ("FlakMortar_","Remote Release Flak Launcher"),
                  ("Railgun_","Rail Gun"),
                  ("MultiCannon_","Multi-Cannon"),
                  ("BeamLaser_","Beam Laser"),
@@ -77,6 +79,8 @@ htpUtilityName = lookupVal
                 [("CrimeScanner_","Kill Warrant Scanner"),
                  ("CloudScanner_","Frame Shift Wake Scanner"),
                  ("CargoScanner_","Cargo Scanner"),
+                 ("XenoScanner_","Xeno Scanner"),
+                 ("AntiUnknownShutdown_","Shutdown Field Neutraliser"),
                  ("ShieldBooster_","Shield Booster"),
                  ("PlasmaPointDefence_","Point Defence"),
                  ("ElectronicCountermeasure_","Electronic Countermeasure"),
@@ -121,6 +125,8 @@ htpRating = lookupVal2
                  ("PlasmaAccelerator_","Fixed_Medium",'C'),
                  ("PlasmaAccelerator_","Fixed_Large",'B'),
                  ("PlasmaAccelerator_","Fixed_Huge",'A'),
+                 ("FlakMortar_","Fixed_Medium",'B'),
+                 ("FlakMortar_","Turret_Medium",'B'),
                  ("Cannon_","Fixed_Small",'D'),
                  ("Cannon_","Fixed_Medium",'D'),
                  ("Cannon_","Fixed_Large",'C'),
@@ -136,6 +142,8 @@ htpRating = lookupVal2
                  ("Railgun_","Fixed_Medium",'B'),
                  ("MiningLaser_","Fixed_Small",'D'),
                  ("MiningLaser_","Fixed_Medium",'D'),
+                 ("MiningLaser_","Turret_Small",'D'),
+                 ("MiningLaser_","Turret_Medium",'D'),
                  ("MineLauncher_","Fixed_Small",'I'),
                  ("MineLauncher_","Fixed_Medium",'I'),
                  ("MultiCannon_","Fixed_Small",'F'),
@@ -163,13 +171,17 @@ htpRating = lookupVal2
                  ("BasicMissileRack_","Fixed_Medium",'B'),
                  ("DumbfireMissileRack_","Fixed_Small",'B'),
                  ("DumbfireMissileRack_","Fixed_Medium",'B'),
+                 ("ATDumbfireMissile_","Fixed_Medium",'B'),
+                 ("ATDumbfireMissile_","Turret_Medium",'B'),
                  ("ElectronicCountermeasure_","Tiny",'F'),
                  ("HeatSinkLauncher_","Tiny",'I'),
                  ("ChaffLauncher_","Tiny",'I'),
                  ("PlasmaPointDefence_","Tiny",'I'),
                  ("DetailedSurfaceScanner_","Tiny",'C'),
+                 ("XenoScanner_","Tiny",'E'),
                  ("DockingComputer_","_",'E'),
                  ("PlanetApproachSuite","_",'E'),
+                 ("AntiUnknownShutdown_","Tiny",'F'),
                  ("StellarBodyDiscoveryScanner_Standard","_",'E'),
                  ("StellarBodyDiscoveryScanner_Intermediate","_",'D'),
                  ("StellarBodyDiscoveryScanner_Advanced","_",'C')]
@@ -229,6 +241,7 @@ shipMap = lookupVal
 intRatingMap :: Str -> Maybe Rating
 intRatingMap = lookupVal2
                 [("FighterBay_","_",'D'),
+                 ("DroneControl_","UnkVesselResearch",'E'),
                  ("PassengerCabin_","_Class1",'E'),
                  ("PassengerCabin_","_Class2",'D'),
                  ("PassengerCabin_","_Class3",'C'),
@@ -253,11 +266,14 @@ intMap = lookupVal
                  ("DroneControl_FuelTransfer_","Fuel Transfer Limpet Controller"),
                  ("DroneControl_Prospector_","Prospector Limpet Controller"),
                  ("DroneControl_ResourceSiphon_","Hatch Breaker Limpet Controller"),
+                 ("DroneControl_Repair_","Repair Limpet Controller"),
+                 ("DroneControl_UnkVesselResearch","Research Limpet Controller"),
                  ("FSDInterdictor_","Frame Shift Drive Interdictor"),
                  ("Engine_","Thrusters"),
                  ("FuelScoop_","Fuel Scoop"),
                  ("FuelTank_","Fuel Tank"),
                  ("HullReinforcement_","Hull Reinforcement Package"),
+                 ("ModuleReinforcement_","Module Reinforcement Package"),
                  ("Hyperdrive_","Frame Shift Drive"),
                  ("PowerDistributor_","Power Distributor"),
                  ("Powerplant_","Power Plant"),
@@ -322,7 +338,7 @@ getModule' :: Value -> ConfigT (Maybe OutfittingModuleInfo)
 getModule' (String s) = do 
                           result <- getModule s
                           if isJust result then return result
-                          else liftIO (errorM "EDDA.Schema.OutfittingV2" ("Couldn't parse commodity: " ++ (show s))) >> return Nothing 
+                          else liftIO (errorM "EDDA.Schema.OutfittingV2" ("Couldn't parse outfitting v2: " ++ (show s))) >> return Nothing 
 getModule' _ = return Nothing
 
 

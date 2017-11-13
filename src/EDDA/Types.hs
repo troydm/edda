@@ -87,34 +87,15 @@ data MessageInfo = CommodityInfo {
                        outfittingInfoStationName :: Str, 
                        outfittingInfoTimestamp :: Timestamp, 
                        outfittingInfoModules :: HM.HashMap Str OutfittingModuleInfo
-                   } 
+                   } |
+                   IgnoreInfo
                    deriving Show
-
-data Ship = Ship { shipId :: Int, shipName :: Str }
 
 data Ships = Ships { ships :: HS.HashSet Str, shipsTimestamp :: Timestamp }
 
 data Commodities = Commodities { commodities :: HM.HashMap Str CommodityMarketInfo, commoditiesTimestamp :: Timestamp }
 
 data Outfittings = Outfittings { outfitting :: HM.HashMap Str OutfittingModuleInfo, outfittingTimestamp :: Timestamp }
-
-data Commodity = Commodity { 
-        commodityId :: Int, 
-        commodityCategory :: Str, 
-        commodityName :: Str, 
-        commodityAverage :: Int 
-        }
-
-data Outfitting = Outfitting { 
-        outfittingId :: Int, 
-        outfittingCategeroy :: Str, 
-        outfittingName :: Str, 
-        outfittingMount :: Str, 
-        outfittingGuidance :: Str, 
-        outfittingShip :: Str, 
-        outfittingClass :: Int, 
-        outfittingRating :: Str
-        }
 
 data SystemCoord = SystemCoord { 
     systemCoordEdsmId :: Int32, 

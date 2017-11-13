@@ -2,7 +2,6 @@
 module EDDA.Schema.CommodityV3 where
 
 import EDDA.Types
-import EDDA.Data.Static (shipIdToName, commodityIdToName)
 import EDDA.Schema.Util
 
 import Control.Monad.Trans
@@ -30,7 +29,7 @@ getCommodity v = do
                                demand <- getInt v "demand"
                                let demandBracket = Low
                                demandBracket <- getBracket v "demandBracket"
-                               return CommodityMarketInfo { commodityMarketInfoName = name, 
+                               return CommodityMarketInfo { commodityMarketInfoName = name,
                                                             commodityMarketInfoMeanPrice = meanPrice,
                                                             commodityMarketInfoBuyPrice = buyPrice,
                                                             commodityMarketInfoSupply = stock,
@@ -39,7 +38,7 @@ getCommodity v = do
                                                             commodityMarketInfoDemand = demand,
                                                             commodityMarketInfoDemandLevel = demandBracket,
                                                             commodityMarketInfoStatusFlags = statusFlags }
-                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV3" ("Couldn't parse commodity: " ++ (show v))) >> return Nothing else return ret 
+                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV3" ("Couldn't parse commodity v3: " ++ (show v))) >> return Nothing else return ret 
 
 
 getCommodities :: Value -> ConfigT (Maybe [CommodityMarketInfo])
@@ -59,6 +58,6 @@ parseCommodity v = do
                                Just $ CommodityInfo { commodityInfoSystemName = systemName, 
                                                       commodityInfoStationName = stationName, 
                                                       commodityInfoTimestamp = timestamp,
-                                                      commodityInfoCommodities = HM.fromList (map (\v -> (commodityMarketInfoName v,v)) commodities) } 
+                                                      commodityInfoCommodities = HM.fromList (map (\v -> (commodityMarketInfoName v,v)) commodities) }
 
 

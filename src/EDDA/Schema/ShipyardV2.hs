@@ -2,7 +2,6 @@
 module EDDA.Schema.ShipyardV2 where
 
 import EDDA.Types
-import EDDA.Data.Static (shipIdToName)
 import EDDA.Schema.Util
 
 import Data.Aeson

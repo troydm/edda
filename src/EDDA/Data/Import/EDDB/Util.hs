@@ -55,7 +55,7 @@ mapConst :: Str -> B.Value -> Value -> Maybe B.Field
 mapConst to val _ = return (to B.:= val)
 
 mapStrArray :: Str -> Str -> Value -> Maybe B.Field
-mapStrArray from to obj = do case getStrArray obj from of
+mapStrArray from to obj = case getStrArray obj from of
                                 Just sa -> return (to B.:= (B.valList sa))
                                 Nothing -> return (to B.:= (B.valList ([] :: [Str])))
 
@@ -87,7 +87,7 @@ streamParseIO bs d f = if C.head d == '[' then until 1 1 0
 writeToTemp f h msg res = read h >> hClose h >> C.putStrLn msg
                       where br = responseBody res
                             read h = brRead br >>= \s -> if BC.null s then return () else BC.hPut h s >> read h
-                                      
+
 download url msg f h = 
                    do manager <- newManager tlsManagerSettings
                       initialRequest <- parseRequest url

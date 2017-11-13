@@ -30,7 +30,6 @@ library
                        EDDA.Data.Import.EDDB.Systems,
                        EDDA.Data.Import.EDDB.Util,
                        EDDA.Data.Query,
-                       EDDA.Data.Static,
                        EDDA.Data.Subscriber,
                        EDDA.Data.Cache,
                        EDDA.Data.Rest,
@@ -55,6 +54,7 @@ library
                        unordered-containers,
                        vector,
                        split,
+                       stringsearch,
                        zlib,
                        zeromq4-haskell,
                        scotty,
@@ -107,6 +107,7 @@ test-suite edda-test
                        EDDA.Schema.CommodityV2Test,
                        EDDA.Schema.CommodityV3Test,
                        EDDA.Schema.OutfittingV1Test,
+                       EDDA.Schema.OutfittingV2Test,
                        EDDA.Schema.ShipyardV1Test,
                        EDDA.Schema.ShipyardV2Test
   build-depends:       base,

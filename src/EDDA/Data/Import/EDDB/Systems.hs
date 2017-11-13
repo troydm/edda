@@ -12,6 +12,7 @@ import qualified Data.Vector as V
 import Control.Monad.Trans
 import Control.Monad.Trans.Reader
 import Control.Concurrent
+import Control.Applicative ((<|>))
 
 import System.IO.Temp (withSystemTempFile)
 import System.IO.MMap (mmapFileByteString)
@@ -25,18 +26,19 @@ import Data.Aeson.Types
 import Data.Int (Int32(..))
 import qualified Data.Bson as B
 
-url = "https://eddb.io/archive/v4/systems.json"
+url = "https://eddb.io/archive/v5/systems_populated.json"
 
 toDocument :: Value -> Maybe (Int32,Str,B.Document)
-toDocument obj = do !edsmId <- fromIntegral <$> getInt obj "edsm_id"
+toDocument obj = do !edsmId <- fromIntegral <$> ((getInt obj "edsm_id") <|> (Just 0 :: Maybe Int))
                     !name <- getStr obj "name"
-                    !doc <- mapToDocument [mapInt "id" "eddbId",
-                                           mapConst "edsmId" (B.val edsmId),
+                    !doc <- mapToDocument [mapIntNullable "id" "eddbId",
+                                           mapIntNullable "edsm_id" "edsmId",
                                            mapConst "systemName" (B.val (toText name)),
                                            mapStrNullable "security" "security",
                                            mapStrNullable "state" "state",
                                            mapStrNullable "government" "government",
-                                           mapStrNullable "faction" "faction",
+                                           mapIntNullable "controlling_minor_faction_id" "factionId",
+                                           mapStrNullable "controlling_minor_faction" "faction",
                                            mapStrNullable "allegiance" "allegiance",
                                            mapDoubleNullable "population" "population",
                                            mapStrNullable "power" "power",
@@ -46,7 +48,7 @@ toDocument obj = do !edsmId <- fromIntegral <$> getInt obj "edsm_id"
                                            mapBoolNullable "needs_permit" "needsPermit",
                                            mapDouble "x" "x",
                                            mapDouble "y" "y",
-                                           mapDouble "z" "z" ] obj 
+                                           mapDouble "z" "z" ] obj
                     return (edsmId,name,doc)
 
 toDocumentList :: V.Vector Value -> ConfigT (V.Vector (Maybe (Int32,Str,B.Document)))
@@ -55,7 +57,7 @@ toDocumentList systems = flip V.mapM systems (\v -> case toDocument v of
                                                         Nothing -> do liftIO $ C.putStrLn "Couldn't parse system: "
                                                                       liftIO $ putStrLn (show v)
                                                                       return Nothing)
- 
+
 
 saveToDatabase systems = do liftIO $ C.putStrLn "Importing into database..."
                             saveSystems systems
@@ -63,7 +65,7 @@ saveToDatabase systems = do liftIO $ C.putStrLn "Importing into database..."
 
 
 convertAndSaveToDB :: Config -> C.ByteString -> IO ()
-convertAndSaveToDB c d = do total <- newIORef 0 
+convertAndSaveToDB c d = do total <- newIORef 0
                             runReaderT (query (do context <- ask
                                                   (liftIO (streamParseIO 10000 d (saveToDB context total))))) c
                             totalCount <- readIORef total
@@ -73,7 +75,7 @@ convertAndSaveToDB c d = do total <- newIORef 0
                                 Just (Array systems) -> runReaderT (toDocumentList systems) c >>= return . Just. onlyJustVec
                                 Just _ -> return Nothing
                                 Nothing -> return Nothing
-                 saveToDB context total d s e = 
+                 saveToDB context total d s e =
                                         do maybeSystems <- (convert (substr d s e))
                                            case maybeSystems of
                                                 Just systems -> do runReaderT (saveToDatabase (V.toList systems)) context

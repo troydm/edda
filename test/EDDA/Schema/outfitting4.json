@@ -1,5 +1,5 @@
 {
-    "$schemaRef": "http://schemas.elite-markets.net/eddn/outfitting/2",
+    "$schemaRef": "https://eddn.edcd.io/schemas/outfitting/2",
     "header": {
         "gatewayTimestamp": "2016-09-11T20:12:27.511502Z",
         "softwareName": "E:D Market Connector [Windows]",
