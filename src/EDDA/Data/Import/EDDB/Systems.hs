@@ -26,7 +26,7 @@ import Data.Aeson.Types
 import Data.Int (Int32(..))
 import qualified Data.Bson as B
 
-url = "https://eddb.io/archive/v5/systems_populated.json"
+url = "https://eddb.io/archive/v6/systems_populated.json"
 
 toDocument :: Value -> Maybe (Int32,Str,B.Document)
 toDocument obj = do !edsmId <- fromIntegral <$> ((getInt obj "edsm_id") <|> (Just 0 :: Maybe Int))
@@ -35,7 +35,10 @@ toDocument obj = do !edsmId <- fromIntegral <$> ((getInt obj "edsm_id") <|> (Jus
                                            mapIntNullable "edsm_id" "edsmId",
                                            mapConst "systemName" (B.val (toText name)),
                                            mapStrNullable "security" "security",
-                                           mapStrNullable "state" "state",
+                                           mapObjectArray "states" "states" (
+                                            mapToDocument [mapIntNullable "id" "id",
+                                                           mapStrNullable "name" "name"]
+                                           ),
                                            mapStrNullable "government" "government",
                                            mapIntNullable "controlling_minor_faction_id" "factionId",
                                            mapStrNullable "controlling_minor_faction" "faction",

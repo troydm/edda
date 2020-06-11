@@ -40,10 +40,10 @@ import Data.Aeson.Types
 import qualified Data.Bson as B
 import qualified Data.HashMap.Strict as HM
 
-url = "https://eddb.io/archive/v5/stations.json"
-module_url = "https://eddb.io/archive/v5/modules.json"
-listings_url = "https://eddb.io/archive/v5/listings.csv"
-commodities_url = "https://eddb.io/archive/v5/commodities.json"
+url = "https://eddb.io/archive/v6/stations.json"
+module_url = "https://eddb.io/archive/v6/modules.json"
+listings_url = "https://eddb.io/archive/v6/listings.csv"
+commodities_url = "https://eddb.io/archive/v6/commodities.json"
 
 type CommoditiesMap = HM.HashMap Int32 T.Text
 
@@ -150,7 +150,10 @@ toDocument modulemap idmap obj = do !stationName <- getStr obj "name"
                                                            mapConst "stationName" (B.val $! (toText stationName)),
                                                            mapModuleArray modulemap "selling_modules" "outfitting",
                                                            mapStrNullable "type" "type",
-                                                           mapStrNullable "state" "state",
+                                                           mapObjectArray "states" "states" (
+                                                                mapToDocument [mapIntNullable "id" "id",
+                                                                               mapStrNullable "name" "name"]
+                                                           ),
                                                            mapIntNullable "controlling_minor_faction_id" "factionId",
                                                            mapStrNullable "government" "government",
                                                            mapStrNullable "allegiance" "allegiance",
@@ -231,19 +234,19 @@ listingsByStationId :: V.Vector (VU.Vector Int32) -> Int32 -> V.Vector (VU.Vecto
 listingsByStationId v stationId = V.filter (\e -> (e VU.! 1) == stationId) v
 
 nameLabel :: Str
-!nameLabel = "name"
+nameLabel = "name"
 
 buyPriceLabel :: Str
-!buyPriceLabel = "buyPrice"
+buyPriceLabel = "buyPrice"
 
 sellPriceLabel :: Str
-!sellPriceLabel = "sellPrice"
+sellPriceLabel = "sellPrice"
 
 supplyLabel :: Str
-!supplyLabel = "supply"
+supplyLabel = "supply"
 
 demandLabel :: Str
-!demandLabel = "demand"
+demandLabel = "demand"
 
 stationIdToDocument :: CommoditiesMap -> V.Vector (VU.Vector Int32) -> Int32 -> (Int32,V.Vector B.Document)
 stationIdToDocument cm v stationId =

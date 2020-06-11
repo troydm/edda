@@ -148,7 +148,6 @@ getArray (Object v) s = case HM.lookup (toText s) v of
                              Nothing -> Nothing
 getArray _ _ = Nothing
 
-
 getStrArray :: Value -> Str -> Maybe [Str]
 getStrArray v s = case getArray v s of
                     Just a -> let sl = map valToStr a in

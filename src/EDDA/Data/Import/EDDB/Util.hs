@@ -3,12 +3,13 @@
 module EDDA.Data.Import.EDDB.Util where
 
 import EDDA.Types
-import EDDA.Schema.Util (getStr, getStrArray, getStrNullable, getInt, getIntNullable, getDouble, getDoubleNullable)
+import EDDA.Schema.Util (getArray, getStr, getStrArray, getStrNullable, getInt, getIntNullable, getDouble, getDoubleNullable)
 
 import qualified Data.Text as T
 import qualified Data.ByteString as BC
 import qualified Data.ByteString.Char8 as C
 import qualified Data.ByteString.Lazy.Char8 as LC
+import Data.Maybe (catMaybes)
 import Data.Int (Int64(..))
 import Data.Aeson
 import Data.Aeson.Types
@@ -58,6 +59,11 @@ mapStrArray :: Str -> Str -> Value -> Maybe B.Field
 mapStrArray from to obj = case getStrArray obj from of
                                 Just sa -> return (to B.:= (B.valList sa))
                                 Nothing -> return (to B.:= (B.valList ([] :: [Str])))
+
+mapObjectArray :: Str -> Str -> (Value -> Maybe B.Document) -> Value -> Maybe B.Field
+mapObjectArray from to f obj = case getArray obj from of
+                                    Just oa -> return (to B.:= (B.valList (catMaybes (map f oa))))
+                                    Nothing -> return (to B.:= (B.valList ([] :: [B.Document])))
 
 mapToDocument :: [Value -> Maybe B.Field] -> Value -> Maybe B.Document
 mapToDocument mappers v = allJust $! map (\f -> f $! v) mappers
