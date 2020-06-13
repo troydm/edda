@@ -17,21 +17,20 @@ getCurrTime = round `fmap` getPOSIXTime
 newCache :: Int64 -> IO (Cache a)
 newCache t = newMVar (t, Nothing)
 
+putValueInCache c t a = do !v' <- a
+                           !currTime <- getCurrTime
+                           putMVar c (t, Just (v',currTime))
+                           return v'
+
 cachedIO :: Cache a -> IO a -> IO a
 cachedIO c a = do
                   (!t, !v) <- takeMVar c
                   if isJust v then do 
                                    let Just (!c',!l) = v
                                    !currTime <- getCurrTime
-                                   if (currTime - l) >= t then do !v' <- a
-                                                                  !currTime <- getCurrTime
-                                                                  putMVar c (t, Just (v',currTime))
-                                                                  return v'
+                                   if (currTime - l) >= t then putValueInCache c t a
                                    else putMVar c (t, v) >> return c'
-                  else do !v' <- a
-                          !currTime <- getCurrTime
-                          putMVar c (t, Just (v',currTime))
-                          return v'
+                  else putValueInCache c t a
 
 cachedForkIO :: Cache a -> IO a -> IO a
 cachedForkIO c a = do
@@ -47,7 +46,4 @@ cachedForkIO c a = do
                                                                              putMVar c (t, Just (v',currTime)) )
                                                                   return c'
                                    else putMVar c (t, v) >> return c'
-                  else do !v' <- a
-                          !currTime <- getCurrTime
-                          putMVar c (t, Just (v',currTime))
-                          return v'
+                  else putValueInCache c t a

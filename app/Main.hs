@@ -33,6 +33,7 @@ module Main where
 
 import Control.Concurrent
 import Control.Concurrent.MVar
+import Control.Monad (void)
 import Control.Monad.Trans
 import Control.Monad.Trans.Reader
 import System.Posix.Signals
@@ -67,7 +68,7 @@ trap = traplogging "System.Daemon" ERROR "detachDaemon"
 
 ppMaybeList :: Maybe [T.Text] -> IO ()
 ppMaybeList (Just l) = mapM_ (C.putStrLn . TE.encodeUtf8) l
-ppMaybeList (Nothing) = return ()
+ppMaybeList Nothing = return ()
 
 detachDaemon :: IO () -> IO ()
 detachDaemon act = trap $ do forkProcess (child1 act)
@@ -156,9 +157,9 @@ main = do
                                                                                   if foreground then setRootLogger conf restLogPath >> EDDA.Data.Rest.startService conf
                                                                                   else detachDaemon (setRootLogger conf restLogPath >> EDDA.Data.Rest.startService conf)
             StopCommand { conf = configPath} -> do conf <- readConfig configPath
-                                                   callCommand "pkill edda" >> return ()
+                                                   void $ callCommand "pkill edda"
             StopRestCommand { conf = configPath} -> do conf <- readConfig configPath
-                                                       callCommand "pkill -f -x \"edda startRest\"" >> return ()
+                                                       void $ callCommand "pkill -f -x \"edda startRest\""
             SystemsWithinLy { conf = configPath, system = system, distance = distance } -> 
                                 do conf <- readConfig configPath
                                    runReaderT (getSystemsWithinLyFrom (T.pack system) distance >>= liftIO . ppMaybeList ) conf

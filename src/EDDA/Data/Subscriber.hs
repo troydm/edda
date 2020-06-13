@@ -28,25 +28,25 @@ import EDDA.Schema.Util (showValue)
 saveMessage :: Header -> MessageInfo -> ConfigT ()
 saveMessage _ IgnoreInfo = return ()
 
-saveMessage _ (CommodityInfo { 
-                        commodityInfoSystemName = systemName, 
-                        commodityInfoStationName = stationName, 
-                        commodityInfoTimestamp = timestamp, 
-                        commodityInfoCommodities = commodities }) = do 
+saveMessage _ CommodityInfo {
+                        commodityInfoSystemName = systemName,
+                        commodityInfoStationName = stationName,
+                        commodityInfoTimestamp = timestamp,
+                        commodityInfoCommodities = commodities } = do
                                 liftIO $ infoM "EDDA.Subscriber" ("saving commodities info " ++ T.unpack systemName ++ " / " ++ T.unpack stationName)
                                 saveCommodities systemName stationName (Commodities commodities timestamp)
-saveMessage _ (OutfittingInfo { 
-                       outfittingInfoSystemName = systemName, 
-                       outfittingInfoStationName = stationName, 
-                       outfittingInfoTimestamp = timestamp, 
-                       outfittingInfoModules = modules }) = do
+saveMessage _ OutfittingInfo {
+                       outfittingInfoSystemName = systemName,
+                       outfittingInfoStationName = stationName,
+                       outfittingInfoTimestamp = timestamp,
+                       outfittingInfoModules = modules } = do
                                 liftIO $ infoM "EDDA.Subscriber" ("saving outfitting info " ++ T.unpack systemName ++ " / " ++ T.unpack stationName)
                                 saveOutfittings systemName stationName (Outfittings modules timestamp)
-saveMessage _ (ShipyardInfo { 
-                       shipyardInfoSystemName = systemName, 
-                       shipyardInfoStationName = stationName, 
-                       shipyardInfoTimestamp = timestamp, 
-                       shipyardInfoShips = ships }) = do 
+saveMessage _ ShipyardInfo {
+                       shipyardInfoSystemName = systemName,
+                       shipyardInfoStationName = stationName,
+                       shipyardInfoTimestamp = timestamp,
+                       shipyardInfoShips = ships } = do
                             liftIO $ infoM "EDDA.Subscriber" ("saving shipyard info " ++ T.unpack systemName ++ " / " ++ T.unpack stationName)
                             saveShips systemName stationName (Ships ships timestamp)
 

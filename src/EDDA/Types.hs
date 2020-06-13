@@ -108,25 +108,25 @@ data SystemCoord = SystemCoord {
 type ConfigT = ReaderT Config IO
 
 outfittingModuleName :: OutfittingModuleInfo -> Str
-outfittingModuleName (OutfittingModuleUtility { outfittingModuleUtilityName = name } ) = name 
-outfittingModuleName (OutfittingModuleHardpoint { outfittingModuleHardpointName = name } ) = name 
-outfittingModuleName (OutfittingModuleStandard { outfittingModuleStandardName = name } ) = name 
-outfittingModuleName (OutfittingModuleInternal { outfittingModuleInternalName = name } ) = name 
+outfittingModuleName OutfittingModuleUtility { outfittingModuleUtilityName = name } = name
+outfittingModuleName OutfittingModuleHardpoint { outfittingModuleHardpointName = name } = name
+outfittingModuleName OutfittingModuleStandard { outfittingModuleStandardName = name } = name
+outfittingModuleName OutfittingModuleInternal { outfittingModuleInternalName = name } = name
 
 outfittingModuleClass :: OutfittingModuleInfo -> Class
-outfittingModuleClass (OutfittingModuleUtility { outfittingModuleUtilityClass = cls } ) = cls 
-outfittingModuleClass (OutfittingModuleHardpoint { outfittingModuleHardpointClass = cls } ) = cls 
-outfittingModuleClass (OutfittingModuleStandard { outfittingModuleStandardClass = cls } ) = cls 
-outfittingModuleClass (OutfittingModuleInternal { outfittingModuleInternalClass = cls } ) = cls 
+outfittingModuleClass OutfittingModuleUtility { outfittingModuleUtilityClass = cls } = cls
+outfittingModuleClass OutfittingModuleHardpoint { outfittingModuleHardpointClass = cls } = cls
+outfittingModuleClass OutfittingModuleStandard { outfittingModuleStandardClass = cls } = cls
+outfittingModuleClass OutfittingModuleInternal { outfittingModuleInternalClass = cls } = cls
 
 outfittingModuleRating :: OutfittingModuleInfo -> Rating
-outfittingModuleRating (OutfittingModuleUtility { outfittingModuleUtilityRating = rating } ) = rating 
-outfittingModuleRating (OutfittingModuleHardpoint { outfittingModuleHardpointRating = rating } ) = rating 
-outfittingModuleRating (OutfittingModuleStandard { outfittingModuleStandardRating = rating } ) = rating 
-outfittingModuleRating (OutfittingModuleInternal { outfittingModuleInternalClass = rating } ) = rating 
+outfittingModuleRating OutfittingModuleUtility { outfittingModuleUtilityRating = rating } = rating
+outfittingModuleRating OutfittingModuleHardpoint { outfittingModuleHardpointRating = rating } = rating
+outfittingModuleRating OutfittingModuleStandard { outfittingModuleStandardRating = rating } = rating
+outfittingModuleRating OutfittingModuleInternal { outfittingModuleInternalClass = rating } = rating
 
 outfittingModuleClassRating :: OutfittingModuleInfo -> Str
-outfittingModuleClassRating m = T.pack ((outfittingModuleClass m) : [(outfittingModuleRating m)])
+outfittingModuleClassRating m = T.pack (outfittingModuleClass m : [outfittingModuleRating m])
 
 outfittingModuleFullName m = T.concat [outfittingModuleClassRating m,T.singleton ' ',outfittingModuleName m]
 
@@ -141,7 +141,7 @@ allJust l = if all isJust l then Just $! map fromJust l
             else Nothing
 
 onlyJust :: [Maybe a] -> [a]
-onlyJust l = map fromJust $! (filter isJust l)
+onlyJust l = map fromJust $! filter isJust l
 
 onlyJustVec :: V.Vector (Maybe a) -> V.Vector a
 onlyJustVec v = V.map fromJust (V.filter isJust v)

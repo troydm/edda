@@ -10,9 +10,9 @@ import EDDA.Data.Database
 import Data.Int
 import Data.Bson
 
-distanceBetween s1 s2 = let x' = ((systemCoordX s1) - (systemCoordX s2)) in
-                                  let y' = ((systemCoordY s1) - (systemCoordY s2)) in
-                                  let z' = ((systemCoordZ s1) - (systemCoordZ s2)) in
+distanceBetween s1 s2 = let x' = (systemCoordX s1 - systemCoordX s2) in
+                                  let y' = (systemCoordY s1 - systemCoordY s2) in
+                                  let z' = (systemCoordZ s1 - systemCoordZ s2) in
                                   sqrt ((x'*x')+(y'*y')+(z'*z'))
 
 getSystemsWithinLyFrom :: Str -> Double -> ConfigT (Maybe [T.Text])
@@ -20,8 +20,7 @@ getSystemsWithinLyFrom systemName distance =
     do maybeSystemCoord <- getSystemCoord systemName
        case maybeSystemCoord of
         Just systemCoord -> do maybeSystemCoords <- getSystemCoords (\s -> distanceBetween systemCoord s <= distance) 
-                               return $ do systemCoords <- maybeSystemCoords
-                                           return $ map systemCoordSystemName systemCoords
+                               return $ do map systemCoordSystemName <$> maybeSystemCoords
         Nothing -> return Nothing
 
 
