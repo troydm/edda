@@ -18,7 +18,7 @@ import qualified Data.HashMap.Strict as HM
 import qualified Data.HashSet as HS
 import qualified Data.ByteString.Char8 as C
 
-contains s sub = not $ null (T.breakOnAll sub s)
+contains s sub = not $ null (T.breakOnAll (T.toLower sub) (T.toLower s))
 
 lookupVal t s = maybe Nothing (\(_,n) -> Just n) $ find (\(n,_) -> contains s n) t
 lookupVal2 t s = maybe Nothing (\(_,_,n) -> Just n) $ find (\(n,m,_) -> (contains s n) && (contains s m)) t
@@ -61,11 +61,17 @@ htpName = lookupVal
                 [("BasicMissileRack_","Missle Rack"),
                  ("DumbfireMissileRack_","Missle Rack"),
                  ("ATDumbfireMissile_","AX Missle Rack"),
+                 ("DrunkMissileRack_","Pack-Hound Missle Rack"),
+                 ("CausticMissile_","Enzyme Missle Rack"),
                  ("AdvancedTorpPylon_","Torpedo Pylon"),
                  ("Cannon_","Cannon"),
                  ("Slugshot_","Fragment Cannon"),
                  ("MineLauncher_","Mine Launcher"),
+                 ("Mining_AbrBlstr_","Abrasion Blaster"),
+                 ("Mining_SeismChrgWarhd","Seismic Charge Launcher"),
+                 ("Mining_SubsurfDispMisle","Sub-surface Displacement Missle"),
                  ("MiningLaser_","Mining Laser"),
+                 ("Guardian_PlasmaLauncher_","Guardian Plasma Launcher"),
                  ("PlasmaAccelerator_","Plasma Accelerator"),
                  ("FlakMortar_","Remote Release Flak Launcher"),
                  ("Railgun_","Rail Gun"),
@@ -79,6 +85,8 @@ htpUtilityName = lookupVal
                 [("CrimeScanner_","Kill Warrant Scanner"),
                  ("CloudScanner_","Frame Shift Wake Scanner"),
                  ("CargoScanner_","Cargo Scanner"),
+                 ("FlechetteLauncher_","Flechette Launcher"),
+                 ("MraScanner_","Pulse Wave Analyser"),
                  ("XenoScanner_","Xeno Scanner"),
                  ("AntiUnknownShutdown_","Shutdown Field Neutraliser"),
                  ("ShieldBooster_","Shield Booster"),
@@ -100,6 +108,24 @@ htpRating = lookupVal2
                  ("BeamLaser_","Turret_Small",'F'),
                  ("BeamLaser_","Turret_Medium",'E'),
                  ("BeamLaser_","Turret_Large",'D'),
+                 ("DrunkMissileRack_","Fixed_Medium",'B'),
+                 ("CausticMissile_","Fixed_Medium",'B'),
+                 ("FlechetteLauncher_","Fixed_Medium",'A'),
+                 ("FlechetteLauncher_","Turret_Medium",'A'),
+                 ("Mining_AbrBlstr_","Fixed_Small",'D'),
+                 ("Mining_AbrBlstr_","Turret_Small",'D'),
+                 ("Mining_SeismChrgWarhd","Fixed_Medium",'B'),
+                 ("Mining_SeismChrgWarhd","Turret_Medium",'B'),
+                 ("Mining_SubsurfDispMisle","Fixed_Small",'D'),
+                 ("Mining_SubsurfDispMisle","Fixed_Medium",'B'),
+                 ("Mining_SubsurfDispMisle","Turret_Small",'D'),
+                 ("Mining_SubsurfDispMisle","Turret_Medium",'B'),
+                 ("Guardian_PlasmaLauncher_","Fixed_Small",'D'),
+                 ("Guardian_PlasmaLauncher_","Fixed_Medium",'B'),
+                 ("Guardian_PlasmaLauncher_","Fixed_Large",'C'),
+                 ("Guardian_PlasmaLauncher_","Turret_Small",'D'),
+                 ("Guardian_PlasmaLauncher_","Turret_Medium",'B'),
+                 ("Guardian_PlasmaLauncher_","Turret_Large",'C'),
                  ("PulseLaserBurst_","Fixed_Small",'F'),
                  ("PulseLaserBurst_","Fixed_Medium",'E'),
                  ("PulseLaserBurst_","Fixed_Large",'D'),
@@ -167,12 +193,17 @@ htpRating = lookupVal2
                  ("Slugshot_","Turret_Large",'C'),
                  ("AdvancedTorpPylon_","Fixed_Small",'I'),
                  ("AdvancedTorpPylon_","Fixed_Medium",'I'),
-                 ("BasicMissileRack_","Fixed_Small",'B'),
-                 ("BasicMissileRack_","Fixed_Medium",'B'),
-                 ("DumbfireMissileRack_","Fixed_Small",'B'),
-                 ("DumbfireMissileRack_","Fixed_Medium",'B'),
+                 ("AdvancedTorpPylon_","Fixed_Large",'I'),
+                 ("BasicMissileRack_","Fixed_Small",'A'),
+                 ("BasicMissileRack_","Fixed_Medium",'A'),
+                 ("BasicMissileRack_","Fixed_Large",'A'),
+                 ("DumbfireMissileRack_","Fixed_Small",'A'),
+                 ("DumbfireMissileRack_","Fixed_Medium",'A'),
+                 ("DumbfireMissileRack_","Fixed_Large",'A'),
                  ("ATDumbfireMissile_","Fixed_Medium",'B'),
+                 ("ATDumbfireMissile_","Fixed_Large",'A'),
                  ("ATDumbfireMissile_","Turret_Medium",'B'),
+                 ("ATDumbfireMissile_","Turret_Large",'A'),
                  ("ElectronicCountermeasure_","Tiny",'F'),
                  ("HeatSinkLauncher_","Tiny",'I'),
                  ("ChaffLauncher_","Tiny",'I'),
@@ -241,6 +272,10 @@ shipMap = lookupVal
 intRatingMap :: Str -> Maybe Rating
 intRatingMap = lookupVal2
                 [("FighterBay_","_",'D'),
+                 ("SupercruiseAssist","_",'E'),
+                 ("GuardianFSDBooster","_",'H'),
+                 ("GuardianPowerDistributor","_",'A'),
+                 ("GuardianPowerPlant","_",'A'),
                  ("DroneControl_","UnkVesselResearch",'E'),
                  ("PassengerCabin_","_Class1",'E'),
                  ("PassengerCabin_","_Class2",'D'),
@@ -259,16 +294,22 @@ intMap = lookupVal
                 [("BuggyBay_","Planetary Vehicle Hangar"),
                  ("PlanetApproachSuite","Planetary Approach Suite"),
                  ("CargoRack_","Cargo Rack"),
-                 ("CargoRack_","Cargo Rack"),
+                 ("GuardianFSDBooster_","Guardian FSD Booster"),
+                 ("GuardianPowerDistributor_","Guardian Power Distributor"),
+                 ("GuardianPowerPlant_","Guardian Power Plant"),
+                 ("GuardianShieldReinforcement_","Guardian Shield Reinforcement"),
                  ("DetailedSurfaceScanner_","Detailed Surface Scanner"),
                  ("DockingComputer_","Standard Docking Computer"),
                  ("DroneControl_Collection_","Collector Limpet Controller"),
+                 ("DroneControl_Decontamination_","Decontamination Limpet Controller"),
                  ("DroneControl_FuelTransfer_","Fuel Transfer Limpet Controller"),
                  ("DroneControl_Prospector_","Prospector Limpet Controller"),
                  ("DroneControl_ResourceSiphon_","Hatch Breaker Limpet Controller"),
                  ("DroneControl_Repair_","Repair Limpet Controller"),
+                 ("DroneControl_Recon_","Recon Limpet Controller"),
                  ("DroneControl_UnkVesselResearch","Research Limpet Controller"),
                  ("FSDInterdictor_","Frame Shift Drive Interdictor"),
+                 ("SupercruiseAssist","Supercruise Assist"),
                  ("Engine_","Thrusters"),
                  ("FuelScoop_","Fuel Scoop"),
                  ("FuelTank_","Fuel Tank"),
@@ -290,7 +331,7 @@ intMap = lookupVal
 
 
 parseArmour :: Str -> ConfigT (Maybe OutfittingModuleInfo)
-parseArmour s = return $ do 
+parseArmour s = return $ do
                    let ship = shipMap s
                    name <- armourGrade s
                    return OutfittingModuleStandard { outfittingModuleStandardName = name, 
@@ -299,9 +340,9 @@ parseArmour s = return $ do
                                                      outfittingModuleStandardRating = 'I' }
 
 parseHardpoint :: Str -> ConfigT (Maybe OutfittingModuleInfo)
-parseHardpoint s = return $ 
-                    case htpName s of
-                        Just name -> do 
+parseHardpoint s = return $
+                     case htpName s of
+                        Just name -> do
                                        mount <- mount s
                                        cls <- htpClass s
                                        rating <- htpRating s
@@ -310,7 +351,7 @@ parseHardpoint s = return $
                                                                           outfittingModuleHardpointGuidance = guidance s, 
                                                                           outfittingModuleHardpointClass = cls, 
                                                                           outfittingModuleHardpointRating = rating }
-                        Nothing -> do 
+                        Nothing -> do
                                      name <- htpUtilityName s
                                      cls <- cls s <|> htpClass s
                                      rating <- rating s <|> htpRating s
@@ -323,8 +364,8 @@ parseInternal s = return $ do
                    name <- int2Map s <|> intMap s
                    cls <- cls s <|> htpClass s
                    rating <- intRatingMap s <|> rating s <|> htpRating s
-                   return OutfittingModuleInternal { outfittingModuleInternalName = name, 
-                                                     outfittingModuleInternalClass = cls, 
+                   return OutfittingModuleInternal { outfittingModuleInternalName = name,
+                                                     outfittingModuleInternalClass = cls,
                                                      outfittingModuleInternalRating = rating }
 
 
@@ -335,10 +376,10 @@ getModule s = if contains s "_Armour_" then parseArmour s
               else return Nothing
 
 getModule' :: Value -> ConfigT (Maybe OutfittingModuleInfo)
-getModule' (String s) = do 
+getModule' (String s) = do
                           result <- getModule s
                           if isJust result then return result
-                          else liftIO (errorM "EDDA.Schema.OutfittingV2" ("Couldn't parse outfitting v2: " ++ (show s))) >> return Nothing 
+                          else liftIO (errorM "EDDA.Schema.OutfittingV2" ("Couldn't parse outfitting v2: " ++ (show s))) >> return Nothing
 getModule' _ = return Nothing
 
 
@@ -351,7 +392,7 @@ getModules v = case getArray v "modules" of
 parseOutfitting :: Value -> ConfigT (Maybe MessageInfo)
 parseOutfitting v = do
                     maybeModules <- getModules v
-                    return $ do 
+                    return $ do
                                systemName <- getStr v "systemName"
                                stationName <- getStr v "stationName"
                                timestamp <- getTimestamp v "timestamp"

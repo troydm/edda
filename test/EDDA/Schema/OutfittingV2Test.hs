@@ -31,7 +31,7 @@ test1 = TestCase $ do conf <- readConf
                       let outfittingInfo = fromJust maybeMessage
                       assertEqual "system name" "Guguroro" (outfittingInfoSystemName outfittingInfo)
                       assertEqual "station name" "Goodricke Enterprise" (outfittingInfoStationName outfittingInfo)
-                      assertEqual "outfitting modules" 199 (HM.size (outfittingInfoModules outfittingInfo))
+                      assertEqual "outfitting modules" 232 (HM.size (outfittingInfoModules outfittingInfo))
                       
 test2 :: Test
 test2 = TestCase $ do conf <- readConf

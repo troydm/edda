@@ -100,7 +100,6 @@ test-suite edda-test
   hs-source-dirs:      test
   main-is:             Spec.hs
   default-language:    Haskell2010
-  default-language:    Haskell2010
   ghc-options:         -O2 -threaded -rtsopts -with-rtsopts=-N
   other-modules:       EDDA.Test.Util,
                        EDDA.Schema.ParserTest,
