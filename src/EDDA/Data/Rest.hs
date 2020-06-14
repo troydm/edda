@@ -5,6 +5,7 @@ import Web.Scotty
 import Network.Wai.Middleware.Gzip
 
 import Data.Monoid (mconcat)
+import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import Control.Monad.Trans
@@ -28,7 +29,7 @@ names t =
             Right s -> s
             Left _ -> []
         where nameList :: P.Parser [Str]
-              nameList = map T.pack <$> (P.many1' (P.notChar ',')) `P.sepBy'` (P.char ',' >> (P.many' P.space))
+              nameList = map T.pack <$> P.many1' (P.notChar ',') `P.sepBy'` (P.char ',' >> P.many' P.space)
 
 ids :: Str -> [Int32]
 ids t =
@@ -36,7 +37,7 @@ ids t =
             Right s -> s
             Left _ -> []
         where idList :: P.Parser [Int32]
-              idList = P.decimal `P.sepBy'` (P.char ',' >> (P.many' P.space))
+              idList = P.decimal `P.sepBy'` (P.char ',' >> P.many' P.space)
 
 jsonHeader = setHeader "content-type" "text/json"
 
@@ -74,32 +75,30 @@ stationsByEddbId c path = get (servicePath path "/stationsByEddbId/:eddbIds") $ 
                             stations <- liftIO (runReaderT (getStationsByEddbIds eddbIdsList) c)
                             jsonOut (map (toAeson . Doc) stations)
 
+getSystemNamesWithinLy cache c = do allSystemCoords <- liftIO (cachedForkIO cache (runReaderT getAllSystemCoords c))
+                                    systemName <- param "systemName"
+                                    distance <- param "distance" :: ActionM Double
+                                    maybeSystems <- liftIO (runReaderT (getSystemsWithinLyFrom' systemName distance allSystemCoords) c)
+                                    return $ fromMaybe ([] :: [T.Text]) maybeSystems
+
 systemsWithinLy cache c path = get (servicePath path "/systemsWithinLy/:systemName/:distance") $ do
-                            allSystemCoords <- liftIO (cachedForkIO cache (runReaderT getAllSystemCoords c))
-                            systemName <- param "systemName"
-                            distance <- param "distance" :: ActionM Double
-                            maybeSystems <- liftIO (runReaderT (getSystemsWithinLyFrom' systemName distance allSystemCoords) c)
-                            let systemNamesList = maybe ([] :: [T.Text]) id maybeSystems
+                            systemNamesList <- getSystemNamesWithinLy cache c
                             systems <- liftIO (runReaderT (getSystemsByNames systemNamesList) c)
                             jsonOut (map (toAeson . Doc) systems)
 
 stationsWithinLy cache c path = get (servicePath path "/stationsWithinLy/:systemName/:distance") $ do
-                            allSystemCoords <- liftIO (cachedForkIO cache (runReaderT getAllSystemCoords c))
-                            systemName <- param "systemName"
-                            distance <- param "distance" :: ActionM Double
-                            maybeSystems <- liftIO (runReaderT (getSystemsWithinLyFrom' systemName distance allSystemCoords) c)
-                            let systemNamesList = maybe ([] :: [T.Text]) id maybeSystems
+                            systemNamesList <- getSystemNamesWithinLy cache c
                             stations <- liftIO (runReaderT (getStationsBySystemNames systemNamesList) c)
                             jsonOut (map (toAeson . Doc) stations)
-                            
+
 
 startService :: Config -> IO ()
-startService c = do 
-                   let port = (restPort c)
-                   let path = (restPath c)
+startService c = do
+                   let port = restPort c
+                   let path = restPath c
                    let tpath = TL.pack path
                    allSystemsCache <- newCache (restCacheTimeout c)
-                   infoM "EDDA.Rest" ("Rest service started on port: " ++ (show port))
+                   infoM "EDDA.Rest" ("Rest service started on port: " ++ show port)
                    scotty port $ do
                                   middleware $ gzip def
                                   systemsByName c path

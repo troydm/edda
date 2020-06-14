@@ -6,7 +6,7 @@ import Prelude hiding (lookup)
 import EDDA.Types
 
 import Control.Monad (join)
-import Data.Maybe (maybeToList)
+import Data.Maybe (maybeToList,fromMaybe)
 import Data.Int
 import Data.Bson
 import Data.Scientific (fromFloatDigits)
@@ -19,7 +19,7 @@ import qualified Data.Aeson.Types as A
 import qualified Data.Vector as V
 
 valStr :: Str -> Value
-valStr s = val s
+valStr = val
 valChr c = valStr $ T.singleton c
 
 valLevel None = valStr "None"
@@ -36,7 +36,7 @@ toLevel (String "Low") = Just Low
 toLevel (String "") = Just Temporary
 toLevel _ = Nothing
 lookupLevel :: Label -> Document -> Level
-lookupLevel l doc = maybe None id (maybe (Just None) toLevel (lookup l doc))
+lookupLevel l doc = fromMaybe None (maybe (Just None) toLevel (lookup l doc))
 
 valMount Fixed = valStr "Fixed"
 valMount Gimballed = valStr "Gimballed"
@@ -46,7 +46,7 @@ toMount (String "Fixed") = Just Fixed
 toMount (String "Gimballed") = Just Gimballed
 toMount (String "Turreted") = Just Turreted
 toMount _ = Nothing
-lookupMount l doc = join $ toMount <$> lookup l doc
+lookupMount l doc = toMount =<< lookup l doc
 
 valGuidance Dumbfire = valStr "Dumbfire"
 valGuidance Seeker = valStr "Seeker"
@@ -54,7 +54,7 @@ valGuidance Seeker = valStr "Seeker"
 toGuidance (String "Dumbfire") = Just Dumbfire
 toGuidance (String "Seeker") = Just Seeker
 toGuidance _ = Nothing
-lookupGuidance l doc = join $ toGuidance <$> lookup l doc
+lookupGuidance l doc = toGuidance =<< lookup l doc
 
 class ToDocument a where
     toDocument :: a -> Value
@@ -63,7 +63,7 @@ class FromDocument a where
     fromDocument :: Value -> Maybe a
 
 instance ToDocument Ships where
-    toDocument (Ships {ships = ships, shipsTimestamp = timestamp}) = 
+    toDocument Ships {ships = ships, shipsTimestamp = timestamp} =
         Doc ["ships" := shipsList, "shipsTimestamp" := val timestamp]
         where shipsList = Array $ map valStr (HS.toList ships)
 
@@ -74,9 +74,9 @@ instance FromDocument Ships where
     fromDocument _ = Nothing
 
 instance ToDocument Commodities where
-    toDocument (Commodities {commodities = commodities, commoditiesTimestamp = timestamp}) = 
+    toDocument Commodities {commodities = commodities, commoditiesTimestamp = timestamp} =
         Doc ["commodities" := Array (map commodityDoc (HM.elems commodities)), "commoditiesTimestamp" := val timestamp]
-        where commodityDoc (CommodityMarketInfo { 
+        where commodityDoc CommodityMarketInfo {
                             commodityMarketInfoName = name,
                             commodityMarketInfoMeanPrice = meanPrice,
                             commodityMarketInfoBuyPrice = buyPrice,
@@ -85,7 +85,7 @@ instance ToDocument Commodities where
                             commodityMarketInfoSellPrice = sellPrice,
                             commodityMarketInfoDemand = demand,
                             commodityMarketInfoDemandLevel = demandLevel,
-                            commodityMarketInfoStatusFlags = statusFlags }) = 
+                            commodityMarketInfoStatusFlags = statusFlags } =
                               Doc $ ["name" := valStr name, 
                                      "meanPrice" := val meanPrice,
                                      "buyPrice" := val buyPrice,
@@ -93,8 +93,8 @@ instance ToDocument Commodities where
                                      "sellPrice" := val sellPrice,
                                      "demand" := val demand, 
                                      "supplyLevel" := valLevel supplyLevel,
-                                     "demandLevel" := valLevel demandLevel] ++ 
-                                     (maybeToList ((\fs -> "statusFlags" := val fs) <$> statusFlags))
+                                     "demandLevel" := valLevel demandLevel] ++
+                                     maybeToList ((\fs -> "statusFlags" := val fs) <$> statusFlags)
 
 instance FromDocument Commodities where
     fromDocument (Doc doc) = do (Array maybeCommodities) <- lookup "commodities" doc
@@ -103,12 +103,12 @@ instance FromDocument Commodities where
                                 return Commodities { commodities = HM.fromList (map (\v -> (commodityMarketInfoName v,v)) commodities), commoditiesTimestamp = timestamp }
                              where  toCommodity (Doc doc) = 
                                                      do (String name) <- lookup "name" doc
-                                                        let (Int32 meanPrice) = maybe (Int32 0) id (lookup "meanPrice" doc)
+                                                        let (Int32 meanPrice) = fromMaybe (Int32 0) (lookup "meanPrice" doc)
                                                         (Int32 buyPrice) <- lookup "buyPrice" doc
                                                         (Int32 supply) <- lookup "supply" doc
                                                         (Int32 sellPrice) <- lookup "sellPrice" doc
                                                         (Int32 demand) <- lookup "demand" doc
-                                                        let statusFlags = case maybe Nothing id (lookup "statusFlags" doc) of
+                                                        let statusFlags = case join (lookup "statusFlags" doc) of
                                                                                         Just (Array vals) -> Just $ map (\(String s) -> toStr s) vals
                                                                                         Just _ -> Nothing
                                                                                         Nothing -> Nothing
@@ -126,77 +126,68 @@ instance FromDocument Commodities where
     fromDocument _ = Nothing
 
 instance ToDocument Outfittings where
-    toDocument (Outfittings { outfitting = outfitting, outfittingTimestamp = timestamp}) = 
+    toDocument Outfittings { outfitting = outfitting, outfittingTimestamp = timestamp} =
         Doc ["outfitting" := Array (map toDocument (HM.elems outfitting)), "outfittingTimestamp" := val timestamp]
 
 instance ToDocument OutfittingModuleInfo where
-        toDocument (OutfittingModuleHardpoint { 
+        toDocument OutfittingModuleHardpoint {
                                 outfittingModuleHardpointName = name,
                                 outfittingModuleHardpointMount = mount,
                                 outfittingModuleHardpointGuidance = guidance,
                                 outfittingModuleHardpointClass = cls,
                                 outfittingModuleHardpointRating = rating
-                            }) = Doc $ ["category" := valStr "hardpoint", "name" := valStr name, "mount" := valMount mount,
+                            } = Doc $ ["category" := valStr "hardpoint", "name" := valStr name, "mount" := valMount mount,
                                         "class" := valChr cls, "rating" := valChr rating ] ++ 
                                         maybeToList ((\g -> "guidance" := valGuidance g) <$> guidance)
-        toDocument (OutfittingModuleUtility { 
+        toDocument OutfittingModuleUtility {
                                outfittingModuleUtilityName = name,
                                outfittingModuleUtilityClass = cls,
                                outfittingModuleUtilityRating = rating
-                           }) = Doc $ ["category" := valStr "utility", "name" := valStr name, "class" := valChr cls, "rating" := valChr rating]
-        toDocument (OutfittingModuleStandard { 
+                           } = Doc ["category" := valStr "utility", "name" := valStr name, "class" := valChr cls, "rating" := valChr rating]
+        toDocument OutfittingModuleStandard {
                                outfittingModuleStandardName = name,
                                outfittingModuleStandardShip = maybeShip,
                                outfittingModuleStandardClass = cls,
                                outfittingModuleStandardRating = rating
-                           }) = Doc $ ["category" := valStr "standard", "name" := valStr name, "class" := valChr cls, "rating" := valChr rating] ++
+                           } = Doc $ ["category" := valStr "standard", "name" := valStr name, "class" := valChr cls, "rating" := valChr rating] ++
                                         maybeToList ((\s -> "ship" := valStr s) <$> maybeShip)
-        toDocument (OutfittingModuleInternal { 
+        toDocument OutfittingModuleInternal {
                                outfittingModuleInternalName = name,
                                outfittingModuleInternalClass = cls,
                                outfittingModuleInternalRating = rating
-                           }) = Doc $ ["category" := valStr "internal", "name" := valStr name, "class" := valChr cls, "rating" := valChr rating]
+                           } = Doc ["category" := valStr "internal", "name" := valStr name, "class" := valChr cls, "rating" := valChr rating]
 
 instance FromDocument Outfittings where
     fromDocument (Doc doc) = do (Array maybeOutfittings) <- lookup "outfitting" doc
                                 timestamp <- lookup "outfittingTimestamp" doc
                                 outfittings <- allJust $ map toOutfitting maybeOutfittings
                                 return Outfittings { outfitting = HM.fromList (map (\v -> (outfittingModuleFullName v,v)) outfittings), outfittingTimestamp = timestamp }
-                           where toOutfitting (Doc doc) = lookup "category" doc >>= toOutfittingModule doc
+                           where toOutfitting (Doc doc) = do (String name) <- lookup "name" doc
+                                                             (String cls) <- lookup "class" doc
+                                                             (String rating) <- lookup "rating" doc
+                                                             lookup "category" doc >>= toOutfittingModule doc name cls rating
                                  toOutfitting _ = Nothing
-                                 toOutfittingModule doc (String "hardpoint") = do (String name) <- lookup "name" doc
-                                                                                  mount <- lookupMount "mount" doc
-                                                                                  (String cls) <- lookup "class" doc
-                                                                                  (String rating) <- lookup "rating" doc
-                                                                                  return OutfittingModuleHardpoint { 
-                                                                                            outfittingModuleHardpointName = toStr name,
-                                                                                            outfittingModuleHardpointMount = mount,
-                                                                                            outfittingModuleHardpointGuidance = lookupGuidance "guidance" doc,
-                                                                                            outfittingModuleHardpointClass = T.head cls,
-                                                                                            outfittingModuleHardpointRating = T.head rating }
-                                 toOutfittingModule doc (String "utility") = do (String name) <- lookup "name" doc
-                                                                                (String cls) <- lookup "class" doc
-                                                                                (String rating) <- lookup "rating" doc
-                                                                                return OutfittingModuleUtility { 
-                                                                                            outfittingModuleUtilityName = toStr name,
-                                                                                            outfittingModuleUtilityClass = T.head cls,
-                                                                                            outfittingModuleUtilityRating = T.head rating }
-                                 toOutfittingModule doc (String "standard") = do (String name) <- lookup "name" doc
-                                                                                 (String cls) <- lookup "class" doc
-                                                                                 (String rating) <- lookup "rating" doc
-                                                                                 return OutfittingModuleStandard { 
-                                                                                            outfittingModuleStandardName = toStr name,
-                                                                                            outfittingModuleStandardShip = (\(String s) -> toStr s) <$> lookup "ship" doc,
-                                                                                            outfittingModuleStandardClass = T.head cls,
-                                                                                            outfittingModuleStandardRating = T.head rating }
-                                 toOutfittingModule doc (String "internal") = do (String name) <- lookup "name" doc
-                                                                                 (String cls) <- lookup "class" doc
-                                                                                 (String rating) <- lookup "rating" doc
-                                                                                 return OutfittingModuleInternal { 
-                                                                                            outfittingModuleInternalName = toStr name,
-                                                                                            outfittingModuleInternalClass = T.head cls,
-                                                                                            outfittingModuleInternalRating = T.head rating }
-                                 toOutfittingModule _ _ = Nothing
+                                 toOutfittingModule doc name cls rating (String "hardpoint") = do mount <- lookupMount "mount" doc
+                                                                                                  return OutfittingModuleHardpoint {
+                                                                                                            outfittingModuleHardpointName = toStr name,
+                                                                                                            outfittingModuleHardpointMount = mount,
+                                                                                                            outfittingModuleHardpointGuidance = lookupGuidance "guidance" doc,
+                                                                                                            outfittingModuleHardpointClass = T.head cls,
+                                                                                                            outfittingModuleHardpointRating = T.head rating }
+                                 toOutfittingModule doc name cls rating (String "utility") = return OutfittingModuleUtility {
+                                                                                                      outfittingModuleUtilityName = toStr name,
+                                                                                                      outfittingModuleUtilityClass = T.head cls,
+                                                                                                      outfittingModuleUtilityRating = T.head rating }
+                                 toOutfittingModule doc name cls rating (String "standard") = return OutfittingModuleStandard { 
+                                                                                                        outfittingModuleStandardName = toStr name,
+                                                                                                        outfittingModuleStandardShip = (\(String s) -> toStr s) <$> lookup "ship" doc,
+                                                                                                        outfittingModuleStandardClass = T.head cls,
+                                                                                                        outfittingModuleStandardRating = T.head rating }
+                                 toOutfittingModule doc name cls rating (String "internal") = return OutfittingModuleInternal {
+                                                                                                       outfittingModuleInternalName = toStr name,
+                                                                                                       outfittingModuleInternalClass = T.head cls,
+                                                                                                       outfittingModuleInternalRating = T.head rating }
+                                 toOutfittingModule _ _ _ _ _ = Nothing
 
 
     fromDocument _ = Nothing

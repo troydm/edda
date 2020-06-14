@@ -9,7 +9,8 @@ import qualified Data.Text as T
 import qualified Data.ByteString as BC
 import qualified Data.ByteString.Char8 as C
 import qualified Data.ByteString.Lazy.Char8 as LC
-import Data.Maybe (catMaybes)
+import Control.Monad (when)
+import Data.Maybe (mapMaybe)
 import Data.Int (Int64(..))
 import Data.Aeson
 import Data.Aeson.Types
@@ -22,51 +23,51 @@ import Network.HTTP.Client.TLS
 
 mapStr :: Str -> Str -> Value -> Maybe B.Field
 mapStr from to obj = do s <- getStr obj from
-                        return (to B.:= (B.val s))
+                        return (to B.:= B.val s)
 
 mapStrNullable :: Str -> Str -> Value -> Maybe B.Field
 mapStrNullable from to obj = do s <- getStrNullable obj from
-                                return (to B.:= (if T.length s > 0 then (B.val s) else B.Null))
+                                return (to B.:= (if T.length s > 0 then B.val s else B.Null))
 
 mapInt :: Str -> Str -> Value -> Maybe B.Field
 mapInt from to obj = do !x <- getInt obj from
-                        return (to B.:= (B.Int64 (fromIntegral x)))
+                        return (to B.:= B.Int64 (fromIntegral x))
 
 mapIntNullable :: Str -> Str -> Value -> Maybe B.Field
 mapIntNullable from to obj = do !x <- getIntNullable obj from
-                                return (to B.:= (B.Int64 (fromIntegral x)))
+                                return (to B.:= B.Int64 (fromIntegral x))
 
 mapBool :: Str -> Str -> Value -> Maybe B.Field
 mapBool from to obj = do !x <- getInt obj from
-                         return (to B.:= (B.val (if x == 1 then True else False)))
+                         return (to B.:= B.val (x == 1))
 
 mapBoolNullable :: Str -> Str -> Value -> Maybe B.Field
 mapBoolNullable from to obj = do x <- getIntNullable obj from
-                                 return (to B.:= (B.val (if x == 1 then True else False)))
+                                 return (to B.:= B.val (x == 1))
 
 mapDouble :: Str -> Str -> Value -> Maybe B.Field
 mapDouble from to obj = do x <- getDouble obj from
-                           return (to B.:= (B.val x))
+                           return (to B.:= B.val x)
 
 mapDoubleNullable :: Str -> Str -> Value -> Maybe B.Field
 mapDoubleNullable from to obj = do x <- getDoubleNullable obj from
-                                   return (to B.:= (B.val x))
+                                   return (to B.:= B.val x)
 
 mapConst :: Str -> B.Value -> Value -> Maybe B.Field
 mapConst to val _ = return (to B.:= val)
 
 mapStrArray :: Str -> Str -> Value -> Maybe B.Field
 mapStrArray from to obj = case getStrArray obj from of
-                                Just sa -> return (to B.:= (B.valList sa))
-                                Nothing -> return (to B.:= (B.valList ([] :: [Str])))
+                                Just sa -> return (to B.:= B.valList sa)
+                                Nothing -> return (to B.:= B.valList ([] :: [Str]))
 
 mapObjectArray :: Str -> Str -> (Value -> Maybe B.Document) -> Value -> Maybe B.Field
 mapObjectArray from to f obj = case getArray obj from of
-                                    Just oa -> return (to B.:= (B.valList (catMaybes (map f oa))))
-                                    Nothing -> return (to B.:= (B.valList ([] :: [B.Document])))
+                                    Just oa -> return (to B.:= B.valList (mapMaybe f oa))
+                                    Nothing -> return (to B.:= B.valList ([] :: [B.Document]))
 
 mapToDocument :: [Value -> Maybe B.Field] -> Value -> Maybe B.Document
-mapToDocument mappers v = allJust $! map (\f -> f $! v) mappers
+mapToDocument mappers v = allJust $! map ($! v) mappers
 
 countJSONDocumentLength :: C.ByteString -> Int -> Int
 countJSONDocumentLength d offset = until 0 0
@@ -78,8 +79,7 @@ countJSONDocumentLength d offset = until 0 0
 
 
 streamParseIO :: Int -> C.ByteString -> (C.ByteString -> Int -> Int -> IO ()) -> IO ()
-streamParseIO bs d f = if C.head d == '[' then until 1 1 0
-                       else return ()
+streamParseIO bs d f = when (C.head d == '[') $ until 1 1 0
                        where until a as ds = 
                                      let na = countJSONDocumentLength d a 
                                          nc = C.index d a
