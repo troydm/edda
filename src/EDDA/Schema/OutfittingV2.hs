@@ -20,8 +20,8 @@ import qualified Data.ByteString.Char8 as C
 
 contains s sub = not $ null (T.breakOnAll (T.toLower sub) (T.toLower s))
 
-lookupVal t s = maybe Nothing (\(_,n) -> Just n) $ find (\(n,_) -> contains s n) t
-lookupVal2 t s = maybe Nothing (\(_,_,n) -> Just n) $ find (\(n,m,_) -> (contains s n) && (contains s m)) t
+lookupVal t s = (\(_,n) -> Just n) =<< find (\(n,_) -> contains s n) t
+lookupVal2 t s = (\(_,_,n) -> Just n) =<< find (\(n,m,_) -> contains s n && contains s m) t
 
 mount :: Str -> Maybe Mount
 mount = lookupVal
@@ -370,22 +370,23 @@ parseInternal s = return $ do
 
 
 getModule :: Str -> ConfigT (Maybe OutfittingModuleInfo)
-getModule s = if contains s "_Armour_" then parseArmour s
-              else if contains s "Hpt_" then parseHardpoint s
-              else if contains s "Int_" then parseInternal s
-              else return Nothing
+getModule s
+    | contains s "_Armour_" = parseArmour s
+    | contains s "Hpt_" = parseHardpoint s
+    | contains s "Int_" = parseInternal s
+    | otherwise = return Nothing
 
 getModule' :: Value -> ConfigT (Maybe OutfittingModuleInfo)
 getModule' (String s) = do
                           result <- getModule s
                           if isJust result then return result
-                          else liftIO (errorM "EDDA.Schema.OutfittingV2" ("Couldn't parse outfitting v2: " ++ (show s))) >> return Nothing
+                          else liftIO (errorM "EDDA.Schema.OutfittingV2" ("Couldn't parse outfitting v2: " ++ show s)) >> return Nothing
 getModule' _ = return Nothing
 
 
 getModules :: Value -> ConfigT (Maybe [OutfittingModuleInfo])
 getModules v = case getArray v "modules" of
-                     Just a -> allJust <$> sequence (map getModule' a)
+                     Just a -> allJust <$> mapM getModule' a
                      Nothing -> return Nothing
 
 

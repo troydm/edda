@@ -6,7 +6,7 @@ import EDDA.Schema.Util
 
 import Control.Monad.Trans
 import System.Log.Logger (errorM)
-import Data.Maybe (isNothing)
+import Data.Maybe (isNothing,fromMaybe)
 import Data.Aeson
 import Data.Aeson.Types
 import qualified Data.Vector as V
@@ -29,17 +29,17 @@ getCommodity v = do
                                                             commodityMarketInfoMeanPrice = 0,
                                                             commodityMarketInfoBuyPrice = buyPrice,
                                                             commodityMarketInfoSupply = supply,
-                                                            commodityMarketInfoSupplyLevel = maybe None id supplyLevel,
+                                                            commodityMarketInfoSupplyLevel = fromMaybe None supplyLevel,
                                                             commodityMarketInfoSellPrice = sellPrice,
                                                             commodityMarketInfoDemand = demand,
-                                                            commodityMarketInfoDemandLevel = maybe None id demandLevel,
+                                                            commodityMarketInfoDemandLevel = fromMaybe None demandLevel,
                                                             commodityMarketInfoStatusFlags = Nothing }
-                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV2" ("Couldn't parse commodity v2: " ++ (show v))) >> return Nothing else return ret
+                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV2" ("Couldn't parse commodity v2: " ++ show v)) >> return Nothing else return ret
 
 
 getCommodities :: Value -> ConfigT (Maybe [CommodityMarketInfo])
 getCommodities v = case getArray v "commodities" of
-                     Just a -> allJust <$> sequence (map getCommodity a)
+                     Just a -> allJust <$> mapM getCommodity a
                      Nothing -> return Nothing
 
 

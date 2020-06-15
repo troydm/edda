@@ -4,6 +4,7 @@ module EDDA.Schema.Parser where
 import EDDA.Types
 import EDDA.Schema.Util
 
+import Control.Applicative ((<|>))
 import Control.Monad.Trans
 import Control.Monad.Trans.Reader
 import Data.Aeson
@@ -29,7 +30,7 @@ parseHeader :: Value -> ConfigT (Maybe Header)
 parseHeader (Object v) = do
             case HM.lookup "header" v of
                     Just h -> return $ do
-                                         uploaderId <- maybe (Just "") Just (getStr h "uploaderID")
+                                         uploaderId <- getStr h "uploaderID" <|> Just ""
                                          softwareName <- getStr h "softwareName"
                                          softwareVersion <- getStr h "softwareVersion"
                                          return Header { headerUploaderId = uploaderId,

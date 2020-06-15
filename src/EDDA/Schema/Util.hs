@@ -34,8 +34,8 @@ getTimestamp (Object v) s = case HM.lookup (toText s) v of
                                                         tz = head (tail ts) 
                                                         tms = splitOn ":" tm
                                                         tms' = map (\t -> if length t == 1 then '0':t else t) tms 
-                                                        tz' = if elem '+' t then '+':tz else '-':tz in
-                                                    d ++ "T" ++ (intercalate ":" tms') ++ tz'
+                                                        tz' = if '+' `elem` t then '+':tz else '-':tz in
+                                                    d ++ "T" ++ intercalate ":" tms' ++ tz'
 getTimestamp _ _ = Nothing
 
 orMaybe = listToMaybe . catMaybes
@@ -69,34 +69,32 @@ valToDoubleNullable v = case fromJSON v :: Result Double of
                             Error _ -> Just 0.0
 
 getStr :: Value -> Str -> Maybe Str
-getStr (Object v) s =  case (join $ valToStr <$> HM.lookup (toText s) v) of
+getStr (Object v) s =  case valToStr =<< HM.lookup (toText s) v of
                          Just s -> if T.length s > 0 then Just s else Nothing
                          Nothing -> Nothing
 getStr _ _ = Nothing
 
 getStrNullable :: Value -> Str -> Maybe Str
-getStrNullable (Object v) s =  case (join $ valToStrNullable <$> HM.lookup (toText s) v) of
-                                    Just s -> Just s
-                                    Nothing -> Nothing
+getStrNullable (Object v) s = Just =<< (valToStrNullable =<< HM.lookup (toText s) v)
 getStrNullable _ _ = Nothing
 
 getChr :: Value -> Str -> Maybe Char
 getChr v s = T.head <$> getStr v s
 
 getInt :: Value -> Str -> Maybe Int
-getInt (Object v) s = join $ valToInt <$> HM.lookup (toText s) v
+getInt (Object v) s = valToInt =<< HM.lookup (toText s) v
 getInt _ _ = Nothing
 
 getIntNullable :: Value -> Str -> Maybe Int
-getIntNullable (Object v) s = join $ valToIntNullable <$> HM.lookup (toText s) v
+getIntNullable (Object v) s = valToIntNullable =<< HM.lookup (toText s) v
 getIntNullable _ _ = Nothing
 
 getDouble :: Value -> Str -> Maybe Double
-getDouble (Object v) s = join $ valToDouble <$> HM.lookup (toText s) v
+getDouble (Object v) s = valToDouble =<< HM.lookup (toText s) v
 getDouble _ _ = Nothing
 
 getDoubleNullable :: Value -> Str -> Maybe Double
-getDoubleNullable (Object v) s = join $ valToDoubleNullable <$> HM.lookup (toText s) v
+getDoubleNullable (Object v) s = valToDoubleNullable =<< HM.lookup (toText s) v
 getDoubleNullable _ _ = Nothing
 
 getLevel :: Value -> Str -> Maybe Level
@@ -121,10 +119,8 @@ getBracket v s = case getInt v s of
 getMount :: Value -> Str -> Maybe Mount
 getMount v s = case getStr v s of
                  Just s -> if s == "Fixed" then Just Fixed
-                           else if s == "Gimballed" then Just Gimballed
-                           else if s == "Gimbal" then Just Gimballed
-                           else if s == "Turreted" then Just Turreted
-                           else if s == "Turret" then Just Turreted
+                           else if s == "Gimballed" || s == "Gimbal" then Just Gimballed
+                           else if s == "Turreted" || s == "Turret" then Just Turreted
                            else Nothing
                  Nothing -> Nothing
 

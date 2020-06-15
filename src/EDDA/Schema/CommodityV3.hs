@@ -38,12 +38,12 @@ getCommodity v = do
                                                             commodityMarketInfoDemand = demand,
                                                             commodityMarketInfoDemandLevel = demandBracket,
                                                             commodityMarketInfoStatusFlags = statusFlags }
-                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV3" ("Couldn't parse commodity v3: " ++ (show v))) >> return Nothing else return ret 
+                 if isNothing ret then liftIO (errorM "EDDA.Schema.CommodityV3" ("Couldn't parse commodity v3: " ++ show v)) >> return Nothing else return ret 
 
 
 getCommodities :: Value -> ConfigT (Maybe [CommodityMarketInfo])
 getCommodities v = case getArray v "commodities" of
-                     Just a -> allJust <$> sequence (map getCommodity a)
+                     Just a -> allJust <$> mapM getCommodity a
                      Nothing -> return Nothing
 
 
