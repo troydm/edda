@@ -11,7 +11,7 @@ import EDDA.Data.Document (toDocument,valStr)
 import Data.List.Split (chunksOf)
 import Data.IORef
 import Control.Applicative ((<|>))
-import Control.Monad (join)
+import Control.Monad (join,forM_)
 import Control.Monad.Trans
 import Control.Monad.Trans.Reader
 import Network.HTTP.Types
@@ -33,7 +33,7 @@ import Data.ByteString.Search.Substitution
 import qualified Data.Csv as CSV
 import Data.Int (Int32(..))
 import Data.Char (intToDigit)
-import Data.Maybe (fromJust)
+import Data.Maybe (fromJust,fromMaybe)
 import Data.List (foldl')
 import Data.Aeson
 import Data.Aeson.Types
@@ -41,9 +41,9 @@ import qualified Data.Bson as B
 import qualified Data.HashMap.Strict as HM
 
 url = "https://eddb.io/archive/v6/stations.json"
-module_url = "https://eddb.io/archive/v6/modules.json"
-listings_url = "https://eddb.io/archive/v6/listings.csv"
-commodities_url = "https://eddb.io/archive/v6/commodities.json"
+moduleUrl = "https://eddb.io/archive/v6/modules.json"
+listingsUrl = "https://eddb.io/archive/v6/listings.csv"
+commoditiesUrl = "https://eddb.io/archive/v6/commodities.json"
 
 type CommoditiesMap = HM.HashMap Int32 T.Text
 
@@ -51,7 +51,7 @@ downloadListings :: ConfigT LC.ByteString
 downloadListings = do liftIO $ putStrLn "Downloading EDDB listings..."
                       liftIO $ do
                            manager <- newManager tlsManagerSettings
-                           initialRequest <- parseRequest listings_url
+                           initialRequest <- parseRequest listingsUrl
                            let request = initialRequest { requestHeaders=[(hAcceptEncoding,"gzip, deflate, sdch")] }
                            response <- httpLbs request manager 
                            return $ responseBody response
@@ -62,7 +62,7 @@ downloadCommodities =
                       liftIO $ putStrLn "Downloading EDDB commodities..."
                       liftIO $ do
                            manager <- newManager tlsManagerSettings
-                           initialRequest <- parseRequest commodities_url
+                           initialRequest <- parseRequest commoditiesUrl
                            let request = initialRequest { requestHeaders=[(hAcceptEncoding,"gzip, deflate, sdch")] }
                            response <- httpLbs request manager 
                            let !maybeCommodities = decode' (responseBody response) :: Maybe Value
@@ -72,23 +72,21 @@ downloadCommodities =
                   where toMap (Array ar) = Just $ HM.fromList ((onlyJust . V.toList) (V.map valToKV ar))
                         toMap _ = Nothing
                         valToKV obj = do !id <- getInt obj "id"
-                                         !name <- getStr obj "name" >>= return . toText
+                                         !name <- toText <$> getStr obj "name"
                                          return (fromIntegral id,name)
 
 downloadModules :: ConfigT (Maybe (HM.HashMap Int OutfittingModuleInfo))
 downloadModules = do liftIO $ putStrLn "Downloading EDDB modules..."
                      !result <- liftIO $ do
                            manager <- newManager tlsManagerSettings
-                           initialRequest <- parseRequest module_url
+                           initialRequest <- parseRequest moduleUrl
                            let request = initialRequest { requestHeaders=[(hAcceptEncoding,"gzip, deflate, sdch")] }
                            response <- httpLbs request manager 
                            let modules = decode' (responseBody response) :: Maybe [Value]
-                           return $ case modules of
-                             Just modules -> modules
-                             Nothing -> []
+                           return $ fromMaybe [] modules
                      liftIO $ putStrLn "EDDB Modules downloaded"
                      case allJust (map convertToModuleInfo result) of
-                       Just modules -> do liftIO $ putStrLn ("Modules loaded: "++(show (length modules)))
+                       Just modules -> do liftIO $ putStrLn ("Modules loaded: "++ show (length modules))
                                           return $ Just (HM.fromList modules)
                        Nothing -> return Nothing
                   where
@@ -102,13 +100,8 @@ downloadModules = do liftIO $ putStrLn "Downloading EDDB modules..."
                                                      group <- HM.lookup "group" doc
                                                      category <- getStr group "category"
                                                      name <- getStr group "name"
-                                                     if category == "Bulkhead" then 
-                                                         return (module_id,OutfittingModuleUtility { 
-                                                             outfittingModuleUtilityName = name,
-                                                             outfittingModuleUtilityClass = cls,
-                                                             outfittingModuleUtilityRating = rating })
-                                                     else if category == "Utility Mount" then 
-                                                         return (module_id,OutfittingModuleUtility { 
+                                                     if category == "Bulkhead" || category == "Utility Mount" then
+                                                         return (module_id,OutfittingModuleUtility {
                                                              outfittingModuleUtilityName = name,
                                                              outfittingModuleUtilityClass = cls,
                                                              outfittingModuleUtilityRating = rating })
@@ -134,20 +127,20 @@ downloadModules = do liftIO $ putStrLn "Downloading EDDB modules..."
                                                      else Nothing
 
 
-mapModuleArray :: (HM.HashMap Int OutfittingModuleInfo) -> Str -> Str -> Value -> Maybe B.Field
-mapModuleArray moduleMap from to obj = join $ (\sa -> (\ms -> ((toText to) B.:= (B.Array ms))) <$> outfittingsToDoc sa) <$> getIntArray obj from
+mapModuleArray :: HM.HashMap Int OutfittingModuleInfo -> Str -> Str -> Value -> Maybe B.Field
+mapModuleArray moduleMap from to obj = fmap (\ms -> toText to B.:= B.Array ms) . outfittingsToDoc =<< getIntArray obj from
                                        where moduleList :: [Int] -> Maybe [OutfittingModuleInfo]
-                                             moduleList arr = allJust (map (\i -> HM.lookup i moduleMap) arr)
+                                             moduleList arr = allJust (map (`HM.lookup` moduleMap) arr)
                                              outfittingsToDoc :: [Int] -> Maybe [B.Value]
-                                             outfittingsToDoc arr = (map EDDA.Data.Document.toDocument) <$> (moduleList arr)
+                                             outfittingsToDoc arr = map EDDA.Data.Document.toDocument <$> moduleList arr
 
-toDocument :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 T.Text) -> Value -> Maybe (Str,Str,B.Document)
+toDocument :: HM.HashMap Int OutfittingModuleInfo -> HM.HashMap Int32 T.Text -> Value -> Maybe (Str,Str,B.Document)
 toDocument modulemap idmap obj = do !stationName <- getStr obj "name"
                                     !systemId <- getInt obj "system_id"
-                                    !systemName <- HM.lookup (fromIntegral systemId) idmap >>= return . toStr
+                                    !systemName <- toStr <$> HM.lookup (fromIntegral systemId) idmap
                                     !doc <- mapToDocument [mapInt "id" "eddbId",
-                                                           mapConst "systemName" (B.val $! (toText systemName)),
-                                                           mapConst "stationName" (B.val $! (toText stationName)),
+                                                           mapConst "systemName" (B.val $! toText systemName),
+                                                           mapConst "stationName" (B.val $! toText stationName),
                                                            mapModuleArray modulemap "selling_modules" "outfitting",
                                                            mapStrNullable "type" "type",
                                                            mapObjectArray "states" "states" (
@@ -176,33 +169,32 @@ toDocument modulemap idmap obj = do !stationName <- getStr obj "name"
                                                            mapStrNullable "max_landing_pad_size" "maxLandingPadSize"] obj
                                     return (systemName,stationName,doc)
 
-toDocumentList :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 T.Text) -> V.Vector Value -> ConfigT (V.Vector (Maybe (Str,Str,B.Document)))
-toDocumentList modulemap idmap stations = flip V.mapM stations (\v -> case EDDA.Data.Import.EDDB.Stations.toDocument modulemap idmap v of
-                                                                        Just (!systemName,!stationName,!doc) -> return $ Just (systemName,stationName,doc)
-                                                                        Nothing -> do liftIO $ C.putStrLn "Couldn't parse system: "
-                                                                                      liftIO $ putStrLn (show v)
-                                                                                      return Nothing)
+toDocumentList :: HM.HashMap Int OutfittingModuleInfo -> HM.HashMap Int32 T.Text -> V.Vector Value -> ConfigT (V.Vector (Maybe (Str,Str,B.Document)))
+toDocumentList modulemap idmap = V.mapM (\v -> case EDDA.Data.Import.EDDB.Stations.toDocument modulemap idmap v of
+                                                    Just (!systemName,!stationName,!doc) -> return $ Just (systemName,stationName,doc)
+                                                    Nothing -> do liftIO $ C.putStrLn "Couldn't parse system: " >> print v
+                                                                  return Nothing)
 
 saveToDatabase stations = do liftIO $ C.putStrLn "Importing into database..."
                              saveStations $ V.toList stations
-                             liftIO $ C.putStrLn ("Stations imported: " `C.append` (C.pack (show (V.length stations))))
+                             liftIO $ C.putStrLn ("Stations imported: " `C.append` C.pack (show (V.length stations)))
 
-convertAndSaveToDB :: (HM.HashMap Int OutfittingModuleInfo) -> (HM.HashMap Int32 T.Text) -> Config -> C.ByteString -> IO ()
+convertAndSaveToDB :: HM.HashMap Int OutfittingModuleInfo -> HM.HashMap Int32 T.Text -> Config -> C.ByteString -> IO ()
 convertAndSaveToDB modulemap idmap c d =
                          do total <- newIORef 0 
                             runReaderT (query (do context <- ask 
                                                   liftIO (streamParseIO 1000 d (saveToDB context total)))) c
                             totalCount <- readIORef total
-                            putStrLn ("Total stations imported: " ++ (show totalCount))
-           where substr d s e = C.concat ["[",(C.take (e-s-1) $ C.drop s d),"]"]
+                            putStrLn ("Total stations imported: " ++ show totalCount)
+           where substr d s e = C.concat ["[",C.take (e-s-1) $ C.drop s d,"]"]
                  convert s = case (decodeStrict' s :: Maybe Value) of
                                 Just (Array stations) -> return $ Just stations
                                 Just _ -> return Nothing
                                 Nothing -> return Nothing
-                 saveToDB context total d s e = 
-                                        do maybeStations <- (convert (substr d s e))
+                 saveToDB context total d s e =
+                                        do maybeStations <- convert (substr d s e)
                                            case maybeStations of
-                                                Just v -> do stations <- runReaderT (toDocumentList modulemap idmap v >>= return . onlyJustVec) c
+                                                Just v -> do stations <- runReaderT (onlyJustVec <$> toDocumentList modulemap idmap v) c
                                                              runReaderT (saveToDatabase stations) context
                                                              let !totalCount = V.length stations in modifyIORef' total (+ totalCount)
                                                 Nothing -> putStrLn "Couldn't decode a batch" >> C.putStrLn (substr d s e)
@@ -215,7 +207,7 @@ downloadAndImportStations = do
                         liftIO $ putStrLn "Loading EDDB systems id map"
                         !maybeidmap <- getSystemEDDBIdsMap
                         let !idmap = fromJust maybeidmap
-                        liftIO $ putStrLn ("EDDB systems id map loaded: " ++ (show (HM.size idmap)))
+                        liftIO $ putStrLn ("EDDB systems id map loaded: " ++ show (HM.size idmap))
                         liftIO $ C.putStrLn "Downloading EDDB Stations data..."
                         r <- ask
                         liftIO $ withSystemTempFile "stations.json" (\f h -> download url "EDDB Stations data downloaded" f h >> mmapFileByteString f Nothing >>= convertAndSaveToDB moduleMap idmap r)
@@ -228,7 +220,7 @@ parseListings s = do let lines = tail $ LC.lines (LC.fromStrict s)
                   where parseLine :: LC.ByteString -> Maybe (VU.Vector Int32)
                         parseLine l = case CSV.decode CSV.NoHeader (replace (C.pack ",,") (C.pack ",0,") l) of
                                          Right v -> return (V.head v)
-                                         Left msg -> unsafePerformIO ((putStrLn msg) >> LC.putStrLn l >> return Nothing)
+                                         Left msg -> unsafePerformIO (putStrLn msg >> LC.putStrLn l >> return Nothing)
 
 listingsByStationId :: V.Vector (VU.Vector Int32) -> Int32 -> V.Vector (VU.Vector Int32)
 listingsByStationId v stationId = V.filter (\e -> (e VU.! 1) == stationId) v
@@ -250,7 +242,7 @@ demandLabel = "demand"
 
 stationIdToDocument :: CommoditiesMap -> V.Vector (VU.Vector Int32) -> Int32 -> (Int32,V.Vector B.Document)
 stationIdToDocument cm v stationId =
-                      (stationId, (V.map f (listingsByStationId v stationId)))
+                      (stationId, V.map f (listingsByStationId v stationId))
                       where f e = doc
                                     where
                                       !sId = e VU.! 1
@@ -276,18 +268,18 @@ listingStationIds v = (VU.fromList . HS.toList) $ V.foldl' (\s v -> HS.insert (v
 downloadAndImportListings :: ConfigT ()
 downloadAndImportListings = do maybeCommoditiesMap <- downloadCommodities
                                case maybeCommoditiesMap of
-                                    Just cm -> do listings <- liftIO $ withSystemTempFile "listings.csv" (\f h -> download listings_url "EDDB commodities downloaded" f h >> mmapFileByteString f Nothing >>= parseListings)
+                                    Just cm -> do listings <- liftIO $ withSystemTempFile "listings.csv" (\f h -> download listingsUrl "EDDB commodities downloaded" f h >> mmapFileByteString f Nothing >>= parseListings)
                                                   let partitions = chunksOf 10 (VU.toList $ listingStationIds listings)
                                                   total <- liftIO $ newIORef 0
                                                   query (do context <- ask
-                                                            liftIO $ (flip mapM_) partitions
+                                                            liftIO $ forM_ partitions
                                                                          (\p -> do liftIO $ C.putStrLn "Importing station commodities"
                                                                                    let commodities = convertListings cm listings p
                                                                                    runReaderT (saveStationsCommodities commodities) context
-                                                                                   liftIO $ C.putStrLn ("Station commodities imported: " `C.append` (C.pack (show (HM.size commodities))))
+                                                                                   liftIO $ C.putStrLn ("Station commodities imported: " `C.append` C.pack (show (HM.size commodities)))
                                                                                    liftIO $ let !totalCount = HM.size commodities in modifyIORef' total (+ totalCount)))
                                                   totalCount <- liftIO $ readIORef total
-                                                  liftIO $ C.putStrLn ("Total station commodities imported: " `C.append` (C.pack (show totalCount)))
+                                                  liftIO $ C.putStrLn ("Total station commodities imported: " `C.append` C.pack (show totalCount))
                                     Nothing -> liftIO $ C.putStrLn "Couldn't import commodities"
 
 downloadAndImport :: ConfigT ()

@@ -29,7 +29,7 @@ import qualified Data.Bson as B
 url = "https://eddb.io/archive/v6/systems_populated.json"
 
 toDocument :: Value -> Maybe (Int32,Str,B.Document)
-toDocument obj = do !edsmId <- fromIntegral <$> ((getInt obj "edsm_id") <|> (Just 0 :: Maybe Int))
+toDocument obj = do !edsmId <- fromIntegral <$> (getInt obj "edsm_id" <|> (Just 0 :: Maybe Int))
                     !name <- getStr obj "name"
                     !doc <- mapToDocument [mapIntNullable "id" "eddbId",
                                            mapIntNullable "edsm_id" "edsmId",
@@ -55,31 +55,30 @@ toDocument obj = do !edsmId <- fromIntegral <$> ((getInt obj "edsm_id") <|> (Jus
                     return (edsmId,name,doc)
 
 toDocumentList :: V.Vector Value -> ConfigT (V.Vector (Maybe (Int32,Str,B.Document)))
-toDocumentList systems = flip V.mapM systems (\v -> case toDocument v of
-                                                        Just d -> return $ Just d
-                                                        Nothing -> do liftIO $ C.putStrLn "Couldn't parse system: "
-                                                                      liftIO $ putStrLn (show v)
-                                                                      return Nothing)
+toDocumentList = V.mapM (\v -> case toDocument v of
+                                    Just d -> return $ Just d
+                                    Nothing -> do liftIO $ C.putStrLn "Couldn't parse system: " >> print v
+                                                  return Nothing)
 
 
 saveToDatabase systems = do liftIO $ C.putStrLn "Importing into database..."
                             saveSystems systems
-                            liftIO $ C.putStrLn ("Systems imported: " `C.append` (C.pack (show (length systems))))
+                            liftIO $ C.putStrLn ("Systems imported: " `C.append` C.pack (show (length systems)))
 
 
 convertAndSaveToDB :: Config -> C.ByteString -> IO ()
 convertAndSaveToDB c d = do total <- newIORef 0
                             runReaderT (query (do context <- ask
-                                                  (liftIO (streamParseIO 10000 d (saveToDB context total))))) c
+                                                  liftIO (streamParseIO 10000 d (saveToDB context total)))) c
                             totalCount <- readIORef total
-                            C.putStrLn ("Total systems imported: " `C.append` (C.pack (show totalCount)))
-           where substr d s e = C.concat ["[",(C.take (e-s-1) $ C.drop s d),"]"]
+                            C.putStrLn ("Total systems imported: " `C.append` C.pack (show totalCount))
+           where substr d s e = C.concat ["[",C.take (e-s-1) $ C.drop s d,"]"]
                  convert s = case (decodeStrict' s :: Maybe Value) of
-                                Just (Array systems) -> runReaderT (toDocumentList systems) c >>= return . Just. onlyJustVec
+                                Just (Array systems) -> Just . onlyJustVec <$> runReaderT (toDocumentList systems) c
                                 Just _ -> return Nothing
                                 Nothing -> return Nothing
                  saveToDB context total d s e =
-                                        do maybeSystems <- (convert (substr d s e))
+                                        do maybeSystems <- convert (substr d s e)
                                            case maybeSystems of
                                                 Just systems -> do runReaderT (saveToDatabase (V.toList systems)) context
                                                                    let !totalCount = length systems in modifyIORef' total (+ totalCount)
