@@ -49,5 +49,21 @@ test2 = TestCase $ do conf <- readConf
                       assertEqual "station name" "Merritt Platform" (outfittingInfoStationName outfittingInfo)
                       assertEqual "outfitting modules" 101 (HM.size (outfittingInfoModules outfittingInfo))
 
-outfittingV2Tests = [TestLabel "outfitting3 test" test1, TestLabel "outfitting4 test" test2]
+test3 :: Test
+test3 = TestCase $ do conf <- readConf
+                      val <- readJsonTestFile "test/EDDA/Schema/outfitting5.json"
+                      maybeHeader <- runReaderT (parseHeader val) conf
+                      assertBool "header couldn't be parsed" (isJust maybeHeader)
+                      let header = fromJust maybeHeader
+                      assertEqual "uploader id" "617637dfa49d5a9a49a48b99c6be8317c21eefd9" (headerUploaderId header)
+                      assertEqual "software name" "E:D Market Connector [Windows]" (headerSoftwareName header)
+                      assertEqual "software version" "3.4.3.0" (headerSoftwareVersion header)
+                      maybeMessage <- runReaderT (parseMessage val) conf
+                      assertBool "message couldn't be parsed" (isJust maybeMessage)
+                      let outfittingInfo = fromJust maybeMessage
+                      assertEqual "system name" "Tir" (outfittingInfoSystemName outfittingInfo)
+                      assertEqual "station name" "The Watchtower" (outfittingInfoStationName outfittingInfo)
+                      assertEqual "outfitting modules" 32 (HM.size (outfittingInfoModules outfittingInfo))
+
+outfittingV2Tests = [TestLabel "outfitting3 test" test1, TestLabel "outfitting4 test" test2, TestLabel "outfitting5 test" test3]
 

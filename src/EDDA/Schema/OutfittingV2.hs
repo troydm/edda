@@ -386,7 +386,7 @@ getModule' _ = return Nothing
 
 getModules :: Value -> ConfigT (Maybe [OutfittingModuleInfo])
 getModules v = case getArray v "modules" of
-                     Just a -> allJust <$> mapM getModule' a
+                     Just a -> justNotEmpty . onlyJust <$> mapM getModule' a
                      Nothing -> return Nothing
 
 
@@ -402,6 +402,4 @@ parseOutfitting v = do
                                                        outfittingInfoStationName = stationName, 
                                                        outfittingInfoTimestamp = timestamp,
                                                        outfittingInfoModules = HM.fromList (map (\v -> (outfittingModuleFullName v,v)) modules) }
-
-
 

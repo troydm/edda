@@ -146,3 +146,7 @@ onlyJust l = map fromJust $! filter isJust l
 onlyJustVec :: V.Vector (Maybe a) -> V.Vector a
 onlyJustVec v = V.map fromJust (V.filter isJust v)
 
+justNotEmpty :: [a] -> Maybe [a]
+justNotEmpty [] = Nothing
+justNotEmpty a = Just a
+

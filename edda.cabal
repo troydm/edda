@@ -19,6 +19,7 @@ data-files:          edda.conf,
                      test/EDDA/Schema/outfitting2.json,
                      test/EDDA/Schema/outfitting3.json,
                      test/EDDA/Schema/outfitting4.json,
+                     test/EDDA/Schema/outfitting5.json,
                      test/EDDA/Schema/shipyard1.json,
                      test/EDDA/Schema/shipyard2.json
 
